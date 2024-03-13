@@ -12,8 +12,8 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
         {
             _httpClient = httpClient;
             // setting the baseAddress and User agent because injected configuration isn't working
-            _httpClient.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+            //_httpClient.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
+            //_httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
         }
 
         public async Task<IEnumerable<LocationResponse>> FindByQueryAsync(string query)

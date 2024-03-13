@@ -1,5 +1,4 @@
 using System.Reflection;
-using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
 using TukkoTrafficVisualizer.Infrastructure.Services;

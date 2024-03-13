@@ -1,6 +1,4 @@
-﻿using StackExchange.Redis;
-using TukkoTrafficVisualizer.Data.Redis.Entities;
-
+﻿
 namespace TukkoTrafficVisualizer.API.BackgroundServices
 {
     public class IndexCreationService:BackgroundService

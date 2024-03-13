@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\**" />
+    <Compile Remove="Profiles\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="Profiles\**" />
+    <None Remove="Common\**" />
+    <None Remove="Profiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Models\Parameters\" />
     <Folder Include="Models\Requests\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Common\" />
-    <Folder Include="Profiles\" />
   </ItemGroup>
 
   <ItemGroup>
