@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TukkoTrafficVisualizer.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95779ec289c50d0dfd556409624d59ff0e256e03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3bf207e086baba6722cd7e021ca33979f861bbd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("TukkoTrafficVisualizer.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TukkoTrafficVisualizer.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

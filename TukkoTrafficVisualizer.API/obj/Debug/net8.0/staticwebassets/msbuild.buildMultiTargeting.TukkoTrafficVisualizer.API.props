@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\TukkoTrafficVisualizer.API.props" />
-</Project>

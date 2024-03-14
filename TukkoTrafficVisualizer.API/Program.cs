@@ -1,6 +1,9 @@
 using System.Reflection;
+using System.Text.Json;
+using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
+using TukkoTrafficVisualizer.Data.Redis.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API
@@ -71,6 +74,35 @@ namespace TukkoTrafficVisualizer.API
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.MapControllers();
+
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
+
+            Roadwork rw = new Roadwork
+            {
+                Direction = "test",
+                Id = "123",
+                PrimaryPointRoadNumber = 1,
+                SecondaryPointRoadNumber = 2,
+                PrimaryPointRoadSection = 2,
+                SecondaryPointRoadSection = 10,
+                Severity = "HIGH",
+                EndTime = DateTime.Now,
+                StartTime = DateTime.Now.AddDays(-1),
+                Restrictions = new List<Restriction>
+                {
+                    new Restriction
+                    {
+                        Name = "test",
+                        Quantity = 1,
+                        Type = "Test",
+                        Unit = "km/h"
+                    }
+                }
+            };
+
+            var json = JsonSerializer.Serialize(rw);
+
+            redis.GetDatabase().SetAdd("test123", json);
 
             app.Run();
         }
