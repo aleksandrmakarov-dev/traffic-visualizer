@@ -1,9 +1,8 @@
 using System.Reflection;
-using System.Text.Json;
+using Server.API.Middlewares;
 using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
-using TukkoTrafficVisualizer.Data.Redis.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API
@@ -26,8 +25,10 @@ namespace TukkoTrafficVisualizer.API
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
 
+            var httpClient2 = new HttpClient();
+
             // Add HttpClient
-            builder.Services.AddHttpClient<ILocationService,NominatimLocationService>(client =>
+            builder.Services.AddHttpClient(nameof(NominatimLocationService),(services,client)=>
             {
                 client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
                 client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
@@ -35,12 +36,10 @@ namespace TukkoTrafficVisualizer.API
 
             // Add Redis
 
-            string? redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+            string redisConnectionString = builder.Configuration.GetConnectionString("Redis");
 
-            if (string.IsNullOrEmpty(redisConnectionString))
-            {
-                throw new ArgumentException("No redis connection string found");
-            }
+            builder.Services.AddSingleton<ConnectionMultiplexer>(
+                ConnectionMultiplexer.Connect("localhost"));
 
             // Add repositories
             builder.Services.AddRepositories();
@@ -71,38 +70,10 @@ namespace TukkoTrafficVisualizer.API
 
             app.UseAuthorization();
 
-            //app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.MapControllers();
 
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-
-            Roadwork rw = new Roadwork
-            {
-                Direction = "test",
-                Id = "123",
-                PrimaryPointRoadNumber = 1,
-                SecondaryPointRoadNumber = 2,
-                PrimaryPointRoadSection = 2,
-                SecondaryPointRoadSection = 10,
-                Severity = "HIGH",
-                EndTime = DateTime.Now,
-                StartTime = DateTime.Now.AddDays(-1),
-                Restrictions = new List<Restriction>
-                {
-                    new Restriction
-                    {
-                        Name = "test",
-                        Quantity = 1,
-                        Type = "Test",
-                        Unit = "km/h"
-                    }
-                }
-            };
-
-            var json = JsonSerializer.Serialize(rw);
-
-            redis.GetDatabase().SetAdd("test123", json);
 
             app.Run();
         }

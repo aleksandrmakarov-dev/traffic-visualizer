@@ -1,4 +1,5 @@
-﻿using TukkoTrafficVisualizer.Infrastructure.Services;
+﻿using TukkoTrafficVisualizer.Data.Repositories;
+using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.Common
 {
@@ -14,6 +15,8 @@ namespace TukkoTrafficVisualizer.API.Common
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IRoadworkCacheRepository, RoadworkCacheRepository>();
+
             return services;
         }
     }

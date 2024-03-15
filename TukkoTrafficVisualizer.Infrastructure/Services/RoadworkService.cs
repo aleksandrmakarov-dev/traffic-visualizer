@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Server.Infrastructure.Exceptions;
-using TukkoTrafficVisualizer.Data.Redis.Entities;
+using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Repositories;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services;
@@ -9,9 +10,11 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services;
 public class RoadworkService : IRoadworkService
 {
     private readonly HttpClient _httpClient;
+    private readonly IRoadworkCacheRepository _roadworkCacheRepository;
 
-    public RoadworkService(HttpClient httpClient)
+    public RoadworkService(HttpClient httpClient, IRoadworkCacheRepository roadworkCacheRepository)
     {
+        _roadworkCacheRepository = roadworkCacheRepository;
         // creating new http client because injected client is not working
         _httpClient = new HttpClient(new HttpClientHandler
         {
@@ -42,18 +45,20 @@ public class RoadworkService : IRoadworkService
                 foreach (RoadWorkPhase phase in announcement.RoadWorkPhases)
                 {
                     // check if roadwork is expired
-                    TimeSpan ttl =   phase.TimeAndDuration.EndTime - DateTime.UtcNow;
+                    TimeSpan expireSpan = phase.TimeAndDuration.EndTime - DateTime.UtcNow;
 
-                    if (ttl > TimeSpan.Zero)
+                    if (expireSpan > TimeSpan.Zero)
                     {
-                        Data.Redis.Entities.Roadwork roadwork = MapRoadworkPhaseToRoadwork(phase);
+                        Roadwork roadwork = MapRoadworkPhaseToRoadwork(phase);
+
+                        await _roadworkCacheRepository.SetAsync(roadwork,expireSpan);
                     }
                 }
             }
         }
     }
 
-    public async Task<IEnumerable<Data.Redis.Entities.Roadwork>> FilterAsync(int primaryPointRoadNumber,
+    public async Task<IEnumerable<Roadwork>> FilterAsync(int primaryPointRoadNumber,
         int primaryPointRoadSection, int secondaryPointRoadNumber, int secondaryPointRoadSection,
         DateTime startTimeOnAfter, DateTime startTimeOnBefore, string severity)
     {
@@ -64,12 +69,12 @@ public class RoadworkService : IRoadworkService
         return new List<Roadwork>();
     }
 
-    private Data.Redis.Entities.Roadwork MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)
+    private Roadwork MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)
     {
         RoadPoint? primaryPoint = phase.LocationDetails.RoadAddressLocation.PrimaryPoint;
         RoadPoint? secondaryPoint = phase.LocationDetails.RoadAddressLocation.SecondaryPoint;
 
-        Data.Redis.Entities.Roadwork roadwork = new Data.Redis.Entities.Roadwork
+        Roadwork roadwork = new Data.Entities.Roadwork
         {
             Id = phase.Id.Substring(4),
             PrimaryPointRoadNumber = primaryPoint?.RoadAddress.Road,
@@ -80,13 +85,13 @@ public class RoadworkService : IRoadworkService
             StartTime = phase.TimeAndDuration.StartTime,
             EndTime = phase.TimeAndDuration.EndTime,
             Direction = phase.LocationDetails.RoadAddressLocation.Direction,
-            WorkingHours = phase.WorkingHours.Select(wh => new Data.Redis.Entities.WorkingHours
+            WorkingHours = phase.WorkingHours.Select(wh => new Data.Entities.WorkingHours
             {
                 Weekday = wh.Weekday,
                 StartTime = wh.StartTime,
                 EndTime = wh.EndTime,
             }).ToList(),
-            Restrictions = phase.Restrictions.Select(r => new Data.Redis.Entities.Restriction
+            Restrictions = phase.Restrictions.Select(r => new Data.Entities.Restriction
             {
                 Name = r.RestrictionData.Name,
                 Type = r.Type,

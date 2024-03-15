@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.Controllers
@@ -26,7 +27,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
             [FromQuery] string severity = "HIGH"
             )
         {
-            IEnumerable<Data.Redis.Entities.Roadwork> roadworkList = await _roadworkService.FilterAsync(
+            IEnumerable<Roadwork> roadworkList = await _roadworkService.FilterAsync(
                 primaryPointRoadNumber, primaryPointRoadSection, secondaryPointRoadNumber, secondaryPointRoadSection,
                 startTimeOnAfter, startTimeOnBefore, severity);
 

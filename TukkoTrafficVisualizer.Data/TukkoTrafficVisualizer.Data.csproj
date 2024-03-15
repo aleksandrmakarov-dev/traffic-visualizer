@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Mongo\" />
-    <Folder Include="Repositories\" />
+    <Compile Remove="Mongo\**" />
+    <EmbeddedResource Remove="Mongo\**" />
+    <None Remove="Mongo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NRedisStack" Version="0.12.0" />
   </ItemGroup>
 
 </Project>

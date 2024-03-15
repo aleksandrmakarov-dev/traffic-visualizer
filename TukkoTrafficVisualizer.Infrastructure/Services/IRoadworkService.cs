@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
@@ -13,7 +14,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
         Task<RoadworkContract?> FetchLatestRoadworkAsync();
         Task SaveRoadworkAsync(RoadworkContract roadworkContract);
 
-        Task<IEnumerable<Data.Redis.Entities.Roadwork>> FilterAsync(int primaryPointRoadNumber,
+        Task<IEnumerable<Roadwork>> FilterAsync(int primaryPointRoadNumber,
             int primaryPointRoadSection, int secondaryPointRoadNumber, int secondaryPointRoadSection,
             DateTime startTimeOnAfter, DateTime startTimeOnBefore, string severity);
     }
