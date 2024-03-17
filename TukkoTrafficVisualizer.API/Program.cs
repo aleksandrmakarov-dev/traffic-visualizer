@@ -1,8 +1,9 @@
 using System.Reflection;
-using Server.API.Middlewares;
+using Redis.OM;
 using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
+using TukkoTrafficVisualizer.API.Middlewares;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API
@@ -28,18 +29,18 @@ namespace TukkoTrafficVisualizer.API
             var httpClient2 = new HttpClient();
 
             // Add HttpClient
-            builder.Services.AddHttpClient(nameof(NominatimLocationService),(services,client)=>
-            {
-                client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-            });
+            builder.Services.AddHttpClient<ILocationService,NominatimLocationService>()
+                .ConfigureHttpClient(client =>
+                {
+                    client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+                }
+                    );
 
             // Add Redis
 
-            string redisConnectionString = builder.Configuration.GetConnectionString("Redis");
-
-            builder.Services.AddSingleton<ConnectionMultiplexer>(
-                ConnectionMultiplexer.Connect("localhost"));
+            builder.Services.AddSingleton(
+                new RedisConnectionProvider(builder.Configuration.GetConnectionString("Redis")));
 
             // Add repositories
             builder.Services.AddRepositories();
@@ -53,7 +54,7 @@ namespace TukkoTrafficVisualizer.API
             //Add Background services
 
             builder.Services.AddHostedService<UpdateCacheBackgroundService>();
-            builder.Services.AddHostedService<IndexCreationService>();
+            builder.Services.AddHostedService<IndexCreationBackgroundService>();
 
             var app = builder.Build();
 

@@ -2,7 +2,7 @@
 using Server.Infrastructure.Exceptions;
 using Server.Infrastructure.Models.Responses;
 
-namespace Server.API.Middlewares
+namespace TukkoTrafficVisualizer.API.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {

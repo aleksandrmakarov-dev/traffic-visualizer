@@ -11,11 +11,9 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
     public interface IRoadworkService
     {
-        Task<RoadworkContract?> FetchLatestRoadworkAsync();
-        Task SaveRoadworkAsync(RoadworkContract roadworkContract);
-
-        Task<IEnumerable<Roadwork>> FilterAsync(int primaryPointRoadNumber,
-            int primaryPointRoadSection, int secondaryPointRoadNumber, int secondaryPointRoadSection,
-            DateTime startTimeOnAfter, DateTime startTimeOnBefore, string severity);
+        Task<RoadworkContract> FetchRoadworkAsync();
+        Task SaveRoadworksAsync(RoadworkContract roadworkContract);
+        Task<IEnumerable<Roadwork>> GetAsync(int primaryPointRoadNumber, int primaryPointRoadSection,
+            int secondaryPointRoadNumber, int secondaryPointRoadSection, string severity);
     }
 }

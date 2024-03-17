@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Models.Contracts
 {
@@ -78,20 +73,8 @@ namespace TukkoTrafficVisualizer.Infrastructure.Models.Contracts
         [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("geometry")]
-        public Geometry Geometry { get; set; }
-
         [JsonPropertyName("properties")]
-        public Properties Properties { get; set; }
-    }
-
-    public class Geometry
-    {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("coordinates")]
-        public List<object> Coordinates { get; set; }
+        public RoadworkProperties Properties { get; set; }
     }
 
     public class Location
@@ -109,13 +92,14 @@ namespace TukkoTrafficVisualizer.Infrastructure.Models.Contracts
         public string Description { get; set; }
     }
 
+
     public class LocationDetails
     {
         [JsonPropertyName("roadAddressLocation")]
         public RoadAddressLocation RoadAddressLocation { get; set; }
     }
 
-    public class Properties
+    public class RoadworkProperties
     {
         [JsonPropertyName("situationId")]
         public string SituationId { get; set; }

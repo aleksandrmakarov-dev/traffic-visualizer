@@ -8,9 +8,11 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
     {
         private readonly HttpClient _httpClient;
 
-        public NominatimLocationService(IHttpClientFactory factory)
+        public NominatimLocationService(HttpClient httpClient)
         {
-            _httpClient = factory.CreateClient(nameof(NominatimLocationService));
+            _httpClient = httpClient; 
+            _httpClient.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
         }
 
         public async Task<IEnumerable<LocationResponse>> FindByQueryAsync(string query)

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq.Expressions;
+using System.Net;
 using System.Net.Http.Json;
 using Server.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Data.Entities;
@@ -22,21 +23,26 @@ public class RoadworkService : IRoadworkService
         });
     }
 
-    public async Task<RoadworkContract?> FetchLatestRoadworkAsync()
+    public async Task<RoadworkContract> FetchRoadworkAsync()
     {
         HttpResponseMessage responseMessage = await _httpClient.GetAsync($"https://tie.digitraffic.fi/api/traffic-message/v1/messages?situationType=ROAD_WORK&includeAreaGeometry=false");
 
         if (!responseMessage.IsSuccessStatusCode)
         {
-            throw new BadRequestException($"Failed to get locations: {responseMessage.ReasonPhrase}");
+            throw new BadRequestException($"Failed to fetch roadworks: {responseMessage.ReasonPhrase}");
         }
 
         RoadworkContract? roadworkContract = await responseMessage.Content.ReadFromJsonAsync<RoadworkContract>();
 
+        if (roadworkContract == null)
+        {
+            throw new InternalServerErrorException("Failed to fetch roadworks");
+        }
+
         return roadworkContract;
     }
 
-    public async Task SaveRoadworkAsync(RoadworkContract roadworkContract)
+    public async Task SaveRoadworksAsync(RoadworkContract roadworkContract)
     {
         foreach (Feature feature in roadworkContract.Features)
         {
@@ -58,15 +64,21 @@ public class RoadworkService : IRoadworkService
         }
     }
 
-    public async Task<IEnumerable<Roadwork>> FilterAsync(int primaryPointRoadNumber,
-        int primaryPointRoadSection, int secondaryPointRoadNumber, int secondaryPointRoadSection,
-        DateTime startTimeOnAfter, DateTime startTimeOnBefore, string severity)
+    public async Task<IEnumerable<Roadwork>> GetAsync(
+        int primaryPointRoadNumber,
+        int primaryPointRoadSection,
+        int secondaryPointRoadNumber,
+        int secondaryPointRoadSection,
+        string severity
+        )
     {
         // IEnumerable<Data.Redis.Entities.Roadwork> roadworkList = await _roadworkCacheRepository.FilterAsync(
         //    primaryPointRoadNumber, primaryPointRoadSection, secondaryPointRoadNumber, secondaryPointRoadSection,
         //    startTimeOnAfter, startTimeOnBefore, severity);
 
-        return new List<Roadwork>();
+
+        return await _roadworkCacheRepository.GetAsync(severity
+            );
     }
 
     private Roadwork MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)

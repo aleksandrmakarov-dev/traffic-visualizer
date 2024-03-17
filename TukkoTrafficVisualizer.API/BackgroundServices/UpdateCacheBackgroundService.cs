@@ -1,4 +1,5 @@
 ﻿
+using Redis.OM.Contracts;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
@@ -21,23 +22,30 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
         {
             try
             {
-                _logger.LogInformation("UpdateCacheBackgroundService is working!");
 
+                DateTime start = DateTime.UtcNow;
+
+                _logger.LogInformation("UpdateCacheBackgroundService is working!");
                 await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
 
-                IRoadworkService roadworkService = scope.ServiceProvider.GetRequiredService<IRoadworkService>();
+                DateTime before = DateTime.UtcNow;
+                await UpdateRoadworksAsync(scope);
+                DateTime after = DateTime.Now;
 
-                RoadworkContract? roadworkContract = await roadworkService.FetchLatestRoadworkAsync();
+                _logger.LogInformation($"Roadwork data has been updated. It took {(after-before).Seconds}s");
 
-                if (roadworkContract == null)
-                {
-                    _logger.LogInformation("Roadwork data is empty");
-                    return;
-                }
+                before = DateTime.UtcNow;
+                await UpdateSensorsAsync(scope);
+                after = DateTime.Now;
 
-                await roadworkService.SaveRoadworkAsync(roadworkContract);
+                _logger.LogInformation($"Sensor data has been updated. It took {(after-before).Seconds}s");
 
-                _logger.LogInformation("Roadwork data has been updated");
+                before = DateTime.UtcNow;
+                await UpdateStationsAsync(scope);
+                after = DateTime.Now;
+
+                _logger.LogInformation($"Station data has been updated. It took {(after-before).Seconds}s");
+                _logger.LogInformation($"In total it took {(after-start).Seconds}s");
 
             }
             catch (Exception ex)
@@ -50,6 +58,27 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
             //{
             //    
             //}
+        }
+
+        private async Task UpdateRoadworksAsync(AsyncServiceScope scope)
+        {
+            IRoadworkService roadworkService = scope.ServiceProvider.GetRequiredService<IRoadworkService>();
+            RoadworkContract roadworkContract = await roadworkService.FetchRoadworkAsync();
+            await roadworkService.SaveRoadworksAsync(roadworkContract);
+        }
+
+        private async Task UpdateSensorsAsync(AsyncServiceScope scope)
+        {
+            ISensorService sensorService = scope.ServiceProvider.GetRequiredService<ISensorService>();
+            SensorContract sensorContract = await sensorService.FetchSensorsAsync();
+            await sensorService.SaveSensorsAsync(sensorContract);
+        }
+
+        private async Task UpdateStationsAsync(AsyncServiceScope scope)
+        {
+            IStationService stationService = scope.ServiceProvider.GetRequiredService<IStationService>();
+            StationContract stationContract = await stationService.FetchStationsAsync();
+            await stationService.SaveStationsAsync(stationContract);
         }
     }
 }

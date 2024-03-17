@@ -8,21 +8,26 @@
 
   <ItemGroup>
     <Compile Remove="Common\**" />
+    <Compile Remove="Models\Parameters\**" />
+    <Compile Remove="Models\Requests\**" />
     <Compile Remove="Profiles\**" />
     <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="Models\Parameters\**" />
+    <EmbeddedResource Remove="Models\Requests\**" />
     <EmbeddedResource Remove="Profiles\**" />
     <None Remove="Common\**" />
+    <None Remove="Models\Parameters\**" />
+    <None Remove="Models\Requests\**" />
     <None Remove="Profiles\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Parameters\" />
-    <Folder Include="Models\Requests\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>

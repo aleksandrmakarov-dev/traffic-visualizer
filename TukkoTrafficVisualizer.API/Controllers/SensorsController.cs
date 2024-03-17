@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {
@@ -7,10 +9,19 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class SensorsController : ControllerBase
     {
+        private readonly ISensorService _sensorService;
+
+        public SensorsController(ISensorService sensorService)
+        {
+            _sensorService = sensorService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            IEnumerable<Sensor> sensors = await _sensorService.GetAsync();
+
+            return Ok(sensors);
         }
     }
 }

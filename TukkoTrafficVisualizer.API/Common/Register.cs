@@ -9,6 +9,8 @@ namespace TukkoTrafficVisualizer.API.Common
         {
             services.AddScoped<ILocationService, NominatimLocationService>();
             services.AddScoped<IRoadworkService, RoadworkService>();
+            services.AddScoped<ISensorService, SensorService>();
+            services.AddScoped<IStationService, StationService>();
 
             return services;
         }
@@ -16,6 +18,8 @@ namespace TukkoTrafficVisualizer.API.Common
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IRoadworkCacheRepository, RoadworkCacheRepository>();
+            services.AddScoped<ISensorCacheRepository, SensorsCacheRepository>();
+            services.AddScoped<IStationCacheRepository, StationCacheRepository>();
 
             return services;
         }
