@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.AspNetCore.ResponseCompression;
 using Redis.OM;
 using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
@@ -56,6 +57,12 @@ namespace TukkoTrafficVisualizer.API
             builder.Services.AddHostedService<UpdateCacheBackgroundService>();
             builder.Services.AddHostedService<IndexCreationBackgroundService>();
 
+            builder.Services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -64,17 +71,20 @@ namespace TukkoTrafficVisualizer.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            else
-            {
-                app.UseHttpsRedirection();
-            }
+
+            app.UseCors(x => x
+                .SetIsOriginAllowed(origin => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
+            app.UseResponseCompression();
 
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.MapControllers();
-
 
             app.Run();
         }

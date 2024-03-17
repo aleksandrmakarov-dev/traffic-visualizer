@@ -1,0 +1,136 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.infrastructure\\models\\responses\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|solutionrelative:tukkotrafficvisualizer.infrastructure\\models\\responses\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|solutionrelative:tukkotrafficvisualizer.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.infrastructure\\services\\stationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|solutionrelative:tukkotrafficvisualizer.infrastructure\\services\\stationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.api\\backgroundservices\\updatecachebackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|solutionrelative:tukkotrafficvisualizer.api\\backgroundservices\\updatecachebackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.infrastructure\\models\\contracts\\stationdetailscontract.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}|TukkoTrafficVisualizer.Infrastructure\\TukkoTrafficVisualizer.Infrastructure.csproj|solutionrelative:tukkotrafficvisualizer.infrastructure\\models\\contracts\\stationdetailscontract.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.api\\common\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92A41CBB-C283-492A-9A6A-4798720A98F7}|TukkoTrafficVisualizer.API\\TukkoTrafficVisualizer.API.csproj|solutionrelative:tukkotrafficvisualizer.api\\common\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{086B5161-3DE0-4F38-A422-B008A34C4C94}|TukkoTrafficVisualizer.Data\\TukkoTrafficVisualizer.Data.csproj|c:\\users\\public\\documents\\projects\\traffic-visualizer-backend\\tukkotrafficvisualizer.data\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{086B5161-3DE0-4F38-A422-B008A34C4C94}|TukkoTrafficVisualizer.Data\\TukkoTrafficVisualizer.Data.csproj|solutionrelative:tukkotrafficvisualizer.data\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Station.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Data\\Entities\\Station.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.Data\\Entities\\Station.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Data\\Entities\\Station.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.Data\\Entities\\Station.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAjwCcAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T17:02:16.847Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ErrorResponse.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Models\\Responses\\ErrorResponse.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.Infrastructure\\Models\\Responses\\ErrorResponse.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Models\\Responses\\ErrorResponse.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.Infrastructure\\Models\\Responses\\ErrorResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T20:22:13.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\Program.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.API\\Program.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\Program.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.API\\Program.cs",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAQwE8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T18:50:09.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StationDetailsContract.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Models\\Contracts\\StationDetailsContract.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.Infrastructure\\Models\\Contracts\\StationDetailsContract.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Models\\Contracts\\StationDetailsContract.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.Infrastructure\\Models\\Contracts\\StationDetailsContract.cs",
+              "ViewState": "AQIAADQAAAAAAAAAAAA3wG0AAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T17:11:20.689Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Register.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\Common\\Register.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.API\\Common\\Register.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\Common\\Register.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.API\\Common\\Register.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T16:35:07.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StationService.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Services\\StationService.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.Infrastructure\\Services\\StationService.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.Infrastructure\\Services\\StationService.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.Infrastructure\\Services\\StationService.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAlwDcAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T16:25:29.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UpdateCacheBackgroundService.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\BackgroundServices\\UpdateCacheBackgroundService.cs",
+              "RelativeDocumentMoniker": "TukkoTrafficVisualizer.API\\BackgroundServices\\UpdateCacheBackgroundService.cs",
+              "ToolTip": "C:\\Users\\Public\\Documents\\projects\\traffic-visualizer-backend\\TukkoTrafficVisualizer.API\\BackgroundServices\\UpdateCacheBackgroundService.cs",
+              "RelativeToolTip": "TukkoTrafficVisualizer.API\\BackgroundServices\\UpdateCacheBackgroundService.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAYwCoAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T16:19:56.425Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
