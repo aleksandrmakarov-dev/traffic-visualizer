@@ -1,0 +1,5 @@
+{
+    "direction" : "Direction",
+    "amount" : "vehicles/h",
+    "speed": "km/h"
+}

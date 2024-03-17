@@ -1,0 +1,110 @@
+.Collapsible {
+    z-index: 1000;    
+    position: fixed;
+    display: inline-block;
+    top: 260px;
+    left: 11px;
+    border-radius: 4px;
+    background-color: white;
+    cursor: default;
+}
+
+.CollapsibleOpen {
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid #5b5b5b;
+    padding: 0px;
+}
+
+.CollapsibleClosed {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #5b5b5b;
+}
+
+.Collapsible__contentOuter, .Collapsible__contentInner {
+    transition: 0.001ms !important;
+}
+
+.feedback-icon {
+    font-size: 18px;
+    width: 1.2em;
+    margin-top: 0.32em;
+    margin-left: 0.32em;
+    filter: invert(40%);
+}
+
+.submitButton {
+    color: black;
+    background-color: lightgray;
+}
+
+  .input.error {
+    border: 1px solid red; 
+  }
+
+body .error {
+    color: red;
+}
+  
+.FeedbackTitle {
+    font-weight: bold;
+    line-height: 0;
+    color: #5b5b5b;
+}
+
+.label {
+    color: #5b5b5b;
+}
+
+.input 
+{
+    color: black;
+    border: 1px solid black;
+    background-color: #fff;
+    resize: none;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.collapsibleContent {
+    margin: 3px;
+    padding: 5px;
+    line-height: 1.5;
+}
+
+.react-tooltip {
+    z-index: 1001;
+}
+
+
+/* DARK MODE CSS */
+
+.dark .feedback-icon{
+    filter: invert(80%);
+}
+.dark .Collapsible {
+    background-color: #313131;
+}
+
+.dark .FeedbackTitle {
+    color: #e3e3e3;
+}
+
+.dark .label {
+    color: #e3e3e3;
+}
+
+.dark .input {
+    color: #e3e3e3;
+    background-color: #0f0f0f;
+}
+
+.dark .submitButton{
+    color: #e3e3e3;
+    background-color: #262626;
+}
+
+body.dark .error {
+    color: #ff8080; /* Adjust the color for dark mode */
+  }

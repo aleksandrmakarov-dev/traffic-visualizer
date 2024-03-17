@@ -1,0 +1,267 @@
+dialog {
+  color: unset;
+}
+
+.modal-data-container {
+  position: fixed;
+  display: grid;
+  top: 0;
+  left: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  border: none;
+  align-items: center;
+  justify-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  display: block;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 3px;
+  overflow: auto;
+  width: 85%;
+  min-height: 510px;
+  max-height: 85%;
+}
+
+.modal-content h2 {
+  vertical-align: top;
+  text-align: center;
+  padding: 1rem;
+  color: burlywood;
+  background-color: darkslateblue;
+  width: 25.5vw;
+  box-shadow: 0 0 10px rgba(214, 143, 43, 0.613);
+}
+
+.modal-sensor-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.modal-btn-group {
+  display: flex;
+  vertical-align: top;
+  text-align: center;
+  padding: 1rem;
+  color: burlywood;
+  height: 6.5vh;
+  width: 15vw;
+  box-shadow: 0 0 10px rgba(214, 143, 43, 0.613);
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-btn-group button {
+  display: inline-block;
+  position: relative;
+  margin: auto;
+  height: 5.6vh;
+  width: auto;
+  max-width: 12vw;
+  font-size: .94rem;
+  border-style: double;
+  background-color: darkred;
+  margin: 1rem 0.27rem;
+  box-shadow: 0 0 10px rgba(214, 143, 43, 0.613);
+  border-radius: 15px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+  
+}
+
+
+.modal-btn-group button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.station-name {
+  display: block;
+  position: relative;
+  margin: auto;
+  left: 0;
+  margin-bottom: 1vh;
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  color: black;
+}
+
+.sensor-groups {
+  display: block;
+  font-size: 1rem;
+  color: black;
+}
+
+.sensor-groups h3 {
+  display: block;
+  position: relative;
+  margin: 1rem 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* Specific Styles */
+.modal-show-btn {
+  color: bisque;
+}
+
+.modal-content button,
+.modal-show-btn {
+  color: bisque;
+  box-shadow: 0 0 10px rgba(214, 143, 43, 0.613);
+}
+
+.time-range {
+  display: flex;
+  flex-direction: column;
+}
+.time-range > * {
+  width: 100%;
+}
+
+.time-range label {
+  margin: 0 2px;
+  padding: 7.7px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#time-range-select {
+  border-style: double;
+  margin: 0 2px;
+  padding: 4px;
+  text-align: center;
+}
+.graph-container p {
+  color: black
+}
+.dark .modal-content {
+  background-color: #333;
+  color: #ddd;
+}
+.dark .sensor-groups, 
+.dark .station-name,
+.dark .graph-container p {
+  color: #ddd;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .modal .modal-content {
+    width: 68vw;
+    height: 70vh;
+  }
+  .modal-content h2 {
+    width: 100%;
+  }
+  .modal-btn-group {
+    width: 26vw;
+    height: 5vh;
+    padding: 0;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .modal-btn-group button {
+    max-width: 35vw;
+    font-size: 2vh;
+    height: 6vh;
+    width: 26vw;
+    padding: 0;
+    margin: 0;
+  }
+  .station-name {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+  .sensor-groups {
+    font-size: 0.6rem;
+  }
+  .sensor-groups h3 {
+    width: 100%;
+  }
+  .graph-container {
+    width: 100%;
+    height: 100%;
+    font-size: .5rem;
+  }
+}
+/* Mobile Responsive */
+@media screen and (max-width: 950px) {
+  .time-range {
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+  }
+  .time-range > * {
+    width: 50%;
+  }
+
+  .recharts-default-legend {
+    font-size: 0.8rem
+  }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px){
+  .modal-content {
+    width: 78vw;
+    height: 70vh;
+  }
+  .modal-content h2 {
+    width: 100%;
+  }
+  .modal-btn-group {
+    width: 26vw;
+    height: 5vh;
+    padding: 0;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .modal-btn-group button {
+    max-width: 35vw;
+    font-size: 2vh;
+    height: 6vh;
+    width: 26vw;
+    padding: 0;
+    margin: 0;
+  }
+  .station-name {
+    font-size: 1.2rem;
+  }
+  .sensor-groups {
+    font-size: 1.1rem;
+  }
+  .sensor-groups h3 {
+    width: 100%;
+  }
+  .graph-container {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,133 @@
+.tooltip {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  transition: opacity 0.25s linear;
+  max-width: 276px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  white-space: normal;
+  cursor: default;
+}
+
+
+body:global(.dark) .tooltip {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: rgba(225,225,225)
+}
+
+.place-name {
+  font-size: 16px;
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.grid-column:hover {
+  background-color: #dbdbdb;
+}
+
+.grid-item {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  text-align: center;
+  width: 90px;
+  height: 90px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.grid-item img {
+  width: 55%;
+}
+
+.grid-top-left {
+  border-right: 1px solid rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.grid-top-right {
+  border-left: 1px solid rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.grid-bottom-left {
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+  border-right: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.grid-bottom-right {
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+  border-left: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.tooltip-div {
+  font-size: 16px;
+  text-align: center;
+  margin: 0 -26px;
+}
+
+.roadwork-div {
+    margin-top: 0.5rem;
+    position: relative;
+    font-size: 14px;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid black;
+}
+
+.roadwork-div ul {
+  padding-left: 2em;
+}
+
+body:global(.dark) .tooltip-icon-car,
+body:global(.dark) .tooltip-icon {
+  filter: invert(100%) sepia(66%) saturate(2%) hue-rotate(247deg) brightness(113%) contrast(101%);
+}
+
+body:global(.dark) .grid-column:hover {
+  background-color: #3b3b3b;
+}
+
+.tooltip-icon-reverse {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);  
+}
+
+@media only screen and (max-width: 600px) {
+    .grid-item {
+        padding: 20px;
+        font-size: 20px;
+        text-align: center;
+        width: 60px;
+        height: 60px;
+      }
+
+      .tooltip-div {
+        font-size: 13px;
+        
+    }
+    
+    .place-name {
+        font-size: 12px;
+    }
+
+    .tooltip-icon {
+        width: 30px;
+        
+    }
+
+    .tooltip-icon-car {
+        width: 38px;
+    }
+
+    .roadwork-div {
+        font-size: 10px;
+    }
+}

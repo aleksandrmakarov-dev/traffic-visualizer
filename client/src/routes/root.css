@@ -1,0 +1,208 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: black
+}
+
+.leaflet-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.overlay-title {
+  top: -15px;
+  left: 60px;
+  font-size: 40px;
+  width: 400px;
+  position: fixed;
+  display: inline;
+  z-index: 1000;
+  color: black;
+  pointer-events: none;
+}
+
+.overlay2-title {
+  top: 34px;
+  left: 68px;
+  font-size: 17px;
+  position: fixed;
+  display: inline;
+  z-index: 1000;
+  color: black;
+  pointer-events: none;
+  font-weight: 250;
+}
+
+.langContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  position: fixed;
+  display: inline;
+  z-index: 1000;
+  bottom: 35px;
+  right: 195px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.marker-cluster div {
+  font: 18px "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+}
+
+
+.marker-cluster-small {
+  background-color: #31a0e0 !important;
+  border: 1px solid #1a3419;
+  width: 35px !important;
+  height: 37px !important;
+}
+
+.marker-cluster-small div {
+  background-color: #31a0e0 !important;
+  width: 25px !important;
+  height: 27px !important;
+
+}
+
+.marker-cluster-medium {
+  background-color: #31a0e0 !important;
+  border: 1px solid #1a3419;
+  width: 35px !important;
+  height: 37px !important;
+
+}
+
+.marker-cluster-medium div {
+  background-color: #31a0e0 !important;
+  width: 25px !important;
+  height: 27px !important;
+}
+
+.marker-cluster-large {
+  background-color: #31a0e0 !important;
+  border: 1px solid #1a3419;
+  width: 35px !important;
+  height: 37px !important;
+}
+
+.marker-cluster-large div {
+  background-color: #31a0e0 !important;
+  width: 25px !important;
+  height: 27px !important;
+}
+
+.marker-cluster:hover,
+.marker-cluster:hover div {
+  background-color: hsl(100, 50%, 100%) !important;
+}
+
+.react-toggle-track {
+  background-color: rgb(91, 91, 91) !important
+    /* Override the background color with your desired color */
+  ;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+  .overlay-title {
+    font-size: 28px;
+    left: 57px;
+    top: -8px;
+  }
+
+  .overlay2-title {
+    top: 28px;
+    left: 60px;
+    font-size: 15px;
+  }
+
+  .langContainer {
+    bottom: 45px;
+    right: 140px;
+  }
+
+}
+
+
+
+/* DARK MODE CSS */
+
+/* Changes color leaflet background when in dark mode */
+
+body.dark .leaflet-container {
+  background: #202020;
+}
+
+/* Changes the color of title and logos when in dark mode */
+body.dark .overlay-title {
+  color: #c9cfee;
+}
+
+body.dark .overlay2-title {
+  color: #c9cfee;
+}
+
+body.dark .leaflet-layer,
+body.dark .leaflet-control-attribution {
+  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.6) brightness(0.5);
+}
+
+/* Logos */
+body.dark .iotitudeLogo,
+body.dark .wimmaLabLogo {
+  filter: brightness(1) invert(0.7) contrast(2) hue-rotate(200deg) saturate(3) brightness(01);
+}
+
+/* Changes the color of the marker's popup box and text in dark mode */
+body.dark .marker-popup {
+  background-color: #1f1f1f;
+  color: #e5e5e5;
+}
+
+/*  Changes the color of the clusters when in dark mode  */
+.dark .marker-cluster-small {
+  background-color: #084299;
+  border: 1px solid #b6c7e1;
+  width: 35px !important;
+  height: 37px !important;
+}
+
+.dark .marker-cluster-small div {
+  background-color: #084299;
+  width: 25px !important;
+  height: 27px !important;
+  color: #ffffffb4;
+}
+
+.dark .marker-cluster-medium {
+  background-color: #084299;
+  border: 1px solid #b6c7e1;
+  width: 35px !important;
+  height: 37px !important;
+}
+
+.dark .marker-cluster-medium div {
+  background-color: #084299;
+  width: 25px !important;
+  height: 27px !important;
+  color: #ffffffb4;
+}
+
+.dark .marker-cluster-large {
+  background-color: #084299;
+  border: 1px solid #b6c7e1;
+  width: 35px !important;
+  height: 37px !important;
+}
+
+.dark .marker-cluster-large div {
+  background-color: #084299;
+  width: 25px !important;
+  height: 27px !important;
+  color: #ffffffb4;
+}

@@ -1,0 +1,15 @@
+.Toggle {
+    z-index: 1000;
+    top: 230px;
+    left: 4px;
+    position: fixed;
+    display: inline;
+}   
+
+.toggle-icon {
+  margin-top: -2px; /* Adjust the value as needed */
+}
+
+.react-toggle-track {
+  background-color: rgb(91,91,91) !important; /* Override the background color with your desired color */
+}
