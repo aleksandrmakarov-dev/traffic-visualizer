@@ -1,4 +1,4 @@
-﻿namespace Server.Infrastructure.Exceptions;
+﻿namespace TukkoTrafficVisualizer.Infrastructure.Exceptions;
 
 public class ForbiddenException : Exception
 {

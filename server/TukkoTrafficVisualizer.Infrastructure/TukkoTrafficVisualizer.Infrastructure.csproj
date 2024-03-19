@@ -9,16 +9,13 @@
   <ItemGroup>
     <Compile Remove="Common\**" />
     <Compile Remove="Models\Parameters\**" />
-    <Compile Remove="Models\Requests\**" />
-    <Compile Remove="Profiles\**" />
+    <Compile Remove="Options\**" />
     <EmbeddedResource Remove="Common\**" />
     <EmbeddedResource Remove="Models\Parameters\**" />
-    <EmbeddedResource Remove="Models\Requests\**" />
-    <EmbeddedResource Remove="Profiles\**" />
+    <EmbeddedResource Remove="Options\**" />
     <None Remove="Common\**" />
     <None Remove="Models\Parameters\**" />
-    <None Remove="Models\Requests\**" />
-    <None Remove="Profiles\**" />
+    <None Remove="Options\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +24,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TukkoTrafficVisualizer.Core\TukkoTrafficVisualizer.Core.csproj" />
     <ProjectReference Include="..\TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj" />
   </ItemGroup>
 

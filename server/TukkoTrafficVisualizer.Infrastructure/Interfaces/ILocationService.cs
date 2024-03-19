@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
-namespace TukkoTrafficVisualizer.Infrastructure.Services
+namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
     public interface ILocationService
     {

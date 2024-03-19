@@ -1,10 +1,12 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
+using MongoDB.Driver;
 using Redis.OM;
-using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
 using TukkoTrafficVisualizer.API.Middlewares;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API
@@ -17,7 +19,14 @@ namespace TukkoTrafficVisualizer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                // serialize enums as strings in api responses (e.g. Role)
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+                // ignore omitted parameters on models to enable optional params (e.g. User update)
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -26,8 +35,6 @@ namespace TukkoTrafficVisualizer.API
             // Add Logger
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
-
-            var httpClient2 = new HttpClient();
 
             // Add HttpClient
             builder.Services.AddHttpClient<ILocationService,NominatimLocationService>()
@@ -38,13 +45,38 @@ namespace TukkoTrafficVisualizer.API
                 }
                     );
 
-            // Add Redis
 
-            builder.Services.AddSingleton(
-                new RedisConnectionProvider(builder.Configuration.GetConnectionString("Redis")));
+
+            if (builder.Environment.IsDevelopment())
+            {
+                // Add Redis
+                builder.Services.AddSingleton(
+                    new RedisConnectionProvider("redis://localhost:6379"));
+                // Add MongoDB
+
+                builder.Services.AddSingleton<IMongoClient>(c => new MongoClient("mongodb://admin:admin@localhost:27017"));
+            }
+            else
+            {
+                // Add Redis
+                builder.Services.AddSingleton(
+                    new RedisConnectionProvider("redis://tukko-redis-v2:6379"));
+
+                // Add MongoDB
+                builder.Services.AddSingleton<IMongoClient>(c => new MongoClient("mongodb://admin:admin@tukko-archive-v2:27017"));
+            }
+
+            builder.Services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
+
+            // Add cache repositories
+            builder.Services.AddCacheRepositories();
 
             // Add repositories
             builder.Services.AddRepositories();
+
+            // Add Options
+            builder.Services.AddOptions();
+
             // Add Services
             builder.Services.AddServices();
 
@@ -65,12 +97,8 @@ namespace TukkoTrafficVisualizer.API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors(x => x
                 .SetIsOriginAllowed(origin => true)

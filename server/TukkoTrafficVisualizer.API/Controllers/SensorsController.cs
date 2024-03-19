@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Infrastructure.Services;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {

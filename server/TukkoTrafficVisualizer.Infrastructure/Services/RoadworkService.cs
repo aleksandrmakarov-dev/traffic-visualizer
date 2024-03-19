@@ -1,9 +1,10 @@
 ﻿using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http.Json;
-using Server.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Data.Repositories;
+using TukkoTrafficVisualizer.Data.Repositories.Cache;
+using TukkoTrafficVisualizer.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services;

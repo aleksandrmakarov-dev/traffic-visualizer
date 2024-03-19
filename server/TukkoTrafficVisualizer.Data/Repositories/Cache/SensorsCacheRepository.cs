@@ -1,9 +1,9 @@
 ﻿using Redis.OM;
 using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories;
+namespace TukkoTrafficVisualizer.Data.Repositories.Cache;
 
-public class SensorsCacheRepository : GenericCacheRepository<Sensor>,ISensorCacheRepository
+public class SensorsCacheRepository : GenericCacheRepository<Sensor>, ISensorCacheRepository
 {
     public SensorsCacheRepository(RedisConnectionProvider provider) : base(provider)
     {

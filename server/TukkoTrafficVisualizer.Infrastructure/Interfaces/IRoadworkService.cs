@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
-namespace TukkoTrafficVisualizer.Infrastructure.Services
+namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
     public interface IRoadworkService
     {

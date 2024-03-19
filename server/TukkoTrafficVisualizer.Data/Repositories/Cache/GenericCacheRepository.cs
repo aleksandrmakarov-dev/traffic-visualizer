@@ -2,7 +2,7 @@
 using Redis.OM.Searching;
 using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories;
+namespace TukkoTrafficVisualizer.Data.Repositories.Cache;
 
 public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : Entity
 {
@@ -21,7 +21,7 @@ public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : En
 
     public virtual async Task<string?> SetAsync(T model, TimeSpan? expireSpan = null)
     {
-        return await Collection.InsertAsync(model,WhenKey.Always,expireSpan);
+        return await Collection.InsertAsync(model, WhenKey.Always, expireSpan);
     }
 
     public virtual async Task<bool> DeleteAsync(int id)

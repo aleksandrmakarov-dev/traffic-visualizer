@@ -8,7 +8,7 @@ using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 using Station = TukkoTrafficVisualizer.Infrastructure.Models.Contracts.Station;
 
-namespace TukkoTrafficVisualizer.Infrastructure.Services
+namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
     public interface IStationService
     {

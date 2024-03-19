@@ -7,9 +7,9 @@ using Redis.OM.Searching;
 using StackExchange.Redis;
 using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories;
+namespace TukkoTrafficVisualizer.Data.Repositories.Cache;
 
-public class RoadworkCacheRepository :GenericCacheRepository<Roadwork>, IRoadworkCacheRepository
+public class RoadworkCacheRepository : GenericCacheRepository<Roadwork>, IRoadworkCacheRepository
 {
     public RoadworkCacheRepository(RedisConnectionProvider provider) : base(provider)
     {
@@ -18,7 +18,7 @@ public class RoadworkCacheRepository :GenericCacheRepository<Roadwork>, IRoadwor
     public async Task<IEnumerable<Roadwork>> GetAsync(string severity)
     {
         return await Collection
-            .Where(r=>r.Severity == severity)
+            .Where(r => r.Severity == severity)
             .ToListAsync();
     }
 }

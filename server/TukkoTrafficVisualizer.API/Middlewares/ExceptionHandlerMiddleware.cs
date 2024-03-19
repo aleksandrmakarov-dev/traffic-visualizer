@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Server.Infrastructure.Exceptions;
-using Server.Infrastructure.Models.Responses;
+using TukkoTrafficVisualizer.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
 namespace TukkoTrafficVisualizer.API.Middlewares
 {

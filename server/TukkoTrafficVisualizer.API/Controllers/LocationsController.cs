@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Server.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
-using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {
@@ -10,7 +10,6 @@ namespace TukkoTrafficVisualizer.API.Controllers
     public class LocationsController : ControllerBase
     {
         private readonly ILocationService _locationService;
-
         public LocationsController(ILocationService locationService)
         {
             _locationService = locationService;

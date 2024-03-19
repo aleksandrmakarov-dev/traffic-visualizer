@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.API", "TukkoTrafficVisualizer.API\TukkoTrafficVisualizer.API.csproj", "{92A41CBB-C283-492A-9A6A-4798720A98F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.API", "TukkoTrafficVisualizer.API\TukkoTrafficVisualizer.API.csproj", "{92A41CBB-C283-492A-9A6A-4798720A98F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Data", "TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj", "{086B5161-3DE0-4F38-A422-B008A34C4C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.Data", "TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj", "{086B5161-3DE0-4F38-A422-B008A34C4C94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Infrastructure", "TukkoTrafficVisualizer.Infrastructure\TukkoTrafficVisualizer.Infrastructure.csproj", "{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.Infrastructure", "TukkoTrafficVisualizer.Infrastructure\TukkoTrafficVisualizer.Infrastructure.csproj", "{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Core", "TukkoTrafficVisualizer.Core\TukkoTrafficVisualizer.Core.csproj", "{21808FE3-A402-4129-BF3F-2777BD66916B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21808FE3-A402-4129-BF3F-2777BD66916B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21808FE3-A402-4129-BF3F-2777BD66916B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21808FE3-A402-4129-BF3F-2777BD66916B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21808FE3-A402-4129-BF3F-2777BD66916B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

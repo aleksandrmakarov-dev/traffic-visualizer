@@ -1,7 +1,5 @@
-﻿
-using Redis.OM.Contracts;
+﻿using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
-using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.BackgroundServices
 {

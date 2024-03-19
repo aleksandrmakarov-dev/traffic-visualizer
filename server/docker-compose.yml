@@ -1,0 +1,32 @@
+services:
+  redis-stack:
+    image: redis/redis-stack:latest
+    container_name: tukko-redis-v2
+    restart: always
+    ports:
+      - 6379:6379
+      - 8001:8001
+    volumes:
+      - ./redis-stack.conf:/redis-stack.conf
+
+  mongo:
+    image: mongo:jammy
+    container_name: tukko-archive-v2
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+
+  tv-api:
+    depends_on:
+      - redis-stack
+      - mongo
+    build: .
+    container_name: tukko-app-v2
+    restart: always
+    environment:
+      REDIS_OM_URL: "redis://tukko-redis-v2:6379"
+      DB_CONN_STRING: "mongodb://admin:admin@tukko-archive-v2:27017"
+    ports:
+      - "8080:8080"
+      - "8081:8081"

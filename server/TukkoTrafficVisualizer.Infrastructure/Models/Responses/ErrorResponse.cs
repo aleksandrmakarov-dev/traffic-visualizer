@@ -1,4 +1,4 @@
-﻿namespace Server.Infrastructure.Models.Responses
+﻿namespace TukkoTrafficVisualizer.Infrastructure.Models.Responses
 {
     public class ErrorResponse
     {

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
-using Server.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services

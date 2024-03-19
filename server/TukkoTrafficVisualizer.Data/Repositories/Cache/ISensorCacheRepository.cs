@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories
+namespace TukkoTrafficVisualizer.Data.Repositories.Cache
 {
-    public interface ISensorCacheRepository:IGenericCacheRepository<Sensor>
+    public interface ISensorCacheRepository : IGenericCacheRepository<Sensor>
     {
         Task<IEnumerable<Sensor>> GetAsync();
     }
