@@ -10,7 +10,7 @@ using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {

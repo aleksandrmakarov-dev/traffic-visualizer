@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-
-// keys
-
 import { LocationRequest } from "@/lib/contracts/location/location.request";
 import { LocationResponse } from "@/lib/contracts/location/location.response";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { ErrorResponse } from "@/lib/contracts/common/error.response";
+import axios from "@/lib/axios";
 
 export const locationKeys = {
   locations: {
@@ -21,7 +19,7 @@ export const locationKeys = {
 };
 
 async function fetchlocations(request: LocationRequest):Promise<LocationResponse[]> {
-  const response = await axios.get<LocationResponse[]>(`${import.meta.env.VITE_BACKEND_BASE_URL}/locations/search?query=${request.query}`);
+  const response = await axios.get<LocationResponse[]>(`/locations/search?query=${request.query}`);
   return response.data;
 }
 

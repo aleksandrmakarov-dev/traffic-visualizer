@@ -50,7 +50,12 @@ export function LocationSearchForm({
                       placeholder="Search location..."
                       {...field}
                     />
-                    <Button className="shrink-0" size="icon">
+                    <Button
+                      loading={isLoading}
+                      className="shrink-0"
+                      variant="link"
+                      size="icon"
+                    >
                       <Search className="w-4 h-4" />
                     </Button>
                   </div>

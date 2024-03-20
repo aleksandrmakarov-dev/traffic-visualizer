@@ -7,7 +7,7 @@ using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 namespace TukkoTrafficVisualizer.API.Controllers
 {
     [Authorize(Role.Admin)]
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {

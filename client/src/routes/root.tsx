@@ -55,12 +55,11 @@ export default function Root(): JSX.Element {
 
   return (
     <Fragment>
-      <h1 id="overlay-title" className="overlay-title">
+      {/* <h1 id="overlay-title" className="overlay-title">
         Tukko
-      </h1>
-      <h2 className="overlay2-title">Traffic Visualizer</h2>
+      </h1> */}
+      {/* <h2 className="overlay2-title">Traffic Visualizer</h2> */}
       {/* <LogosContainer /> */}
-      <LocationSearch className="absolute z-10 top-0 right-0" />
       <MapContainer
         center={[60.2, 24.9]}
         maxBoundsViscosity={0.9}
@@ -68,6 +67,7 @@ export default function Root(): JSX.Element {
         zoom={12}
         minZoom={7}
         maxZoom={17}
+        zoomControl={false}
         placeholder={<MapPlaceholder />}
         doubleClickZoom={false}
         ref={mapRef}

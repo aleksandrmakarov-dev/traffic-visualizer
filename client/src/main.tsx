@@ -1,14 +1,17 @@
 import ReactDOM from "react-dom/client";
-import Root from "./routes/root";
+import QueryProvider from "@/context/QueryProvider";
 import "./index.css";
 import "./i18n.js";
-import Provider from "./context/StationContext.js";
-import QueryProvider from "./context/QueryProvider.js";
+import Provider from "@/context/StationContext";
+import SessionProvider from "@/context/SessionProvider";
+import RouterProvider from "@/context/RouterProvider";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider>
     <QueryProvider>
-      <Root />
+      <SessionProvider>
+        <RouterProvider />
+      </SessionProvider>
     </QueryProvider>
   </Provider>
 );
