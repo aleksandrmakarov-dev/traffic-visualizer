@@ -7,10 +7,12 @@ namespace TukkoTrafficVisualizer.API.Middlewares
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -61,6 +63,8 @@ namespace TukkoTrafficVisualizer.API.Middlewares
 
                 response.ContentType = "application/json";
                 response.StatusCode = errorResponse.StatusCode;
+
+                _logger.LogInformation($"{errorResponse.StatusCode} {errorResponse.Error}: {errorResponse.Message}");
 
                 await response.WriteAsJsonAsync(errorResponse);
             }

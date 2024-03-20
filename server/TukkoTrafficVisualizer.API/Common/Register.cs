@@ -43,7 +43,7 @@ namespace TukkoTrafficVisualizer.API.Common
             return services;
         }
 
-        public static WebApplicationBuilder AddOptions(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder AddAppOptions(this WebApplicationBuilder builder)
         {
             builder.Services.Configure<JsonWebTokenOptions>(builder.Configuration.GetSection(JsonWebTokenOptions.Name));
             builder.Services.Configure<MailingOptions>(builder.Configuration.GetSection(MailingOptions.Name));

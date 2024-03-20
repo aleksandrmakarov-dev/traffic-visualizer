@@ -29,4 +29,3 @@ services:
       DB_CONN_STRING: "mongodb://admin:admin@tukko-archive-v2:27017"
     ports:
       - "8080:8080"
-      - "8081:8081"

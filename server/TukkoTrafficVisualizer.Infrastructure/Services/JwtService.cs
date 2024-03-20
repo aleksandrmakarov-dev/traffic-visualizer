@@ -31,7 +31,7 @@ public class JwtService : IJwtService
 
         var claims = new[]
         {
-            new Claim(JwtNameConstants.JwtId,payload.Id.ToString()),
+            new Claim(JwtNameConstants.JwtId,payload.Id),
             new Claim(JwtNameConstants.JwtRole,payload.Role.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };

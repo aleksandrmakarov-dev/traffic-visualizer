@@ -45,26 +45,36 @@ namespace TukkoTrafficVisualizer.API
                 }
                     );
 
-
+            string? redisConnectionString;
+            string? mongodbConnectionString;
 
             if (builder.Environment.IsDevelopment())
             {
-                // Add Redis
-                builder.Services.AddSingleton(
-                    new RedisConnectionProvider("redis://localhost:6379"));
-                // Add MongoDB
-
-                builder.Services.AddSingleton<IMongoClient>(c => new MongoClient("mongodb://admin:admin@localhost:27017"));
+                redisConnectionString = builder.Configuration.GetConnectionString("RedisDev");
+                mongodbConnectionString = builder.Configuration.GetConnectionString("MongodbDev");
             }
             else
             {
-                // Add Redis
-                builder.Services.AddSingleton(
-                    new RedisConnectionProvider("redis://tukko-redis-v2:6379"));
-
-                // Add MongoDB
-                builder.Services.AddSingleton<IMongoClient>(c => new MongoClient("mongodb://admin:admin@tukko-archive-v2:27017"));
+                redisConnectionString = builder.Configuration.GetConnectionString("RedisProd");
+                mongodbConnectionString = builder.Configuration.GetConnectionString("MongodbProd");
             }
+
+            if (string.IsNullOrEmpty(redisConnectionString))
+            {
+                throw new ArgumentException(nameof(redisConnectionString));
+            }
+
+            // Add Redis
+            builder.Services.AddSingleton(
+                new RedisConnectionProvider(redisConnectionString));
+
+            if (string.IsNullOrEmpty(mongodbConnectionString))
+            {
+                throw new ArgumentException(nameof(mongodbConnectionString));
+            }
+
+            // Add Mongodb
+            builder.Services.AddSingleton<IMongoClient>(c => new MongoClient(mongodbConnectionString));
 
             builder.Services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
 
@@ -75,7 +85,7 @@ namespace TukkoTrafficVisualizer.API
             builder.Services.AddRepositories();
 
             // Add Options
-            builder.Services.AddOptions();
+            builder.AddAppOptions();
 
             // Add Services
             builder.Services.AddServices();
