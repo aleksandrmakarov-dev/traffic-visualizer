@@ -1,6 +1,7 @@
 import { useSession } from "@/context/SessionProvider";
 import FullPageWrapper from "@/shared/components/FullPageWrapper";
 import { Button } from "@/shared/components/ui/button";
+import { FeedbackDialog } from "@/widgets/feedback";
 import { LocationSearch } from "@/widgets/location";
 import { UserProfileMenu } from "@/widgets/user";
 import { Languages, MessageSquareText, Moon } from "lucide-react";
@@ -15,9 +16,13 @@ export default function MainLayout() {
         <Button size="icon" variant="secondary">
           <Moon />
         </Button>
-        <Button size="icon" variant="secondary">
-          <MessageSquareText />
-        </Button>
+        <FeedbackDialog
+          trigger={
+            <Button size="icon" variant="secondary">
+              <MessageSquareText />
+            </Button>
+          }
+        />
         <Button size="icon" variant="secondary">
           <Languages />
         </Button>
