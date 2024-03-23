@@ -1,11 +1,10 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Data.Repositories.Cache;
+using TukkoTrafficVisualizer.Data.Repositories;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
-using Names = TukkoTrafficVisualizer.Data.Entities.Names;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services;
 
@@ -21,6 +20,11 @@ public class StationService : IStationService
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         });
         _stationCacheRepository = stationCacheRepository;
+    }
+
+    public async Task<IEnumerable<Data.Entities.Station>> GetAllAsync()
+    {
+        return await _stationCacheRepository.GetAllAsync();
     }
 
     public async Task<StationContract> FetchStationsAsync()
@@ -84,7 +88,8 @@ public class StationService : IStationService
             TmsNumber = sdc.Properties.TmsNumber,
             Name = sdc.Properties.Name,
             Names =
-            new Names{
+            new Data.Entities.Names
+            {
                 Fi = sdc.Properties.Names ?.Fi ?? string.Empty,
                 Sv = sdc.Properties.Names?.Sv ?? sdc.Properties.Names?.Fi ?? string.Empty,
                 En = sdc.Properties.Names?.En ?? sdc.Properties.Names?.Fi ?? string.Empty

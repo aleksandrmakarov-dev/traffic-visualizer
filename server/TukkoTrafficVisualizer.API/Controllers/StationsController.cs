@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {
@@ -6,10 +7,19 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
+        private readonly IStationService _stationService;
+
+        public StationsController(IStationService stationService)
+        {
+            _stationService = stationService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            IEnumerable<Data.Entities.Station> foundStations = await _stationService.GetAllAsync();
+
+            return Ok(foundStations);   
         }
 
         [HttpGet("{id}")]

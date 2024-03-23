@@ -1,8 +1,9 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Database
+namespace TukkoTrafficVisualizer.Data.Repositories
 {
     public class SessionsRepository:GenericRepository<Session>, ISessionsRepository
     {

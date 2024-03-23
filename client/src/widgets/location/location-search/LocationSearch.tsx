@@ -33,7 +33,7 @@ export function LocationSearch({ className, ...other }: LocationSearchProps) {
   return (
     <div
       className={cn(
-        "max-w-sm w-full flex flex-col",
+        "w-full flex flex-col",
         { "bg-white h-full": !!data },
         className
       )}

@@ -1,6 +1,6 @@
 ﻿using TukkoTrafficVisualizer.Core.Options;
-using TukkoTrafficVisualizer.Data.Repositories.Cache;
-using TukkoTrafficVisualizer.Data.Repositories.Database;
+using TukkoTrafficVisualizer.Data.Interfaces;
+using TukkoTrafficVisualizer.Data.Repositories;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
@@ -22,6 +22,7 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
             services.AddSingleton<IJwtService, JwtService>();
+            services.AddSingleton<IWebSocketManagerService, WebSocketManagerService>();
 
             return services;
         }

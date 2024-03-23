@@ -1,8 +1,7 @@
-﻿using System.Linq.Expressions;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Data.Repositories.Cache;
+using TukkoTrafficVisualizer.Data.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
@@ -103,14 +102,19 @@ public class RoadworkService : IRoadworkService
                 Weekday = wh.Weekday,
                 StartTime = wh.StartTime,
                 EndTime = wh.EndTime,
-            }).ToList(),
+            }),
+            WorkTypes = phase.WorkTypes.Select(wt=>new Data.Entities.WorkType
+            {
+                Type = wt.Type,
+                Description = wt.Description
+            }),
             Restrictions = phase.Restrictions.Select(r => new Data.Entities.Restriction
             {
                 Name = r.RestrictionData.Name,
                 Type = r.Type,
                 Quantity = r.RestrictionData.Quantity,
                 Unit = r.RestrictionData.Unit,
-            }).ToList()
+            })
         };
 
         return roadwork;

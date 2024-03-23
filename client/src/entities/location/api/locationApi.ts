@@ -18,7 +18,7 @@ export const locationKeys = {
   },
 };
 
-async function fetchlocations(request: LocationRequest):Promise<LocationResponse[]> {
+async function fetchLocations(request: LocationRequest):Promise<LocationResponse[]> {
   const response = await axios.get<LocationResponse[]>(`/locations/search?query=${request.query}`);
   return response.data;
 }
@@ -27,7 +27,7 @@ export const useSearchLocation = (params: LocationRequest) => {
   return useQuery<LocationResponse[],AxiosError<ErrorResponse>,LocationResponse[],unknown[]>({
     queryKey: locationKeys.locations.query(params),
     queryFn: async () => {
-      return await fetchlocations(params);
+      return await fetchLocations(params);
     },
     enabled:!!params.query
   });

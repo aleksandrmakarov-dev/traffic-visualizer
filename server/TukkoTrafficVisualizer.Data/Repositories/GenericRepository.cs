@@ -2,8 +2,9 @@
 using System.Linq.Expressions;
 using MongoDB.Driver.Linq;
 using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Database;
+namespace TukkoTrafficVisualizer.Data.Repositories;
 
 public class GenericRepository<T>:IGenericRepository<T> where T : Entity 
 {

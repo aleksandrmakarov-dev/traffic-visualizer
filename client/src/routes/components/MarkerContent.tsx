@@ -1,12 +1,12 @@
 import { Marker, useMap } from "react-leaflet";
-import { StationContext, Context } from "../../context/StationContext";
-import { Station } from "../../interfaces/Interfaces";
+import { AppContext, StationContext } from "../../context/StationContext";
 import React, { useState, Suspense, useContext } from "react";
 import { getSwgImage } from "./MarkerIcon";
 
 // Components
 const StationTooltip = React.lazy(() => import("./Tooltip"));
 import { Marker as M } from "leaflet";
+import { Station } from "@/lib/contracts/station/station";
 
 let originalColors: string[] = [];
 const colorHover = "hsl(100,50%,100%)";
@@ -21,8 +21,10 @@ export function MarkerContent({
     null | number | undefined
   >(null);
   const [marker, setMarker] = useState<null | M>(null);
-  const { updateMarker, stationError, updateError } = useContext(StationContext) as Context
-  const map = useMap()
+  const { updateMarker, stationError, updateError } = useContext(
+    StationContext
+  ) as AppContext;
+  const map = useMap();
 
   if (
     (!station.sensors || station.sensors?.length === 0) &&
@@ -38,9 +40,9 @@ export function MarkerContent({
             const m = e.target as M;
             setSelectedStation(station.id);
             setMarker(m);
-            updateMarker(m)
+            updateMarker(m);
             setShowTooltip(true);
-            m.openTooltip ();
+            m.openTooltip();
           },
           tooltipclose: (e) => {
             const m = e.target as M;
@@ -49,11 +51,11 @@ export function MarkerContent({
               setMarker(null);
               setShowTooltip(false);
             }
-            if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable()
+            if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
           },
           popupopen: (e) => {
             const m = e.target as M;
-            m.getTooltip()?.setOpacity(0)
+            m.getTooltip()?.setOpacity(0);
             m.closeTooltip();
           },
           popupclose: (e) => {
@@ -63,9 +65,9 @@ export function MarkerContent({
               setMarker(null);
               setShowTooltip(false);
             }
-            m.getTooltip()?.setOpacity(0)
-            if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable()
-            if (stationError) updateError(false)
+            m.getTooltip()?.setOpacity(0);
+            if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
+            if (stationError) updateError(false);
           },
           mouseover: (e) => {
             const markerElement = e.target.getElement();
@@ -107,9 +109,9 @@ export function MarkerContent({
       >
         {showTooltip && station.id === selectedStation && marker && (
           <Suspense>
-            <StationTooltip 
-              station={station} 
-              marker={marker} 
+            <StationTooltip
+              station={station}
+              marker={marker}
               empty={station.sensors?.length === 0}
             />
           </Suspense>

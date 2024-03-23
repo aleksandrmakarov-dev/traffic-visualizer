@@ -1,8 +1,10 @@
-﻿using Redis.OM;
+﻿using System.Linq.Expressions;
+using Redis.OM;
 using Redis.OM.Searching;
 using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Cache;
+namespace TukkoTrafficVisualizer.Data.Repositories;
 
 public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : Entity
 {
@@ -36,5 +38,15 @@ public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : En
         await Collection.DeleteAsync(model);
 
         return true;
+    }
+
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await Collection.ToListAsync();
+    }
+
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where)
+    {
+        return await Collection.Where(where).ToListAsync();
     }
 }

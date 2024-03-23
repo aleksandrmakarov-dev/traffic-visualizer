@@ -20,8 +20,16 @@ namespace TukkoTrafficVisualizer.Data.Entities
         public DateTime EndTime { get; set; }
         [Searchable(Sortable = true)]
         public string? Severity { get; set; }
-        public List<WorkingHours> WorkingHours { get; set; } = new List<WorkingHours>();
-        public List<Restriction> Restrictions { get; set; } = new List<Restriction>();
+
+        public IEnumerable<WorkType> WorkTypes { get; set; } = new List<WorkType>();
+        public IEnumerable<WorkingHours> WorkingHours { get; set; } = new List<WorkingHours>();
+        public IEnumerable<Restriction> Restrictions { get; set; } = new List<Restriction>();
+    }
+
+    public class WorkType
+    {
+        public string Type { get; set; }
+        public string Description { get; set; }
     }
 
     public class WorkingHours

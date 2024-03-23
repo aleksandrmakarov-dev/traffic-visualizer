@@ -1,7 +1,6 @@
-﻿using System.Linq.Expressions;
-using TukkoTrafficVisualizer.Data.Entities;
+﻿using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Cache
+namespace TukkoTrafficVisualizer.Data.Interfaces
 {
     public interface IRoadworkCacheRepository : IGenericCacheRepository<Roadwork>
     {

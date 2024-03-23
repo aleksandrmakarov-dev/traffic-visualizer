@@ -3,6 +3,7 @@ import FullPageWrapper from "@/shared/components/FullPageWrapper";
 import { Button } from "@/shared/components/ui/button";
 import { LocationSearch } from "@/widgets/location";
 import { UserProfileMenu } from "@/widgets/user";
+import { Languages, MessageSquareText, Moon } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
@@ -10,8 +11,19 @@ export default function MainLayout() {
 
   return (
     <FullPageWrapper className="bg-gray-50">
-      <LocationSearch className="absolute z-10 top-0 left-0" />
-      <div className="absolute z-10 top-0 right-0 p-2.5">
+      <div className="absolute z-10 h-screen bg-white w-16 border-r border-border flex items-center flex-col py-2.5 gap-y-2.5">
+        <Button size="icon" variant="secondary">
+          <Moon />
+        </Button>
+        <Button size="icon" variant="secondary">
+          <MessageSquareText />
+        </Button>
+        <Button size="icon" variant="secondary">
+          <Languages />
+        </Button>
+      </div>
+      <LocationSearch className="absolute z-[4] top-0 left-16 w-full flex max-w-sm" />
+      <div className="absolute z-[4] top-0 right-0 p-2.5">
         {isLoading ? (
           <p>Loading...</p>
         ) : session ? (

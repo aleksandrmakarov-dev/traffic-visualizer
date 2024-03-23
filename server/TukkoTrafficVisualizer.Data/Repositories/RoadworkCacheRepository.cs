@@ -6,8 +6,9 @@ using Redis.OM;
 using Redis.OM.Searching;
 using StackExchange.Redis;
 using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Cache;
+namespace TukkoTrafficVisualizer.Data.Repositories;
 
 public class RoadworkCacheRepository : GenericCacheRepository<Roadwork>, IRoadworkCacheRepository
 {

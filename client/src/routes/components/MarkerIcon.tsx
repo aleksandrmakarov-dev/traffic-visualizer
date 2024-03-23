@@ -1,6 +1,6 @@
 import L from "leaflet";
 import getTrafficColor from "../scripts/colourSpectrum";
-import { Station } from "../../interfaces/Interfaces";
+import { Station } from "@/lib/contracts/station/station";
 
 const createIcon = (html: string) => {
   return L.divIcon({
@@ -30,15 +30,18 @@ export function getSwgImage(station: Station) {
   try {
     let colorDirection1 = "gray";
     let colorDirection2 = "gray";
-    const findSensorValue = (sensorId: number): number | undefined => {
-      return station.sensors?.find((sensor) => sensor.id === sensorId)?.value;
-    };
-    const sensorValue5158 = findSensorValue(5158);
+
+    const findSensorValue = (sensorId: string) =>
+      station.sensors?.find((sensor) => sensor.sensorId === sensorId)?.value;
+
+    const sensorValue5158 = findSensorValue("5158");
+
     if (sensorValue5158 !== undefined) {
       colorDirection1 = getTrafficColor(sensorValue5158);
     }
 
-    const sensorValue5161 = findSensorValue(5161);
+    const sensorValue5161 = findSensorValue("5161");
+
     if (sensorValue5161 !== undefined) {
       colorDirection2 = getTrafficColor(sensorValue5161);
     }

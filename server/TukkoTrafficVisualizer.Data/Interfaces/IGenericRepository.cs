@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TukkoTrafficVisualizer.Data.Entities;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Database
+namespace TukkoTrafficVisualizer.Data.Interfaces
 {
-    public interface IGenericRepository<T> where T:Entity
+    public interface IGenericRepository<T> where T : Entity
     {
         Task<T> CreateAsync(T entity);
         Task<T> UpdateAsync(T entity);

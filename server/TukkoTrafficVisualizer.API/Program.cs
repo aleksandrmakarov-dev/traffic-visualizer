@@ -96,8 +96,8 @@ namespace TukkoTrafficVisualizer.API
 
             //Add Background services
 
-            builder.Services.AddHostedService<UpdateCacheBackgroundService>();
             builder.Services.AddHostedService<IndexCreationBackgroundService>();
+            builder.Services.AddHostedService<UpdateCacheBackgroundService>();
 
             builder.Services.AddResponseCompression(options =>
             {
@@ -115,6 +115,13 @@ namespace TukkoTrafficVisualizer.API
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            WebSocketOptions webSocketOptions = new WebSocketOptions
+            {
+                KeepAliveInterval = TimeSpan.FromMinutes(2)
+            };
+
+            app.UseWebSockets(webSocketOptions);
 
             app.UseResponseCompression();
 

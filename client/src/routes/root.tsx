@@ -9,10 +9,8 @@ import { StationContext, AppContext } from "../context/StationContext";
 import Geoman from "./components/Geoman";
 /* import LeafletgeoSearch from "./components/LeafletgeoSearch"; */
 import { MapLayers } from "./components/MapLayers";
-import { FeedbackForm } from "./components/FeedbackForm";
 import { LangToggle } from "./components/LangSelect";
 import ModalData from "./components/ModalData";
-import { LocationSearch } from "@/widgets/location";
 
 function MapPlaceholder(): JSX.Element {
   return (
@@ -55,11 +53,6 @@ export default function Root(): JSX.Element {
 
   return (
     <Fragment>
-      {/* <h1 id="overlay-title" className="overlay-title">
-        Tukko
-      </h1> */}
-      {/* <h2 className="overlay2-title">Traffic Visualizer</h2> */}
-      {/* <LogosContainer /> */}
       <MapContainer
         center={[60.2, 24.9]}
         maxBoundsViscosity={0.9}
@@ -79,7 +72,6 @@ export default function Root(): JSX.Element {
         <Geoman />
         {/* <DarkModeToggle /> */}
         <Suspense>
-          <FeedbackForm />
           <MapLayers />
           <div className="langContainer">
             <LangToggle />

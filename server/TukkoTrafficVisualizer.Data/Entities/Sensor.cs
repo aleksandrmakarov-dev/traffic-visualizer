@@ -6,9 +6,9 @@ namespace TukkoTrafficVisualizer.Data.Entities
     public class Sensor:Entity
     {
         [Indexed(Sortable = true)]
-        public int SensorId { get; set; }
+        public string SensorId { get; set; }
         [Indexed(Sortable = true)]
-        public int StationId { get; set; }
+        public string StationId { get; set; }
         public string Name { get; set; }
         [Indexed(Sortable = true)]
         public DateTime? TimeWindowStart { get; set; }

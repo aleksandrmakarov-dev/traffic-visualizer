@@ -1,6 +1,7 @@
-import { Roadwork, Station } from "../../interfaces/Interfaces";
+import { RoadworkResponse } from "@/lib/contracts/roadwork/roadwork.response";
+import { StationResponse } from "@/lib/contracts/station/station.response";
 
-export function getStationRoadworks(station: Station, roadworks: Roadwork[]) {
+export function getStationRoadworks(station: StationResponse, roadworks: RoadworkResponse[]) {
   if (roadworks.length === 0) return [];
   const stationRoadNumber = station.roadNumber;
   const stationRoadSection = station.roadSection;

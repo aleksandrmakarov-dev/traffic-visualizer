@@ -2,9 +2,9 @@
 using System.Net;
 using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
-using TukkoTrafficVisualizer.Data.Repositories.Cache;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
@@ -14,7 +14,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
         private readonly ISensorCacheRepository _sensorCacheRepository;
         private readonly int[] _fastExpireSensorIds = [5058, 5061, 5116, 5119, 5122, 5125, 5158, 5161, 5164, 5168];
         private readonly int[] _slowExpireSensorIds = [5054, 5055, 5056, 5057];
-        private readonly int[] _ignoreSensorIds = [5016, 5019, 5022, 5025, 5064, 5067, 5068, 5071, 5152,];
+        private readonly int[] _ignoreSensorIds = [5016, 5019, 5022, 5025, 5064, 5067, 5068, 5071,5152,];
 
         public SensorService(HttpClient httpClient, ISensorCacheRepository sensorCacheRepository)
         {
@@ -68,24 +68,23 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<Sensor>> GetAsync(
-        )
+        public async Task<IEnumerable<Sensor>> GetAsync(string[]? ids = null)
         {
-            // IEnumerable<Data.Redis.Entities.Roadwork> roadworkList = await _roadworkCacheRepository.FilterAsync(
-            //    primaryPointRoadNumber, primaryPointRoadSection, secondaryPointRoadNumber, secondaryPointRoadSection,
-            //    startTimeOnAfter, startTimeOnBefore, severity);
+            if (ids is { Length: > 0 })
+            {
+                return await _sensorCacheRepository.GetAllAsync(s => ids.Contains(s.SensorId));
+            }
 
-
-            return await _sensorCacheRepository.GetAsync();
+            return await _sensorCacheRepository.GetAllAsync();
         }
 
         private Sensor MapSensorValueToSensor(SensorValue sensorValue)
         {
             return new Sensor
             {
-                Id = $"{sensorValue.StationId}_{sensorValue.Id}",
-                SensorId = sensorValue.Id,
-                StationId = sensorValue.StationId,
+                Id = $"{sensorValue.StationId}{sensorValue.Id}",
+                SensorId = sensorValue.Id.ToString(),
+                StationId = sensorValue.StationId.ToString(),
                 Name = sensorValue.Name,
                 MeasuredTime = sensorValue.MeasuredTime,
                 TimeWindowStart = sensorValue.TimeWindowStart,

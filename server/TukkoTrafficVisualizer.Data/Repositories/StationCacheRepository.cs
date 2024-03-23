@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Redis.OM;
+﻿using Redis.OM;
 using TukkoTrafficVisualizer.Data.Entities;
+using TukkoTrafficVisualizer.Data.Interfaces;
 
-namespace TukkoTrafficVisualizer.Data.Repositories.Cache
+namespace TukkoTrafficVisualizer.Data.Repositories
 {
     public interface IStationCacheRepository : IGenericCacheRepository<Station>
     {

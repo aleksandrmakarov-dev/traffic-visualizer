@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
-using Station = TukkoTrafficVisualizer.Infrastructure.Models.Contracts.Station;
+﻿using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
@@ -15,5 +7,6 @@ namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
         Task<StationContract> FetchStationsAsync();
         Task SaveStationsAsync(StationContract stationContract);
         Task<StationDetailsContract> FetchStationDetailsAsync(int stationId);
+        Task<IEnumerable<Data.Entities.Station>> GetAllAsync();
     }
 }
