@@ -14,7 +14,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Models.Contracts
     public class Names
     {
         [JsonPropertyName("fi")]
-        public string Fi { get; set; }
+        public string? Fi { get; set; }
 
         [JsonPropertyName("sv")]
         public string? Sv { get; set; }

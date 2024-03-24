@@ -55,7 +55,7 @@ public class RoadworkService : IRoadworkService
 
                     if (expireSpan > TimeSpan.Zero)
                     {
-                        Roadwork roadwork = MapRoadworkPhaseToRoadwork(phase);
+                        Roadwork? roadwork = MapRoadworkPhaseToRoadwork(phase);
 
                         await _roadworkCacheRepository.SetAsync(roadwork,expireSpan);
                     }
@@ -81,12 +81,12 @@ public class RoadworkService : IRoadworkService
             );
     }
 
-    private Roadwork MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)
+    private Roadwork? MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)
     {
         RoadPoint? primaryPoint = phase.LocationDetails.RoadAddressLocation.PrimaryPoint;
         RoadPoint? secondaryPoint = phase.LocationDetails.RoadAddressLocation.SecondaryPoint;
 
-        Roadwork roadwork = new Data.Entities.Roadwork
+        Roadwork? roadwork = new Data.Entities.Roadwork
         {
             Id = phase.Id.Substring(4),
             PrimaryPointRoadNumber = primaryPoint?.RoadAddress.Road,

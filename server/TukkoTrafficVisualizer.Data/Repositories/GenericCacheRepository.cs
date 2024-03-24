@@ -26,7 +26,7 @@ public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : En
         return await Collection.InsertAsync(model, WhenKey.Always, expireSpan);
     }
 
-    public virtual async Task<bool> DeleteAsync(int id)
+    public virtual async Task<bool> DeleteAsync(string id)
     {
         T? model = await Collection.FindByIdAsync(id.ToString());
 
@@ -48,5 +48,10 @@ public class GenericCacheRepository<T> : IGenericCacheRepository<T> where T : En
     public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where)
     {
         return await Collection.Where(where).ToListAsync();
+    }
+
+    public async Task<T?> GetByIdAsync(string id)
+    {
+        return await Collection.FindByIdAsync(id);
     }
 }

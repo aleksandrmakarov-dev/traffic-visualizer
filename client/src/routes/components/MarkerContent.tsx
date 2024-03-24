@@ -18,7 +18,7 @@ export function MarkerContent({
 }): JSX.Element | null {
   const [showTooltip, setShowTooltip] = useState(false);
   const [selectedStation, setSelectedStation] = useState<
-    null | number | undefined
+    null | string | undefined
   >(null);
   const [marker, setMarker] = useState<null | M>(null);
   const { updateMarker, stationError, updateError } = useContext(

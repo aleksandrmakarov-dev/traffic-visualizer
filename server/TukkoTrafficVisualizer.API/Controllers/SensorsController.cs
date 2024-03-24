@@ -16,9 +16,9 @@ namespace TukkoTrafficVisualizer.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string[]? ids = null)
+        public async Task<IActionResult> GetAll([FromQuery] string[]? ids = null, [FromQuery] string? stationId =  null)
         {
-            IEnumerable<Sensor> sensors = await _sensorService.GetAsync(ids);
+            IEnumerable<Sensor> sensors = await _sensorService.GetAsync(ids,stationId);
 
             return Ok(sensors);
         }

@@ -1,4 +1,5 @@
 ﻿using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
+using Station = TukkoTrafficVisualizer.Data.Entities.Station;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
@@ -7,6 +8,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
         Task<StationContract> FetchStationsAsync();
         Task SaveStationsAsync(StationContract stationContract);
         Task<StationDetailsContract> FetchStationDetailsAsync(int stationId);
-        Task<IEnumerable<Data.Entities.Station>> GetAllAsync();
+        Task<IEnumerable<Station?>> GetAllAsync();
+        Task<Station?> GetByIdAsync(string id);
     }
 }

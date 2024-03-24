@@ -5,6 +5,8 @@ using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Data.Interfaces;
+using System.Linq.Expressions;
+using LinqKit;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
@@ -56,7 +58,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 
                 foreach (SensorValue sensorValue in sensorValues)
                 {
-                    Sensor sensor = MapSensorValueToSensor(sensorValue);
+                    Sensor? sensor = MapSensorValueToSensor(sensorValue);
 
                     TimeSpan expireSpan = GetExpireSpan(sensorValue);
 
@@ -68,17 +70,31 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<Sensor>> GetAsync(string[]? ids = null)
+        public async Task<IEnumerable<Sensor>> GetAsync(string[]? ids = null, string? stationId = null)
         {
+            Expression<Func<Sensor, bool>>? whereExpression = null;
+
             if (ids is { Length: > 0 })
             {
-                return await _sensorCacheRepository.GetAllAsync(s => ids.Contains(s.SensorId));
+                whereExpression = (sensor) => ids.Contains(sensor.SensorId);
+            }
+
+            if (!string.IsNullOrEmpty(stationId))
+            {
+                Expression<Func<Sensor,bool>> stationExpression = (sensor) => sensor.StationId == stationId;
+            
+                whereExpression = whereExpression != null ? whereExpression.And(stationExpression) : stationExpression;
+            }
+
+            if (whereExpression != null)
+            {
+                return await _sensorCacheRepository.GetAllAsync(whereExpression);
             }
 
             return await _sensorCacheRepository.GetAllAsync();
         }
 
-        private Sensor MapSensorValueToSensor(SensorValue sensorValue)
+        private Sensor? MapSensorValueToSensor(SensorValue sensorValue)
         {
             return new Sensor
             {

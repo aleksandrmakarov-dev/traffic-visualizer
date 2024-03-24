@@ -9,6 +9,7 @@ namespace TukkoTrafficVisualizer.Data.Entities
         [RedisIdField]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [Indexed(Sortable = true)]
         public string Id { get; set; }
     }
 }

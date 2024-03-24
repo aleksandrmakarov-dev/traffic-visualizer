@@ -5,6 +5,7 @@ using TukkoTrafficVisualizer.Data.Repositories;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
+using Station = TukkoTrafficVisualizer.Data.Entities.Station;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services;
 
@@ -22,9 +23,14 @@ public class StationService : IStationService
         _stationCacheRepository = stationCacheRepository;
     }
 
-    public async Task<IEnumerable<Data.Entities.Station>> GetAllAsync()
+    public async Task<IEnumerable<Station?>> GetAllAsync()
     {
         return await _stationCacheRepository.GetAllAsync();
+    }
+
+    public async Task<Station?> GetByIdAsync(string id)
+    {
+        return await _stationCacheRepository.GetByIdAsync(id);
     }
 
     public async Task<StationContract> FetchStationsAsync()
@@ -55,7 +61,7 @@ public class StationService : IStationService
            {
                StationDetailsContract stationDetailsContract = await FetchStationDetailsAsync(feature.Id);
 
-               Data.Entities.Station station = MapStationFeatureToStation(stationDetailsContract);
+               Station station = MapStationFeatureToStation(stationDetailsContract);
 
                await _stationCacheRepository.SetAsync(station);
            }));
@@ -80,7 +86,7 @@ public class StationService : IStationService
 
         return stationDetailsContract;
     } 
-    private Data.Entities.Station MapStationFeatureToStation(StationDetailsContract sdc)
+    private Station MapStationFeatureToStation(StationDetailsContract sdc)
     {
         return new Data.Entities.Station
         {
@@ -90,7 +96,7 @@ public class StationService : IStationService
             Names =
             new Data.Entities.Names
             {
-                Fi = sdc.Properties.Names ?.Fi ?? string.Empty,
+                Fi = sdc.Properties.Names?.Fi ?? string.Empty,
                 Sv = sdc.Properties.Names?.Sv ?? sdc.Properties.Names?.Fi ?? string.Empty,
                 En = sdc.Properties.Names?.En ?? sdc.Properties.Names?.Fi ?? string.Empty
             },
