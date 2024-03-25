@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LatLngExpression, Marker } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { Dispatch, SetStateAction, useState } from "react";
 import { updateTopics } from "@/lib/constants";
 import moment from "moment";
@@ -8,12 +8,6 @@ import { Station } from "@/lib/contracts/station/station";
 import i18next from "i18next";
 
 export interface AppContext {
-  station: Station | null;
-  updateStation: (station: Station | null) => void;
-  marker: Marker | null;
-  updateMarker: (marker: Marker | null) => void;
-  stationError: boolean | null;
-  updateError: (err: boolean | null) => void;
   center: LatLngExpression | null;
   setCenter: Dispatch<SetStateAction<LatLngExpression | null>>;
   roadworksUpdatedAt?: Date;
@@ -30,12 +24,6 @@ type Props = {
 };
 
 const defaultValue: AppContext = {
-  marker: null,
-  station: null,
-  updateStation: () => {},
-  updateMarker: () => {},
-  stationError: null,
-  updateError: () => {},
   center: null,
   setCenter: () => {},
   selectedStation: null,
@@ -51,24 +39,21 @@ const Provider: React.FC<Props> = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
+  // application language
+  const [language, setLanguage] = useState(i18next.language);
+
+  // data updation date time
   const { lastMessage } = useNotificationSubWebSocket();
 
   const [stationsUpdatedAt, setStationsUpdateAt] = useState<Date>();
   const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<Date>();
   const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<Date>();
 
+  // selected station
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
 
-  const [language, setLanguage] = useState(i18next.language);
-
-  const [station, setStation] = React.useState<Station | null>(null);
-  const [marker, setMarker] = React.useState<Marker | null>(null);
-  const [stationError, setError] = React.useState<boolean | null>(null);
+  // map center
   const [center, setCenter] = React.useState<LatLngExpression | null>(null);
-
-  const updateStation = (station: Station | null) => setStation(station);
-  const updateMarker = (marker: Marker | null) => setMarker(marker);
-  const updateError = (err: boolean | null) => setError(err);
 
   React.useEffect(() => {
     if (!lastMessage) return;
@@ -90,13 +75,7 @@ const Provider: React.FC<Props> = ({
     <StationContext.Provider
       value={{
         center,
-        marker,
         setCenter,
-        station,
-        stationError,
-        updateError,
-        updateMarker,
-        updateStation,
         roadworksUpdatedAt,
         sensorsUpdatedAt,
         stationsUpdatedAt,

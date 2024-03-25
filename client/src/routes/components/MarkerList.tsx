@@ -5,7 +5,6 @@ import { getStationRoadworks } from "../scripts/getStationRoadworks";
 import { useSensors } from "@/entities/sensor";
 import { StationMarker, useStations } from "@/entities/station";
 import { Station } from "@/lib/contracts/station/station";
-import { MarkerContent } from "./MarkerContent";
 
 // sensors that contains information about left and right road side
 const sensorIds: string[] = ["5158", "5161"];
@@ -45,8 +44,12 @@ export function MarkerList(): JSX.Element | null {
   return (
     <div>
       {data?.map((s) => (
-        // <StationMarker key={`station-marker-${s.id}`} station={s} />
-        <MarkerContent key={`station-marker-${s.id}`} station={s} />
+        <StationMarker
+          key={`station-marker-${s.id}`}
+          station={s}
+          isSelected={selectedStation?.id === s.id}
+        />
+        // <MarkerContent key={`station-marker-${s.id}`} station={s} />
       ))}
     </div>
   );
