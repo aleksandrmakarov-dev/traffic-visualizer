@@ -1,55 +1,28 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { Map } from "leaflet";
 import "./leaflet.css";
 import "./root.css";
-import { Fragment, Suspense, useContext, useEffect, useRef } from "react";
-import { StationContext, AppContext } from "../context/StationContext";
+import { Fragment, Suspense, useEffect, useRef } from "react";
+import { useStationContext } from "@/context/StationContext";
 
-// Components
 import Geoman from "./components/Geoman";
-/* import LeafletgeoSearch from "./components/LeafletgeoSearch"; */
 import { MapLayers } from "./components/MapLayers";
-import { LangToggle } from "./components/LangSelect";
 import ModalData from "./components/ModalData";
 
-function MapPlaceholder(): JSX.Element {
-  return (
-    <p>
-      Tukko - Traffic Visualizer
-      <noscript>You need to enable JavaScript to see this map.</noscript>
-    </p>
-  );
-}
-
 export default function Root(): JSX.Element {
-  const { station, center } = useContext<AppContext>(StationContext);
+  const { station, center, language } = useStationContext();
   const mapRef = useRef<Map | null>(null);
-
-  window.addEventListener("touchstart", (e) => {
-    if (!mapRef.current) return;
-    const pane: HTMLDivElement | null = document.querySelector(
-      ".leaflet-tooltip-pane"
-    );
-    const feedback: HTMLDivElement | null =
-      document.querySelector(".Collapsible");
-    const toggle: HTMLElement | null =
-      document.getElementById("toggleContainer");
-    for (const div of [pane, feedback, toggle]) {
-      if (div && div.contains(e.target as HTMLElement))
-        mapRef.current.dragging.disable();
-    }
-  });
-
-  window.addEventListener("touchend", () => {
-    if (!mapRef.current) return;
-    if (!mapRef.current.dragging.enabled()) mapRef.current.dragging.enable();
-  });
 
   useEffect(() => {
     if (!!center) {
-      mapRef.current?.flyTo(center);
+      mapRef.current?.setView(center, 12);
     }
   }, [center]);
+
+  useEffect(() => {
+    const lang = language === "fi" ? "fi" : "en";
+    mapRef.current?.pm.setLang(lang);
+  }, [language]);
 
   return (
     <Fragment>
@@ -60,23 +33,18 @@ export default function Root(): JSX.Element {
         zoom={12}
         minZoom={7}
         maxZoom={17}
-        zoomControl={false}
-        placeholder={<MapPlaceholder />}
-        doubleClickZoom={false}
         ref={mapRef}
+        zoomControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a target="_blank" href="https://wimma-lab-2023.pages.labranet.jamk.fi/iotitude/core-traffic-visualizer/80-Documents-and-reporting/gdpr-statement/">GDPR</a> | <a target="_blank" href="https://wimma-lab-2023.pages.labranet.jamk.fi/iotitude/core-traffic-visualizer/80-Documents-and-reporting/user-guide/">User Guide for Tukko</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Geoman />
-        {/* <DarkModeToggle /> */}
         <Suspense>
           <MapLayers />
-          <div className="langContainer">
-            <LangToggle />
-          </div>
         </Suspense>
+        <ZoomControl position="bottomright" />
       </MapContainer>
       <Suspense>
         {station && <ModalData targetID={station.id.toString()} />}

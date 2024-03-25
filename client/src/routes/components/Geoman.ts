@@ -1,7 +1,15 @@
 import { useMap } from "react-leaflet";
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
-import { LatLngExpression, LayerGroup, Polygon, Circle, Marker, LatLng, MarkerCluster } from 'leaflet';
+import {
+  LatLngExpression,
+  LayerGroup,
+  Polygon,
+  Circle,
+  Marker,
+  LatLng,
+  MarkerCluster,
+} from "leaflet";
 
 class Triangle extends Polygon {
   constructor(center: LatLngExpression, sideLength: number) {
@@ -18,10 +26,10 @@ function getTriangleVertices(center: LatLngExpression, sideLength: number) {
   let centerLatLng: LatLng;
   if (Array.isArray(center)) {
     centerLatLng = new LatLng(center[0], center[1]);
-  } else if ('lat' in center && 'lng' in center) {
+  } else if ("lat" in center && "lng" in center) {
     centerLatLng = new LatLng(center.lat, center.lng);
   } else {
-    throw new Error('Invalid LatLngExpression');
+    throw new Error("Invalid LatLngExpression");
   }
 
   const vertex1 = centerLatLng;
@@ -39,17 +47,24 @@ function getTriangleVertices(center: LatLngExpression, sideLength: number) {
 
 const selectedLayer = new LayerGroup();
 
-function isMarkerInsideTriangle(marker: Marker, triangle: Triangle | Polygon): boolean {
+function isMarkerInsideTriangle(
+  marker: Marker,
+  triangle: Triangle | Polygon
+): boolean {
   const triangleVertices = triangle.getLatLngs()[0] as LatLng[];
   const markerLatLng = marker.getLatLng();
   let isInside = false;
 
-  for (let i = 0, j = triangleVertices.length - 1; i < triangleVertices.length; j = i++) {
+  for (
+    let i = 0, j = triangleVertices.length - 1;
+    i < triangleVertices.length;
+    j = i++
+  ) {
     const vertex1 = triangleVertices[i];
     const vertex2 = triangleVertices[j];
 
     if (
-      (vertex1.lat > markerLatLng.lat) !== (vertex2.lat > markerLatLng.lat) &&
+      vertex1.lat > markerLatLng.lat !== vertex2.lat > markerLatLng.lat &&
       markerLatLng.lng <
         ((vertex2.lng - vertex1.lng) * (markerLatLng.lat - vertex1.lat)) /
           (vertex2.lat - vertex1.lat) +
@@ -83,12 +98,15 @@ function isMarkerInsidePolygon(marker: Marker, polygon: Polygon): boolean {
     const vertex2 = polygonLatLngs[j];
 
     if (
-      (vertex1.lng < markerLatLng.lng && vertex2.lng >= markerLatLng.lng ||
-      vertex2.lng < markerLatLng.lng && vertex1.lng >= markerLatLng.lng) &&
+      ((vertex1.lng < markerLatLng.lng && vertex2.lng >= markerLatLng.lng) ||
+        (vertex2.lng < markerLatLng.lng && vertex1.lng >= markerLatLng.lng)) &&
       (vertex1.lat <= markerLatLng.lat || vertex2.lat <= markerLatLng.lat)
     ) {
       if (
-        vertex1.lat + (markerLatLng.lng - vertex1.lng) / (vertex2.lng - vertex1.lng) * (vertex2.lat - vertex1.lat) < markerLatLng.lat
+        vertex1.lat +
+          ((markerLatLng.lng - vertex1.lng) / (vertex2.lng - vertex1.lng)) *
+            (vertex2.lat - vertex1.lat) <
+        markerLatLng.lat
       ) {
         isInside = !isInside;
       }
@@ -99,7 +117,10 @@ function isMarkerInsidePolygon(marker: Marker, polygon: Polygon): boolean {
   return isInside;
 }
 
-function isMarkerInsideShape(marker: Marker, shape: Triangle | Circle | Polygon): boolean {
+function isMarkerInsideShape(
+  marker: Marker,
+  shape: Triangle | Circle | Polygon
+): boolean {
   if (shape instanceof Triangle) {
     return isMarkerInsideTriangle(marker, shape);
   } else if (shape instanceof Circle) {
@@ -122,13 +143,14 @@ function Geoman() {
     drawCircleMarker: false,
     drawPolyline: false,
     cutPolygon: false,
-    // Until we can find a better way to use edit and drag modes, 
+    // Until we can find a better way to use edit and drag modes,
     // disable them
     dragMode: false,
     editMode: false,
+    position: "bottomright",
   });
 
-  map.on("pm:create", e => {
+  map.on("pm:create", (e) => {
     let shape: Triangle | Circle | Polygon | null = null;
     if (e.layer instanceof Polygon) {
       shape = e.layer;
@@ -146,31 +168,36 @@ function Geoman() {
     map.fitBounds(bounds);
 
     const markers: Marker[] = [];
-    map.eachLayer(l => {
-      if (!(l instanceof Marker)) return
+    map.eachLayer((l) => {
+      if (!(l instanceof Marker)) return;
       if (l.getElement()?.classList.contains("customMarker")) {
         markers.push(l);
-      } else if ('getAllChildMarkers' in l) {
+      } else if ("getAllChildMarkers" in l) {
         markers.push(...(l as MarkerCluster).getAllChildMarkers());
       }
     });
 
-    markers.forEach(marker => {
-      const isInside = isMarkerInsideShape(marker, shape as Triangle | Polygon | Circle);
+    markers.forEach((marker) => {
+      const isInside = isMarkerInsideShape(
+        marker,
+        shape as Triangle | Polygon | Circle
+      );
 
       if (isInside) {
-        marker.addTo(selectedLayer)
+        marker.addTo(selectedLayer);
       }
     });
 
-    document.querySelectorAll<HTMLInputElement>(
-      '.leaflet-control-layers-selector:checked'
-    ).forEach(el => {
-      el.click();
-      el.checked = false;
-      el.dataset.lastActive = 'true';
-      el.disabled = true;
-    });
+    document
+      .querySelectorAll<HTMLInputElement>(
+        ".leaflet-control-layers-selector:checked"
+      )
+      .forEach((el) => {
+        el.click();
+        el.checked = false;
+        el.dataset.lastActive = "true";
+        el.disabled = true;
+      });
 
     if (!map.hasLayer(selectedLayer)) {
       selectedLayer.addTo(map);
@@ -178,28 +205,29 @@ function Geoman() {
   });
 
   map.on("pm:remove", () => {
-    selectedLayer.getLayers().forEach(l => selectedLayer.removeLayer(l));
-    selectedLayer.removeFrom(map)
-    document.querySelectorAll<HTMLInputElement>(
-      '.leaflet-control-layers-selector[data-last-active="true"]'
-    ).forEach(el => {
-      el.disabled = false;
-      el.click();
-      el.dataset.lastActive = 'false';
-    });
+    selectedLayer.getLayers().forEach((l) => selectedLayer.removeLayer(l));
+    selectedLayer.removeFrom(map);
+    document
+      .querySelectorAll<HTMLInputElement>(
+        '.leaflet-control-layers-selector[data-last-active="true"]'
+      )
+      .forEach((el) => {
+        el.disabled = false;
+        el.click();
+        el.dataset.lastActive = "false";
+      });
   });
 
   map.on("pm:globaldrawmodetoggled", (e) => {
-    if (e.enabled && map.pm.getGeomanDrawLayers().length > 0) map.pm.getGeomanDrawLayers()[0].remove() && 
-      map.fire("pm:remove")
-  })
+    if (e.enabled && map.pm.getGeomanDrawLayers().length > 0)
+      map.pm.getGeomanDrawLayers()[0].remove() && map.fire("pm:remove");
+  });
 
   map.on("pm:globalremovalmodetoggled", (e) => {
-    if (e.enabled)
-      map.pm.disableGlobalRemovalMode()
-    if (map.pm.getGeomanDrawLayers().length > 0) 
-      map.pm.getGeomanDrawLayers()[0].remove() && map.fire("pm:remove")
-  })
+    if (e.enabled) map.pm.disableGlobalRemovalMode();
+    if (map.pm.getGeomanDrawLayers().length > 0)
+      map.pm.getGeomanDrawLayers()[0].remove() && map.fire("pm:remove");
+  });
 
   return null;
 }

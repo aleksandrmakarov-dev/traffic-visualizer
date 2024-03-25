@@ -10,14 +10,12 @@ interface FeedbackDialogProps {
 }
 
 export function FeedbackDialog({ trigger }: FeedbackDialogProps) {
-  const { mutate, isPending, isError, error } = useCreateFeedback();
+  const { mutate, isPending, isError, error, isSuccess } = useCreateFeedback();
 
   const [open, setOpen] = useState<boolean>(false);
 
   const onSubmit = (values: FeedbackRequest) => {
-    mutate(values, {
-      onSuccess: () => setOpen(false),
-    });
+    mutate(values);
   };
 
   return (
@@ -31,6 +29,12 @@ export function FeedbackDialog({ trigger }: FeedbackDialogProps) {
         className="mb-2"
         isError={isError}
         error={error?.response?.data}
+        isSuccess={isSuccess}
+        success={{
+          title: "We received you feedback",
+          message:
+            "Thank you for your feedback. We will carefully look through it",
+        }}
       />
       <FeedbackForm isLoading={isPending} onSubmit={onSubmit} />
     </DialogBase>

@@ -21,10 +21,14 @@ export const sensorKeys = {
 async function fetchSensors(request: SensorRequest): Promise<SensorResponse[]> {
   const params = new URLSearchParams();
 
-  if (!!request.ids) {
+  if (request.ids) {
     for (const id of request.ids) {
       params.append("ids", id);
     }
+  }
+
+  if (request.stationId) {
+    params.append("stationId", request.stationId);
   }
 
   const response = await axios.get<SensorResponse[]>(`/sensors`, {

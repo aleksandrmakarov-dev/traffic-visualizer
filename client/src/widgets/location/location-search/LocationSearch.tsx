@@ -34,7 +34,7 @@ export function LocationSearch({ className, ...other }: LocationSearchProps) {
     <div
       className={cn(
         "w-full flex flex-col",
-        { "bg-white h-full": !!data },
+        { "bg-white h-full dark:bg-gray-900": !!data },
         className
       )}
       {...other}

@@ -58,7 +58,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 
                 foreach (SensorValue sensorValue in sensorValues)
                 {
-                    Sensor? sensor = MapSensorValueToSensor(sensorValue);
+                    Sensor sensor = MapSensorValueToSensor(sensorValue);
 
                     TimeSpan expireSpan = GetExpireSpan(sensorValue);
 
@@ -94,7 +94,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
             return await _sensorCacheRepository.GetAllAsync();
         }
 
-        private Sensor? MapSensorValueToSensor(SensorValue sensorValue)
+        private Sensor MapSensorValueToSensor(SensorValue sensorValue)
         {
             return new Sensor
             {

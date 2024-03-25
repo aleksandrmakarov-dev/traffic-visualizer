@@ -5,6 +5,7 @@ import { updateTopics } from "@/lib/constants";
 import moment from "moment";
 import { useNotificationSubWebSocket } from "@/features/notification/sub";
 import { Station } from "@/lib/contracts/station/station";
+import i18next from "i18next";
 
 export interface AppContext {
   station: Station | null;
@@ -18,13 +19,17 @@ export interface AppContext {
   roadworksUpdatedAt?: Date;
   sensorsUpdatedAt?: Date;
   stationsUpdatedAt?: Date;
+  selectedStation: Station | null;
+  setSelectedStation: Dispatch<SetStateAction<Station | null>>;
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
 }
 
 type Props = {
   children: React.ReactNode;
 };
 
-const defaultValue = {
+const defaultValue: AppContext = {
   marker: null,
   station: null,
   updateStation: () => {},
@@ -33,6 +38,10 @@ const defaultValue = {
   updateError: () => {},
   center: null,
   setCenter: () => {},
+  selectedStation: null,
+  setSelectedStation: () => {},
+  language: "en",
+  setLanguage: () => {},
 };
 
 export const StationContext = React.createContext<AppContext>(defaultValue);
@@ -47,6 +56,10 @@ const Provider: React.FC<Props> = ({
   const [stationsUpdatedAt, setStationsUpdateAt] = useState<Date>();
   const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<Date>();
   const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<Date>();
+
+  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
+
+  const [language, setLanguage] = useState(i18next.language);
 
   const [station, setStation] = React.useState<Station | null>(null);
   const [marker, setMarker] = React.useState<Marker | null>(null);
@@ -87,6 +100,10 @@ const Provider: React.FC<Props> = ({
         roadworksUpdatedAt,
         sensorsUpdatedAt,
         stationsUpdatedAt,
+        selectedStation,
+        setSelectedStation,
+        language,
+        setLanguage,
       }}
     >
       {children}

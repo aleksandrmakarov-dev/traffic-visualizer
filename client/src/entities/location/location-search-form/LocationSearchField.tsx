@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/shared/components/ui/button";
 import { Search } from "lucide-react";
+import { useTransition } from "react";
+import { useTranslation } from "react-i18next";
 
 interface LocationSearchFormProps {
   data?: LocationRequest;
@@ -25,6 +27,8 @@ export function LocationSearchForm({
   isLoading,
   onSubmit,
 }: LocationSearchFormProps) {
+  const { t } = useTranslation(["location"]);
+
   const form = useForm<LocationRequest>({
     resolver: zodResolver(locationRequest),
     defaultValues: {
@@ -34,7 +38,7 @@ export function LocationSearchForm({
   });
 
   return (
-    <div className="bg-white shadow-md p-1 rounded-md border border-border">
+    <div className="bg-white shadow-md p-1 rounded-md border border-border dark:bg-gray-900">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -47,7 +51,7 @@ export function LocationSearchForm({
                   <div className="flex gap-x-2">
                     <Input
                       className="border-transparent focus-visible:outline-none focus-visible:ring-transparent"
-                      placeholder="Search location..."
+                      placeholder={t("placeholder")}
                       {...field}
                     />
                     <Button
