@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "@/lib/contracts/common/error.response";
 import axios from "@/lib/axios";
@@ -38,7 +38,20 @@ async function fetchSensors(request: SensorRequest): Promise<SensorResponse[]> {
   return response.data;
 }
 
-export const useSensors = (request: SensorRequest, lastUpdate?: Date) => {
+type UseSensorsQuery = UseQueryOptions<
+  SensorResponse[],
+  AxiosError<ErrorResponse>,
+  SensorResponse[],
+  unknown[]
+>;
+
+type UseSensorsOptions = Omit<UseSensorsQuery, "queryKey" | "queryFn">;
+
+export const useSensors = (
+  request: SensorRequest,
+  lastUpdate?: Date,
+  options?: UseSensorsOptions
+) => {
   return useQuery<
     SensorResponse[],
     AxiosError<ErrorResponse>,
@@ -49,5 +62,6 @@ export const useSensors = (request: SensorRequest, lastUpdate?: Date) => {
     queryFn: async () => {
       return await fetchSensors(request);
     },
+    ...options,
   });
 };

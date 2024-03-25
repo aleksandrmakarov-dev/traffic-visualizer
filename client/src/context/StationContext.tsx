@@ -1,4 +1,3 @@
-import * as React from "react";
 import { LatLngExpression } from "leaflet";
 import { Dispatch, SetStateAction, useState } from "react";
 import { updateTopics } from "@/lib/constants";
@@ -6,6 +5,8 @@ import moment from "moment";
 import { useNotificationSubWebSocket } from "@/features/notification/sub";
 import { Station } from "@/lib/contracts/station/station";
 import i18next from "i18next";
+import { useSensors } from "@/entities/sensor";
+import React from "react";
 
 export interface AppContext {
   center: LatLngExpression | null;
@@ -44,7 +45,6 @@ const Provider: React.FC<Props> = ({
 
   // data updation date time
   const { lastMessage } = useNotificationSubWebSocket();
-
   const [stationsUpdatedAt, setStationsUpdateAt] = useState<Date>();
   const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<Date>();
   const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<Date>();
@@ -52,8 +52,27 @@ const Provider: React.FC<Props> = ({
   // selected station
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
 
+  const { data: selectedStationSensors } = useSensors(
+    { stationId: selectedStation?.id },
+    sensorsUpdatedAt,
+    {
+      enabled: !!selectedStation?.id,
+    }
+  );
+
   // map center
   const [center, setCenter] = React.useState<LatLngExpression | null>(null);
+
+  React.useEffect(() => {
+    if (selectedStation) {
+      const stationWithSensors: Station = {
+        ...selectedStation,
+        sensors: selectedStationSensors,
+      };
+
+      setSelectedStation(stationWithSensors);
+    }
+  }, [selectedStationSensors]);
 
   React.useEffect(() => {
     if (!lastMessage) return;

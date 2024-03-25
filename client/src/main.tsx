@@ -8,13 +8,13 @@ import RouterProvider from "@/context/RouterProvider";
 import { TooltipProvider } from "./shared/components/ui/tooltip.js";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <Provider>
-    <QueryProvider>
-      <SessionProvider>
-        <TooltipProvider>
+  <QueryProvider>
+    <SessionProvider>
+      <TooltipProvider>
+        <Provider>
           <RouterProvider />
-        </TooltipProvider>
-      </SessionProvider>
-    </QueryProvider>
-  </Provider>
+        </Provider>
+      </TooltipProvider>
+    </SessionProvider>
+  </QueryProvider>
 );
