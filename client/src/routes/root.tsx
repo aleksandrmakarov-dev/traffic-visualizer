@@ -7,10 +7,9 @@ import { useStationContext } from "@/context/StationContext";
 
 import Geoman from "./components/Geoman";
 import { MapLayers } from "./components/MapLayers";
-import ModalData from "./components/ModalData";
 
 export default function Root(): JSX.Element {
-  const { station, center, language } = useStationContext();
+  const { center, language } = useStationContext();
   const mapRef = useRef<Map | null>(null);
 
   useEffect(() => {
@@ -46,9 +45,6 @@ export default function Root(): JSX.Element {
         </Suspense>
         <ZoomControl position="bottomright" />
       </MapContainer>
-      <Suspense>
-        {station && <ModalData targetID={station.id.toString()} />}
-      </Suspense>
     </Fragment>
   );
 }

@@ -1,5 +1,4 @@
 import { useSession } from "@/context/SessionProvider";
-import { StationDetails } from "@/entities/station";
 import { DarkModeToggle } from "@/shared/components/DarkModeToggle";
 import FullPageWrapper from "@/shared/components/FullPageWrapper";
 import { LanguageToggle } from "@/shared/components/LanguageToggle";
@@ -7,6 +6,7 @@ import { LogoContainer } from "@/shared/components/LogoContainer";
 import { Button } from "@/shared/components/ui/button";
 import { FeedbackDialog } from "@/widgets/feedback";
 import { LocationSearch } from "@/widgets/location";
+import { StationDetails } from "@/widgets/station";
 import { UserProfileMenu } from "@/widgets/user";
 import { MessageSquareText } from "lucide-react";
 import { Outlet } from "react-router-dom";

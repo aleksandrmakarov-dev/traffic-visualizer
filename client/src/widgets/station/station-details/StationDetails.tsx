@@ -1,7 +1,6 @@
 import { useStationContext } from "@/context/StationContext";
+import { StationDirection } from "@/entities/station";
 import { Station } from "@/lib/contracts/station/station";
-import { Button } from "@/shared/components/ui/button";
-import { MoveLeft, MoveRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export function StationDetails() {
@@ -12,7 +11,7 @@ export function StationDetails() {
     return null;
   }
 
-  console.log(selectedStation);
+  console.log(selectedStation.roadworks);
 
   return (
     <div className="bg-white pt-14 h-screen overflow-auto">
@@ -22,50 +21,40 @@ export function StationDetails() {
         </h4>
       </div>
       <div className="p-5 border-t border-border">
-        <div className="flex items-center justify-between gap-x-3">
-          <h5 className="text-lg font-medium mb-1.5">
-            {selectedStation.direction1Municipality}
-          </h5>
-          <MoveRight />
-        </div>
-        <p>
-          Flow:{" "}
-          {selectedStation.sensors?.find((e) => e.sensorId === "5116")?.value ||
-            "-"}{" "}
-          {t(["amount"])}
-        </p>
-        <p className="mb-1.5">
-          Speed:{" "}
-          {selectedStation.sensors?.find((e) => e.sensorId === "5122")?.value ||
-            "-"}{" "}
-          {t("speed")}
-        </p>
-        <div className="text-center">
-          <Button variant="ghost">More details</Button>
-        </div>
+        <StationDirection
+          direction="left"
+          station={selectedStation}
+          sensors={[
+            {
+              id: "5116",
+              label: "Flow",
+              unitsName: "amount",
+            },
+            {
+              id: "5122",
+              label: "Speed",
+              unitsName: "speed",
+            },
+          ]}
+        />
       </div>
       <div className="p-5 border-t border-border">
-        <div className="flex items-center justify-between gap-x-3">
-          <h5 className="text-lg font-medium mb-1.5">
-            {selectedStation.direction2Municipality}
-          </h5>
-          <MoveLeft />
-        </div>
-        <p>
-          Flow:{" "}
-          {selectedStation.sensors?.find((e) => e.sensorId === "5119")?.value ||
-            "-"}{" "}
-          {t(["amount"])}
-        </p>
-        <p className="mb-1.5">
-          Speed:{" "}
-          {selectedStation.sensors?.find((e) => e.sensorId === "5125")?.value ||
-            "-"}{" "}
-          {t("speed")}
-        </p>
-        <div className="text-center">
-          <Button variant="ghost">More details</Button>
-        </div>
+        <StationDirection
+          direction="right"
+          station={selectedStation}
+          sensors={[
+            {
+              id: "5119",
+              label: "Flow",
+              unitsName: "amount",
+            },
+            {
+              id: "5125",
+              label: "Speed",
+              unitsName: "speed",
+            },
+          ]}
+        />
       </div>
       {selectedStation.roadworks && selectedStation.roadworks.length > 0 && (
         <div className="p-5 border-t border-border">

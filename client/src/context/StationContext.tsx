@@ -86,8 +86,6 @@ const Provider: React.FC<Props> = ({
     } else if (topic === updateTopics.roadworksUpdate) {
       setRoadworksUpdateAt(moment(payload).toDate());
     }
-
-    console.log(lastMessage);
   }, [lastMessage]);
 
   return (
