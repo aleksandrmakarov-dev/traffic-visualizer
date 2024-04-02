@@ -1,6 +1,6 @@
 import { useStationContext } from "@/context/StationContext";
 import { Station } from "@/lib/contracts/station/station";
-import { mapValueToColor } from "@/lib/utils";
+import { capitalize, mapValueToColor } from "@/lib/utils";
 import L from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 
@@ -59,12 +59,18 @@ interface StationMarkerProps {
 }
 
 export function StationMarker({ station, isSelected }: StationMarkerProps) {
-  const { setSelectedStation } = useStationContext();
+  const { selectedStation, setSelectedStation } = useStationContext();
+
+  const onStationSelect = () => {
+    if (selectedStation?.id === station.id) return;
+
+    setSelectedStation(station);
+  };
 
   return (
     <Marker
       eventHandlers={{
-        click: () => setSelectedStation(station),
+        click: onStationSelect,
       }}
       position={[station.coordinates.latitude, station.coordinates.longitude]}
       icon={createIcon(
@@ -78,7 +84,7 @@ export function StationMarker({ station, isSelected }: StationMarkerProps) {
       )}
     >
       <Popup>
-        <p>{station.name.replaceAll("_", " ")}</p>
+        <p>{capitalize(station.name.replaceAll("_", " "))}</p>
       </Popup>
     </Marker>
   );

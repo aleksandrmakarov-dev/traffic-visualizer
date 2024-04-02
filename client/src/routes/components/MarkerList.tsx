@@ -47,7 +47,6 @@ export function MarkerList(): JSX.Element | null {
           station={s}
           isSelected={selectedStation?.id === s.id}
         />
-        // <MarkerContent key={`station-marker-${s.id}`} station={s} />
       ))}
     </div>
   );
