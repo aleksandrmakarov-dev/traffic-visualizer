@@ -1,11 +1,25 @@
-interface RoadworkDetailsProps{
-  
+import { RoadworkItem, RoadworkList } from "@/entities/roadwork";
+import { RoadworkResponse } from "@/lib/contracts/roadwork/roadwork.response";
+
+interface RoadworkDetailsProps {
+  roadworks?: RoadworkResponse[];
 }
 
-export function RoadworkDetails(){
-  return(
-    <div>
+export function RoadworkDetails({ roadworks }: RoadworkDetailsProps) {
+  if (!roadworks) {
+    return null;
+  }
 
-    </div>
-  )
+  return (
+    <RoadworkList
+      items={roadworks}
+      render={(item) => (
+        <RoadworkItem
+          key={`sidebar-roadwork-${item.id}`}
+          className="mb-5"
+          roadwork={item}
+        />
+      )}
+    />
+  );
 }

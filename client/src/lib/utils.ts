@@ -40,3 +40,9 @@ export function mapValueToColor(value: number) {
 
   return color;
 }
+
+export function capitalize(value: string) {
+  return value.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+  });
+}
