@@ -9,6 +9,8 @@ import { useSensors } from "@/entities/sensor";
 import React from "react";
 
 export interface AppContext {
+  zoom: number;
+  setZoom: Dispatch<SetStateAction<number>>;
   center: LatLngExpression | null;
   setCenter: Dispatch<SetStateAction<LatLngExpression | null>>;
   roadworksUpdatedAt?: Date;
@@ -25,6 +27,8 @@ type Props = {
 };
 
 const defaultValue: AppContext = {
+  zoom: 12,
+  setZoom: () => {},
   center: null,
   setCenter: () => {},
   selectedStation: null,
@@ -62,6 +66,7 @@ const Provider: React.FC<Props> = ({
 
   // map center
   const [center, setCenter] = React.useState<LatLngExpression | null>(null);
+  const [zoom, setZoom] = React.useState<number>(12);
 
   React.useEffect(() => {
     if (selectedStation) {
@@ -91,6 +96,8 @@ const Provider: React.FC<Props> = ({
   return (
     <StationContext.Provider
       value={{
+        zoom,
+        setZoom,
         center,
         setCenter,
         roadworksUpdatedAt,

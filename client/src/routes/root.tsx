@@ -9,12 +9,12 @@ import Geoman from "./components/Geoman";
 import { MapLayers } from "./components/MapLayers";
 
 export default function Root(): JSX.Element {
-  const { center, language } = useStationContext();
+  const { center, zoom, language } = useStationContext();
   const mapRef = useRef<Map | null>(null);
 
   useEffect(() => {
     if (!!center) {
-      mapRef.current?.setView(center, 12);
+      mapRef.current?.setView(center, zoom);
     }
   }, [center]);
 
@@ -31,7 +31,7 @@ export default function Root(): JSX.Element {
         zoomDelta={1}
         zoom={12}
         minZoom={7}
-        maxZoom={17}
+        maxZoom={20}
         ref={mapRef}
         zoomControl={false}
       >

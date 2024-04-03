@@ -6,3 +6,9 @@ export type Station = StationResponse & {
   sensors?: SensorResponse[];
   roadworks?: RoadworkResponse[];
 };
+
+export type StationDirectionValue = {
+  side: number;
+  name: string;
+  sensors?: SensorResponse[];
+};
