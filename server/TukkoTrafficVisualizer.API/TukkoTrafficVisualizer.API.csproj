@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj" />
+    <ProjectReference Include="..\TukkoTrafficVisualizer.Cache\TukkoTrafficVisualizer.Cache.csproj" />
+    <ProjectReference Include="..\TukkoTrafficVisualizer.Database\TukkoTrafficVisualizer.Database.csproj" />
     <ProjectReference Include="..\TukkoTrafficVisualizer.Infrastructure\TukkoTrafficVisualizer.Infrastructure.csproj" />
   </ItemGroup>
 

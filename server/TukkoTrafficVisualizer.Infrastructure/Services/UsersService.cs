@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Data.Interfaces;
+using TukkoTrafficVisualizer.Database.Entities;
+using TukkoTrafficVisualizer.Database.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 

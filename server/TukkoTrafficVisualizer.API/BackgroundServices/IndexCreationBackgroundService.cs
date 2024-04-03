@@ -1,5 +1,5 @@
-﻿using TukkoTrafficVisualizer.Data.Interfaces;
-using TukkoTrafficVisualizer.Data.Repositories;
+﻿
+using TukkoTrafficVisualizer.Cache.Interfaces;
 
 namespace TukkoTrafficVisualizer.API.BackgroundServices
 {

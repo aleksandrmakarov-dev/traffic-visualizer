@@ -9,7 +9,11 @@ export const roadworkKeys = {
   roadworks: {
     root: ["roadwork"],
     id: (id: string) => [...roadworkKeys.roadworks.root, "id", id],
-    query: (...params: any[]) => [...roadworkKeys.roadworks.root, "query", params],
+    query: (...params: any[]) => [
+      ...roadworkKeys.roadworks.root,
+      "query",
+      ...params,
+    ],
   },
   mutations: {
     create: () => [...roadworkKeys.roadworks.root, "create"],
@@ -18,14 +22,21 @@ export const roadworkKeys = {
   },
 };
 
-async function fetchRoadworks(request: RoadworkRequest):Promise<RoadworkResponse[]> {
+async function fetchRoadworks(
+  request: RoadworkRequest
+): Promise<RoadworkResponse[]> {
   const response = await axios.get<RoadworkResponse[]>(`/roadworks`);
   return response.data;
 }
 
-export const useRoadworks = (request: RoadworkRequest,lastUpdate?:Date) => {
-  return useQuery<RoadworkResponse[],AxiosError<ErrorResponse>,RoadworkResponse[],unknown[]>({
-    queryKey: roadworkKeys.roadworks.query(request,lastUpdate),
+export const useRoadworks = (request: RoadworkRequest, lastUpdate?: number) => {
+  return useQuery<
+    RoadworkResponse[],
+    AxiosError<ErrorResponse>,
+    RoadworkResponse[],
+    unknown[]
+  >({
+    queryKey: roadworkKeys.roadworks.query(request, lastUpdate),
     queryFn: async () => {
       return await fetchRoadworks(request);
     },

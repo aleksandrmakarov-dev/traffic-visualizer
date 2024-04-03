@@ -5,7 +5,7 @@ using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
-    public class MockMailingService:IMailingService
+    public class MockMailingService : IMailingService
     {
         private readonly MailingOptions _options;
         private readonly ILogger<MockMailingService> _logger;

@@ -1,7 +1,6 @@
 import { LatLngExpression } from "leaflet";
 import { Dispatch, SetStateAction, useState } from "react";
 import { updateTopics } from "@/lib/constants";
-import moment from "moment";
 import { useNotificationSubWebSocket } from "@/features/notification/sub";
 import { Station } from "@/lib/contracts/station/station";
 import i18next from "i18next";
@@ -13,9 +12,9 @@ export interface AppContext {
   setZoom: Dispatch<SetStateAction<number>>;
   center: LatLngExpression | null;
   setCenter: Dispatch<SetStateAction<LatLngExpression | null>>;
-  roadworksUpdatedAt?: Date;
-  sensorsUpdatedAt?: Date;
-  stationsUpdatedAt?: Date;
+  roadworksUpdatedAt?: number;
+  sensorsUpdatedAt?: number;
+  stationsUpdatedAt?: number;
   selectedStation: Station | null;
   setSelectedStation: Dispatch<SetStateAction<Station | null>>;
   language: string;
@@ -49,9 +48,9 @@ const Provider: React.FC<Props> = ({
 
   // data updation date time
   const { lastMessage } = useNotificationSubWebSocket();
-  const [stationsUpdatedAt, setStationsUpdateAt] = useState<Date>();
-  const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<Date>();
-  const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<Date>();
+  const [stationsUpdatedAt, setStationsUpdateAt] = useState<number>();
+  const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<number>();
+  const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<number>();
 
   // selected station
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
@@ -85,11 +84,11 @@ const Provider: React.FC<Props> = ({
     const { topic, payload } = lastMessage.data;
 
     if (topic === updateTopics.stationsUpdate) {
-      setStationsUpdateAt(moment(payload).toDate());
+      setStationsUpdateAt(Number(payload));
     } else if (topic === updateTopics.sensorsUpdate) {
-      setSensorsUpdateAt(moment(payload).toDate());
+      setSensorsUpdateAt(Number(payload));
     } else if (topic === updateTopics.roadworksUpdate) {
-      setRoadworksUpdateAt(moment(payload).toDate());
+      setRoadworksUpdateAt(Number(payload));
     }
   }, [lastMessage]);
 

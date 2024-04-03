@@ -27,12 +27,12 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="LinqKit" Version="1.2.5" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TukkoTrafficVisualizer.Cache\TukkoTrafficVisualizer.Cache.csproj" />
     <ProjectReference Include="..\TukkoTrafficVisualizer.Core\TukkoTrafficVisualizer.Core.csproj" />
-    <ProjectReference Include="..\TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj" />
+    <ProjectReference Include="..\TukkoTrafficVisualizer.Database\TukkoTrafficVisualizer.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>

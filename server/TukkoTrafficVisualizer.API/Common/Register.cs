@@ -1,6 +1,8 @@
-﻿using TukkoTrafficVisualizer.Core.Options;
-using TukkoTrafficVisualizer.Data.Interfaces;
-using TukkoTrafficVisualizer.Data.Repositories;
+﻿using TukkoTrafficVisualizer.Cache.Interfaces;
+using TukkoTrafficVisualizer.Cache.Repositories;
+using TukkoTrafficVisualizer.Core.Options;
+using TukkoTrafficVisualizer.Database.Interfaces;
+using TukkoTrafficVisualizer.Database.Repositories;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Services;
 
@@ -10,19 +12,24 @@ namespace TukkoTrafficVisualizer.API.Common
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ILocationService, NominatimLocationService>();
-            services.AddScoped<IRoadworkService, RoadworkService>();
-            services.AddScoped<ISensorService, SensorService>();
-            services.AddScoped<IStationService, StationService>();
+            services.AddScoped<ILocationService, HttpLocationService>();
+            services.AddScoped<IRoadworkCacheService, RoadworkCacheService>();
+            services.AddScoped<ISensorCacheService, SensorCacheService>();
+            services.AddScoped<IStationCacheService, StationCacheService>();
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IStationService, StationService>();
 
             services.AddScoped<IMailingService, MockMailingService>();
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
             services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<IWebSocketManagerService, WebSocketManagerService>();
+
+            services.AddScoped<IStationHttpService, StationHttpService>();
+            services.AddScoped<ISensorHttpService, SensorHttpService>();
+            services.AddScoped<IRoadworkHttpService, RoadworkHttpService>();
 
             return services;
         }
@@ -40,6 +47,7 @@ namespace TukkoTrafficVisualizer.API.Common
         {
             services.AddScoped<IUsersRepository,UsersRepository>();
             services.AddScoped<ISessionsRepository,SessionsRepository>();
+            services.AddScoped<IStationRepository, StationRepository>();
 
             return services;
         }

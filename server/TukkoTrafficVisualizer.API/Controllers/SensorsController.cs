@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
 namespace TukkoTrafficVisualizer.API.Controllers
@@ -8,9 +7,9 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class SensorsController : ControllerBase
     {
-        private readonly ISensorService _sensorService;
+        private readonly ISensorCacheService _sensorService;
 
-        public SensorsController(ISensorService sensorService)
+        public SensorsController(ISensorCacheService sensorService)
         {
             _sensorService = sensorService;
         }
@@ -18,7 +17,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string[]? ids = null, [FromQuery] string? stationId =  null)
         {
-            IEnumerable<Sensor> sensors = await _sensorService.GetAsync(ids,stationId);
+            IEnumerable<Cache.Entities.Sensor> sensors = await _sensorService.GetAsync(ids,stationId);
 
             return Ok(sensors);
         }

@@ -37,7 +37,7 @@ namespace TukkoTrafficVisualizer.API
             builder.Logging.AddConsole();
 
             // Add HttpClient
-            builder.Services.AddHttpClient<ILocationService,NominatimLocationService>()
+            builder.Services.AddHttpClient<ILocationService,HttpLocationService>()
                 .ConfigureHttpClient(client =>
                 {
                     client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
@@ -97,7 +97,8 @@ namespace TukkoTrafficVisualizer.API
             //Add Background services
 
             builder.Services.AddHostedService<IndexCreationBackgroundService>();
-            builder.Services.AddHostedService<UpdateCacheBackgroundService>();
+            builder.Services.AddHostedService<ShortTimeBackgroundService>();
+            builder.Services.AddHostedService<LongTimeBackgroundService>();
 
             builder.Services.AddResponseCompression(options =>
             {

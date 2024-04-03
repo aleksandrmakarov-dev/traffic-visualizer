@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
 namespace TukkoTrafficVisualizer.API.Controllers
@@ -9,9 +8,9 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class RoadworksController : ControllerBase
     {
-        private readonly IRoadworkService _roadworkService;
+        private readonly IRoadworkCacheService _roadworkService;
 
-        public RoadworksController(IRoadworkService roadworkService)
+        public RoadworksController(IRoadworkCacheService roadworkService)
         {
             _roadworkService = roadworkService;
         }
@@ -27,7 +26,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
             [FromQuery] string severity = "HIGH"
             )
         {
-            IEnumerable<Roadwork> roadworkList = await _roadworkService.GetAsync(
+            IEnumerable<Cache.Entities.Roadwork> roadworkList = await _roadworkService.GetAsync(
                 primaryPointRoadNumber,
                 primaryPointRoadSection,
                 secondaryPointRoadNumber,

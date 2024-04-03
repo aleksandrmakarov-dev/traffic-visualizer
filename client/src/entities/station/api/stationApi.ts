@@ -9,7 +9,11 @@ export const stationKeys = {
   stations: {
     root: ["station"],
     id: (id: string) => [...stationKeys.stations.root, "id", id],
-    query: (...params: any[]) => [...stationKeys.stations.root, "query", params],
+    query: (...params: any[]) => [
+      ...stationKeys.stations.root,
+      "query",
+      ...params,
+    ],
   },
   mutations: {
     create: () => [...stationKeys.stations.root, "create"],
@@ -18,14 +22,21 @@ export const stationKeys = {
   },
 };
 
-async function fetchStations(request: StationRequest):Promise<StationResponse[]> {
+async function fetchStations(
+  request: StationRequest
+): Promise<StationResponse[]> {
   const response = await axios.get<StationResponse[]>(`/stations`);
   return response.data;
 }
 
-export const useStations = (request: StationRequest,lastUpdate?:Date) => {
-  return useQuery<StationResponse[],AxiosError<ErrorResponse>,StationResponse[],unknown[]>({
-    queryKey: stationKeys.stations.query(request,lastUpdate),
+export const useStations = (request: StationRequest, lastUpdate?: number) => {
+  return useQuery<
+    StationResponse[],
+    AxiosError<ErrorResponse>,
+    StationResponse[],
+    unknown[]
+  >({
+    queryKey: stationKeys.stations.query(request, lastUpdate),
     queryFn: async () => {
       return await fetchStations(request);
     },

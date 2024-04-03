@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TukkoTrafficVisualizer.Data.Entities;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 
@@ -9,9 +8,9 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
-        private readonly IStationService _stationService;
+        private readonly IStationCacheService _stationService;
 
-        public StationsController(IStationService stationService)
+        public StationsController(IStationCacheService stationService)
         {
             _stationService = stationService;
         }
@@ -19,7 +18,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Station?> foundStations = await _stationService.GetAllAsync();
+            IEnumerable<Cache.Entities.Station> foundStations = await _stationService.GetCacheAllAsync();
 
             return Ok(foundStations);   
         }
@@ -27,7 +26,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] string id)
         {
-            Data.Entities.Station? foundStation = await _stationService.GetByIdAsync(id);
+            Cache.Entities.Station? foundStation = await _stationService.GetCacheByIdAsync(id);
 
             if (foundStation == null)
             {

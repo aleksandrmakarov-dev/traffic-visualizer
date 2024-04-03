@@ -20,6 +20,7 @@ import {
   Drawer,
 } from "@/shared/components/ui/drawer";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 
 interface DialogBaseProps {
   title: string;
@@ -28,10 +29,12 @@ interface DialogBaseProps {
   description?: string;
   trigger?: JSX.Element;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export function DialogBase(props: DialogBaseProps) {
-  const { trigger, title, description, open, setOpen, children } = props;
+  const { trigger, title, description, open, setOpen, children, className } =
+    props;
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   if (isDesktop) {

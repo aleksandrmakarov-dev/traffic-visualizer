@@ -40,8 +40,8 @@ public class JwtService : IJwtService
             "",
             "",
             claims,
-            expires:DateTime.UtcNow.AddMinutes(15),
-            signingCredentials:credentials
+            expires: DateTime.UtcNow.AddMinutes(15),
+            signingCredentials: credentials
         );
 
         return _jwtSecurityTokenHandler.WriteToken(token);

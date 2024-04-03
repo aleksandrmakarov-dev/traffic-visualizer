@@ -5,11 +5,13 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.API", "TukkoTrafficVisualizer.API\TukkoTrafficVisualizer.API.csproj", "{92A41CBB-C283-492A-9A6A-4798720A98F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.Data", "TukkoTrafficVisualizer.Data\TukkoTrafficVisualizer.Data.csproj", "{086B5161-3DE0-4F38-A422-B008A34C4C94}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.Infrastructure", "TukkoTrafficVisualizer.Infrastructure\TukkoTrafficVisualizer.Infrastructure.csproj", "{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Core", "TukkoTrafficVisualizer.Core\TukkoTrafficVisualizer.Core.csproj", "{21808FE3-A402-4129-BF3F-2777BD66916B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TukkoTrafficVisualizer.Core", "TukkoTrafficVisualizer.Core\TukkoTrafficVisualizer.Core.csproj", "{21808FE3-A402-4129-BF3F-2777BD66916B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Cache", "TukkoTrafficVisualizer.Cache\TukkoTrafficVisualizer.Cache.csproj", "{D1637D19-2449-497B-9250-7A84DD1D10C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TukkoTrafficVisualizer.Database", "TukkoTrafficVisualizer.Database\TukkoTrafficVisualizer.Database.csproj", "{F01EEAFC-935D-49A8-A832-22BC446BEACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +23,6 @@ Global
 		{92A41CBB-C283-492A-9A6A-4798720A98F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A41CBB-C283-492A-9A6A-4798720A98F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A41CBB-C283-492A-9A6A-4798720A98F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{086B5161-3DE0-4F38-A422-B008A34C4C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{086B5161-3DE0-4F38-A422-B008A34C4C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{086B5161-3DE0-4F38-A422-B008A34C4C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{086B5161-3DE0-4F38-A422-B008A34C4C94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{155C1C23-C97C-4E19-962A-BC8CD5B28A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +31,14 @@ Global
 		{21808FE3-A402-4129-BF3F-2777BD66916B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21808FE3-A402-4129-BF3F-2777BD66916B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21808FE3-A402-4129-BF3F-2777BD66916B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1637D19-2449-497B-9250-7A84DD1D10C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1637D19-2449-497B-9250-7A84DD1D10C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1637D19-2449-497B-9250-7A84DD1D10C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1637D19-2449-497B-9250-7A84DD1D10C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F01EEAFC-935D-49A8-A832-22BC446BEACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F01EEAFC-935D-49A8-A832-22BC446BEACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F01EEAFC-935D-49A8-A832-22BC446BEACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F01EEAFC-935D-49A8-A832-22BC446BEACF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

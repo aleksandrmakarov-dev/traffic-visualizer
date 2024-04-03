@@ -3,13 +3,12 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Logging;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
-    public class WebSocketManagerService:IWebSocketManagerService
+    public class WebSocketManagerService : IWebSocketManagerService
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly ConcurrentDictionary<string, WebSocket> _sockets;
@@ -35,8 +34,8 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
         public async Task SendAsync(string key, WebSocketMessage message)
         {
             WebSocket? ws = GetByKey(key);
-            
-            if(ws == null) return;
+
+            if (ws == null) return;
 
             await SendMessageAsync(ws, message);
         }
@@ -56,7 +55,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 
             if (ws == null) return;
 
-            if(ws.State != WebSocketState.Open) return;
+            if (ws.State != WebSocketState.Open) return;
 
             await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing web socket on server",
                 CancellationToken.None);
@@ -79,7 +78,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
                 return;
             }
 
-            string serializedMessage = JsonSerializer.Serialize(message,_jsonSerializerOptions);
+            string serializedMessage = JsonSerializer.Serialize(message, _jsonSerializerOptions);
             byte[] encodedMessage = Encoding.UTF8.GetBytes(serializedMessage);
 
             await ws.SendAsync(

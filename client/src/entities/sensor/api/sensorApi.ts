@@ -9,7 +9,11 @@ export const sensorKeys = {
   sensors: {
     root: ["sensor"],
     id: (id: string) => [...sensorKeys.sensors.root, "id", id],
-    query: (...params: any[]) => [...sensorKeys.sensors.root, "query", params],
+    query: (...params: any[]) => [
+      ...sensorKeys.sensors.root,
+      "query",
+      ...params,
+    ],
   },
   mutations: {
     create: () => [...sensorKeys.sensors.root, "create"],
@@ -49,7 +53,7 @@ type UseSensorsOptions = Omit<UseSensorsQuery, "queryKey" | "queryFn">;
 
 export const useSensors = (
   request: SensorRequest,
-  lastUpdate?: Date,
+  lastUpdate?: number,
   options?: UseSensorsOptions
 ) => {
   return useQuery<
@@ -60,6 +64,8 @@ export const useSensors = (
   >({
     queryKey: sensorKeys.sensors.query(request, lastUpdate),
     queryFn: async () => {
+      console.log("updating");
+
       return await fetchSensors(request);
     },
     ...options,

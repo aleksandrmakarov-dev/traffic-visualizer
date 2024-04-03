@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TukkoTrafficVisualizer.Data.Entities;
-using TukkoTrafficVisualizer.Data.Interfaces;
+using TukkoTrafficVisualizer.Database.Entities;
+using TukkoTrafficVisualizer.Database.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models;
@@ -21,11 +21,11 @@ public class AuthService : IAuthService
     private readonly IMapper _mapper;
 
     public AuthService(
-        IUsersRepository usersRepository, 
-        IPasswordsService passwordsService, 
-        IMapper mapper, 
-        ISessionsRepository sessionsRepository, 
-        ITokensService tokensService, 
+        IUsersRepository usersRepository,
+        IPasswordsService passwordsService,
+        IMapper mapper,
+        ISessionsRepository sessionsRepository,
+        ITokensService tokensService,
         IJwtService jwtService)
     {
         _usersRepository = usersRepository;
@@ -49,19 +49,19 @@ public class AuthService : IAuthService
 
         // otherwise map request to User model
         User userToCreate = _mapper.Map<SignUpRequest, User>(request);
-        
+
         // generate password hash from request password
         userToCreate.PasswordHash = _passwordsService.Hash(request.Password);
         userToCreate.Role = Role.User.ToString();
 
         // generate email verification token
         string emailVerificationToken = _tokensService.GetToken(128);
-        
+
         userToCreate.EmailVerificationToken = emailVerificationToken;
         userToCreate.EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(12);
 
         // write user to the database
-        User createdUser =  await _usersRepository.CreateAsync(userToCreate);
+        User createdUser = await _usersRepository.CreateAsync(userToCreate);
 
         //map User to SignUpResponse and return it
         return _mapper.Map<User, EmailVerificationResponse>(createdUser);
@@ -70,7 +70,7 @@ public class AuthService : IAuthService
     public async Task<SignInResponse> SignInAsync(SignInRequest request)
     {
         User? foundUser = await _usersRepository.GetByEmailAsync(request.Email);
-        
+
         if (foundUser == null)
         {
             throw new UnauthorizedException("Invalid email or password");
@@ -101,7 +101,7 @@ public class AuthService : IAuthService
         Session? foundSession = await _sessionsRepository.GetByRefreshTokenAsync(refreshToken);
 
         // if token found generate new token
-        if (foundSession !=null)
+        if (foundSession != null)
         {
             refreshToken = _tokensService.GetToken(128);
         }
@@ -123,7 +123,7 @@ public class AuthService : IAuthService
             Id = createdSession.UserId,
             Role = Enum.Parse<Role>(foundUser.Role)
         });
-        
+
         return new SignInResponse
         {
             RefreshToken = createdSession.RefreshToken,
@@ -154,7 +154,7 @@ public class AuthService : IAuthService
         }
 
         // if token is expired throw an error
-        if (foundUser.EmailVerificationTokenExpiresAt != null &&  foundUser.EmailVerificationTokenExpiresAt < DateTime.UtcNow)
+        if (foundUser.EmailVerificationTokenExpiresAt != null && foundUser.EmailVerificationTokenExpiresAt < DateTime.UtcNow)
         {
             throw new UnauthorizedException("Email verification token is expired");
         }
@@ -198,7 +198,7 @@ public class AuthService : IAuthService
         // generate new access token
         string accessToken = _jwtService.GetToken(new JwtPayload
         {
-            Id = foundUser.Id,
+            Id = foundUser.Id.ToString(),
             Role = Enum.Parse<Role>(foundUser.Role)
         });
 
@@ -206,7 +206,7 @@ public class AuthService : IAuthService
         return new SessionResponse
         {
             AccessToken = accessToken,
-            UserId = foundUser.Id,
+            UserId = foundUser.Id.ToString(),
             Email = foundUser.Email,
             Role = Enum.Parse<Role>(foundUser.Role)
         };
@@ -262,7 +262,7 @@ public class AuthService : IAuthService
 
         // set new expiration time datetime now
         foundSession.ExpiresAt = DateTime.UtcNow;
-        
+
         // update date in database
         await _sessionsRepository.UpdateAsync(foundSession);
     }
