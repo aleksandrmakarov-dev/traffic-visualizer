@@ -1,5 +1,6 @@
 import { useStationContext } from "@/context/StationContext";
 import { Station } from "@/lib/contracts/station/station";
+import { StationResponse } from "@/lib/contracts/station/station.response";
 import { capitalize, mapValueToColor } from "@/lib/utils";
 import L from "leaflet";
 import { Marker, Popup } from "react-leaflet";
@@ -59,7 +60,7 @@ interface StationMarkerProps {
 }
 
 export function StationMarker({ station, isSelected }: StationMarkerProps) {
-  const { selectedStation, setSelectedStation } = useStationContext();
+  const { language, selectedStation, setSelectedStation } = useStationContext();
 
   const onStationSelect = () => {
     if (selectedStation?.id === station.id) return;
@@ -84,7 +85,7 @@ export function StationMarker({ station, isSelected }: StationMarkerProps) {
       )}
     >
       <Popup>
-        <p>{capitalize(station.name.replaceAll("_", " "))}</p>
+        <p>{station.names[language as keyof StationResponse["names"]]}</p>
       </Popup>
     </Marker>
   );

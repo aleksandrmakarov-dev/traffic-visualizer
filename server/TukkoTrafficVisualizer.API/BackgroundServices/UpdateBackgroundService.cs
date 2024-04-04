@@ -6,14 +6,19 @@ using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.API.BackgroundServices
 {
-    public class ShortTimeBackgroundService:BackgroundService
+    public class UpdateBackgroundService:BackgroundService
     {
-        private readonly TimeSpan _period = TimeSpan.FromMinutes(1);
-        private readonly ILogger<ShortTimeBackgroundService> _logger;
+        private DateTime? _lastUpdate;
+        private bool _canUpdateDatabase;
+
+        private readonly int _shortPeriodMinutes = 1;
+        private readonly int _longPeriodMinutes = 60;
+
+        private readonly ILogger<UpdateBackgroundService> _logger;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IWebSocketManagerService _websocketManagerService;
 
-        public ShortTimeBackgroundService(ILogger<ShortTimeBackgroundService> logger, IServiceScopeFactory scopeFactory, IWebSocketManagerService websocketManagerService)
+        public UpdateBackgroundService(ILogger<UpdateBackgroundService> logger, IServiceScopeFactory scopeFactory, IWebSocketManagerService websocketManagerService)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
@@ -22,14 +27,19 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using PeriodicTimer timer = new PeriodicTimer(_period);
+
+
+            using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromMinutes(_shortPeriodMinutes));
             do
             {
                 try
                 {
+                    _canUpdateDatabase = _lastUpdate == null ||
+                                         (_lastUpdate != null && (DateTime.UtcNow - _lastUpdate.Value).Minutes >= _longPeriodMinutes);
+
                     Stopwatch sw = Stopwatch.StartNew();
 
-                    _logger.LogInformation("ShortTimeBackgroundService is working!");
+                    _logger.LogInformation($"{DateTime.UtcNow}: UpdateBackgroundService is working!");
 
                     await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
 
@@ -38,6 +48,9 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
                     await UpdateStationsAsync(scope, sw);
 
                     sw.Stop();
+
+                    _lastUpdate = DateTime.UtcNow;
+                    _canUpdateDatabase = false;
                 }
                 catch (Exception ex)
                 {
@@ -67,32 +80,46 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
         {
             sw.Restart();
 
-            ISensorCacheService sensorService = scope.ServiceProvider.GetRequiredService<ISensorCacheService>();
+            ISensorCacheService sensorCacheService = scope.ServiceProvider.GetRequiredService<ISensorCacheService>();
             ISensorHttpService sensorHttpService = scope.ServiceProvider.GetRequiredService<ISensorHttpService>();
+            ISensorService sensorService = scope.ServiceProvider.GetRequiredService<ISensorService>();
 
             SensorContract sensorContract = await sensorHttpService.FetchAsync();
 
-            await sensorService.SaveSensorsAsync(sensorContract);
+            await sensorCacheService.SaveSensorsAsync(sensorContract);
+
+            await SendUpdateMessageAsync(WebSocketTopics.SensorsUpdate, DateTime.UtcNow);
+
+            if (_canUpdateDatabase)
+            {
+                await sensorService.SaveAsync(sensorContract);
+            }
 
             _logger.LogInformation($"Sensors have been updated. It took {sw.ElapsedMilliseconds} ms");
 
-            await SendUpdateMessageAsync(WebSocketTopics.SensorsUpdate, DateTime.UtcNow);
         }
 
         private async Task UpdateStationsAsync(AsyncServiceScope scope, Stopwatch sw)
         {
             sw.Restart();
 
-            IStationCacheService stationService = scope.ServiceProvider.GetRequiredService<IStationCacheService>();
+            IStationCacheService stationCacheService = scope.ServiceProvider.GetRequiredService<IStationCacheService>();
             IStationHttpService stationHttpService = scope.ServiceProvider.GetRequiredService<IStationHttpService>();
+            IStationService stationService = scope.ServiceProvider.GetRequiredService<IStationService>();
 
             StationContract stationContract = await stationHttpService.FetchAsync();
             
-            await stationService.SaveStationsAsync(stationContract);
+            await stationCacheService.SaveStationsAsync(stationContract);
+
+            await SendUpdateMessageAsync(WebSocketTopics.StationsUpdate, DateTime.UtcNow);
+
+            if (_canUpdateDatabase)
+            {
+                await stationService.SaveAsync(stationContract);
+            }
 
             _logger.LogInformation($"Stations have been updated. It took {sw.ElapsedMilliseconds} ms");
 
-            await SendUpdateMessageAsync(WebSocketTopics.StationsUpdate, DateTime.UtcNow);
         }
 
         private async Task SendUpdateMessageAsync(WebSocketTopics topic, DateTime date)

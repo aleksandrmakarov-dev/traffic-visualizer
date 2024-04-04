@@ -41,18 +41,15 @@ namespace TukkoTrafficVisualizer.API.Controllers
                     }
                 });
 
-                _logger.LogInformation($"New connection: {key} {DateTime.UtcNow}");
+                _logger.LogInformation($"New connection: {key} - {DateTime.UtcNow}");
 
-                while (ws.State == WebSocketState.Open)
-                {
 
-                }
+                var socketFinishedTcs = new TaskCompletionSource<object>();
 
-                await _socketManagerService.RemoveSocketAsync(key);
+                await socketFinishedTcs.Task;
 
-                //var socketFinishedTcs = new TaskCompletionSource<object>();
+                _logger.LogInformation($"Connection closed {key} - {DateTime.UtcNow}");
 
-                //await socketFinishedTcs.Task;
             }
             else
             {
@@ -74,6 +71,12 @@ namespace TukkoTrafficVisualizer.API.Controllers
             });
 
             return Ok(new {message = msg});
+        }
+
+        [HttpGet("clients")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _socketManagerService.GetWebSocketsAsync());
         }
     }
 }

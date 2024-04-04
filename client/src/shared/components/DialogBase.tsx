@@ -41,7 +41,10 @@ export function DialogBase(props: DialogBaseProps) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent
+          className={className}
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {description && (

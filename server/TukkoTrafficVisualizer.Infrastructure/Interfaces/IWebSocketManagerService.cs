@@ -5,6 +5,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Interfaces
 {
     public interface IWebSocketManagerService
     {
+        Task<IEnumerable<string>> GetWebSocketsAsync();
         Task SendAsync(WebSocketMessage message);
         Task SendAsync(string key, WebSocketMessage message);
         string AddSocket(WebSocket socket);

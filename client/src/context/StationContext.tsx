@@ -6,6 +6,8 @@ import { Station } from "@/lib/contracts/station/station";
 import i18next from "i18next";
 import { useSensors } from "@/entities/sensor";
 import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { stationKeys } from "@/entities/station";
 
 export interface AppContext {
   zoom: number;
@@ -44,6 +46,9 @@ const Provider: React.FC<Props> = ({
   children: React.ReactNode;
 }): JSX.Element => {
   // application language
+
+  const queryClient = useQueryClient();
+
   const [language, setLanguage] = useState(i18next.language);
 
   // data updation date time
@@ -85,11 +90,15 @@ const Provider: React.FC<Props> = ({
 
     if (topic === updateTopics.stationsUpdate) {
       setStationsUpdateAt(Number(payload));
+
+      queryClient.invalidateQueries();
     } else if (topic === updateTopics.sensorsUpdate) {
       setSensorsUpdateAt(Number(payload));
     } else if (topic === updateTopics.roadworksUpdate) {
       setRoadworksUpdateAt(Number(payload));
     }
+
+    console.log(lastMessage);
   }, [lastMessage]);
 
   return (

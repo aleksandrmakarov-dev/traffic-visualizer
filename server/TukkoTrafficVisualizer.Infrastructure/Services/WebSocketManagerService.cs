@@ -21,6 +21,11 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
             _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         }
 
+        public async Task<IEnumerable<string>> GetWebSocketsAsync()
+        {
+            return await  Task.FromResult(_sockets.Keys.ToList());
+        }
+
         public async Task SendAsync(WebSocketMessage message)
         {
             string json = JsonSerializer.Serialize(message);
@@ -36,6 +41,12 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
             WebSocket? ws = GetByKey(key);
 
             if (ws == null) return;
+
+            if (ws.State != WebSocketState.Open)
+            {
+                _sockets.Remove(key, out _);
+                return;
+            }
 
             await SendMessageAsync(ws, message);
         }
@@ -73,11 +84,6 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 
         private async Task SendMessageAsync(WebSocket ws, WebSocketMessage message)
         {
-            if (ws.State == WebSocketState.Closed)
-            {
-                return;
-            }
-
             string serializedMessage = JsonSerializer.Serialize(message, _jsonSerializerOptions);
             byte[] encodedMessage = Encoding.UTF8.GetBytes(serializedMessage);
 

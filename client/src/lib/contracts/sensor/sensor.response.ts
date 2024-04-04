@@ -3,9 +3,7 @@ export type SensorResponse = {
   sensorId: string;
   stationId: string;
   name: string;
-  timeWindowStart: string | null;
-  timeWindowEnd: string | null;
-  measuredTime: string | null;
+  measuredTime: string;
   unit: string;
   value: number;
 };

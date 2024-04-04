@@ -10,14 +10,23 @@ namespace TukkoTrafficVisualizer.Database.Repositories
         {
         }
 
-        public async Task<Station> UpdateByStationIdAsync(Station station, ReplaceOptions options)
+        public async Task UpdateByIdAsync(Station station, ReplaceOptions options)
         {
-            var builder = new UpdateDefinitionBuilder<Station>()
-                .Set(s => s.Name, station.Name);
 
             await Collection.ReplaceOneAsync(s=>s.StationId == station.StationId, station,options);
+        }
 
-            return station;
+        public override async Task<Station?> GetByIdAsync(string id)
+        {
+            var aggr = Collection.Aggregate()
+                .Match(e=>e.StationId == id)
+                .Lookup<Station, Station>(
+                    foreignCollectionName:nameof(Sensor),
+                    localField:nameof(Station.StationId),
+                    foreignField:nameof(Sensor.StationId),
+                    @as:nameof(Station.Sensors)
+                );
+            return await aggr.FirstOrDefaultAsync();
         }
     }
 }

@@ -12,15 +12,17 @@ namespace TukkoTrafficVisualizer.API.Common
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ILocationService, HttpLocationService>();
             services.AddScoped<IRoadworkCacheService, RoadworkCacheService>();
             services.AddScoped<ISensorCacheService, SensorCacheService>();
             services.AddScoped<IStationCacheService, StationCacheService>();
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IStationService, StationService>();
 
+            services.AddScoped<IStationService, StationService>();
+            services.AddScoped<ISensorService, SensorService>();
+
+            services.AddScoped<ILocationService, HttpLocationService>();
             services.AddScoped<IMailingService, MockMailingService>();
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
@@ -30,6 +32,7 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddScoped<IStationHttpService, StationHttpService>();
             services.AddScoped<ISensorHttpService, SensorHttpService>();
             services.AddScoped<IRoadworkHttpService, RoadworkHttpService>();
+
 
             return services;
         }
@@ -48,6 +51,7 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddScoped<IUsersRepository,UsersRepository>();
             services.AddScoped<ISessionsRepository,SessionsRepository>();
             services.AddScoped<IStationRepository, StationRepository>();
+            services.AddScoped<ISensorRepository, SensorRepository>();
 
             return services;
         }

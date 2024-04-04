@@ -3,8 +3,8 @@ using TukkoTrafficVisualizer.Database.Entities;
 
 namespace TukkoTrafficVisualizer.Database.Interfaces
 {
-    public interface IStationRepository:IGenericRepository<Station>
+    public interface ISensorRepository:IGenericRepository<Sensor>
     {
-        Task UpdateByIdAsync(Station station, ReplaceOptions options);
+        Task UpdateBySensorIdAsync(Sensor sensor, ReplaceOptions options);
     }
 }

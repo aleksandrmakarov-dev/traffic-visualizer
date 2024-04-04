@@ -11,7 +11,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
         private readonly ISensorCacheRepository _sensorCacheRepository;
         private readonly int[] _fastExpireSensorIds = [5058, 5061, 5116, 5119, 5122, 5125, 5158, 5161, 5164, 5168];
         private readonly int[] _slowExpireSensorIds = [5054, 5055, 5056, 5057];
-        private readonly int[] _ignoreSensorIds = [5016, 5019, 5022, 5025, 5064, 5067, 5068, 5071, 5152,];
+        private readonly int[] _ignoreSensorIds = [5016, 5019, 5022, 5025, 5064, 5067, 5068, 5071, 5152];
 
         public SensorCacheService(ISensorCacheRepository sensorCacheRepository)
         {

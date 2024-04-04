@@ -13,7 +13,7 @@ import { StationHistoryDialog } from "..";
 
 export function StationDetails() {
   const { selectedStation, setSelectedStation, language } = useStationContext();
-  useTranslation(["tooltip", "roadworks", "sensors", "units"]);
+  useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
 
   const [selectedDirection, setSelectedDirection] =
     useState<StationDirectionValue | null>();
@@ -104,7 +104,7 @@ export function StationDetails() {
             <div className="p-5 border-t border-border">
               <h5 className="text-lg font-medium mb-1.5">History</h5>
               <StationHistoryDialog
-                stationId={selectedStation.id}
+                station={selectedStation}
                 trigger={
                   <Button className="w-full" variant="secondary">
                     Open History Data

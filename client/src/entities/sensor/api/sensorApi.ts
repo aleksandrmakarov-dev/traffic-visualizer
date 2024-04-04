@@ -64,8 +64,6 @@ export const useSensors = (
   >({
     queryKey: sensorKeys.sensors.query(request, lastUpdate),
     queryFn: async () => {
-      console.log("updating");
-
       return await fetchSensors(request);
     },
     ...options,

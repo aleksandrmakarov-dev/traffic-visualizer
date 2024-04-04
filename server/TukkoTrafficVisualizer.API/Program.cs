@@ -97,8 +97,7 @@ namespace TukkoTrafficVisualizer.API
             //Add Background services
 
             builder.Services.AddHostedService<IndexCreationBackgroundService>();
-            builder.Services.AddHostedService<ShortTimeBackgroundService>();
-            builder.Services.AddHostedService<LongTimeBackgroundService>();
+            builder.Services.AddHostedService<UpdateBackgroundService>();
 
             builder.Services.AddResponseCompression(options =>
             {
