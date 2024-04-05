@@ -23,7 +23,7 @@ export const roadworkKeys = {
 };
 
 async function fetchRoadworks(
-  request: RoadworkRequest
+  _request: RoadworkRequest
 ): Promise<RoadworkResponse[]> {
   const response = await axios.get<RoadworkResponse[]>(`/roadworks`);
   return response.data;

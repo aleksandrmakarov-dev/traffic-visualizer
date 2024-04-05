@@ -1,9 +1,9 @@
 import { authKeys } from "@/entities/auth/api";
-import { VerifyEmailRequest } from "@/lib/dto/auth/verify-email.request";
-import { ErrorResponse } from "@/lib/dto/common/error.response";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import axios from "@/lib/axios";
+import { ErrorResponse } from "@/lib/contracts/common/error.response";
+import { VerifyEmailRequest } from "@/lib/contracts/auth/verify-email.request";
 
 async function verifyEmail(request: VerifyEmailRequest) {
   await axios.post("/auth/verify-email", request);

@@ -3,7 +3,6 @@ import { useSignUpLocal } from "@/features/auth/sign-up";
 import { SignUpRequest } from "@/lib/contracts/auth/sign-up.request";
 import { CardContainer } from "@/shared/components/CardContainer";
 import { FormAlert } from "@/shared/components/FormAlert";
-import { Button } from "@/shared/components/ui/button";
 
 export function SignUpCard() {
   const { mutate, isError, error, isSuccess, isPending } = useSignUpLocal();

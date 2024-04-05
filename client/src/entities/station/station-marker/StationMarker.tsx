@@ -1,7 +1,7 @@
 import { useStationContext } from "@/context/StationContext";
 import { Station } from "@/lib/contracts/station/station";
 import { StationResponse } from "@/lib/contracts/station/station.response";
-import { capitalize, mapValueToColor } from "@/lib/utils";
+import { mapValueToColor } from "@/lib/utils";
 import L from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 

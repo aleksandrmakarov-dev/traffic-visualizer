@@ -6,7 +6,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 WORKDIR /src
 COPY ["TukkoTrafficVisualizer.API/TukkoTrafficVisualizer.API.csproj","TukkoTrafficVisualizer.API/"]
 COPY ["TukkoTrafficVisualizer.Infrastructure/TukkoTrafficVisualizer.Infrastructure.csproj", "TukkoTrafficVisualizer.Infrastructure/"]
-COPY ["TukkoTrafficVisualizer.Data/TukkoTrafficVisualizer.Data.csproj", "TukkoTrafficVisualizer.Data/"]
+COPY ["TukkoTrafficVisualizer.Database/TukkoTrafficVisualizer.Database.csproj", "TukkoTrafficVisualizer.Database/"]
+COPY ["TukkoTrafficVisualizer.Cache/TukkoTrafficVisualizer.Cache.csproj", "TukkoTrafficVisualizer.Cache/"]
+COPY ["TukkoTrafficVisualizer.Core/TukkoTrafficVisualizer.Core.csproj", "TukkoTrafficVisualizer.Core/"]
 
 RUN dotnet restore "TukkoTrafficVisualizer.API/TukkoTrafficVisualizer.API.csproj"
 COPY . .

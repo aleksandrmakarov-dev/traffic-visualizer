@@ -20,7 +20,6 @@ import {
   Drawer,
 } from "@/shared/components/ui/drawer";
 import { useMediaQuery } from "../hooks/useMediaQuery";
-import { cn } from "@/lib/utils";
 
 interface DialogBaseProps {
   title: string;
