@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Redis.OM;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
+using TukkoTrafficVisualizer.API.Hubs;
 using TukkoTrafficVisualizer.API.Middlewares;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Services;
@@ -105,6 +106,8 @@ namespace TukkoTrafficVisualizer.API
                 options.Providers.Add<GzipCompressionProvider>();
             });
 
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             app.UseSwagger();
@@ -120,6 +123,8 @@ namespace TukkoTrafficVisualizer.API
             {
                 KeepAliveInterval = TimeSpan.FromMinutes(2)
             };
+
+            app.MapHub<NotificationHub>("api/Notifications");
 
             app.UseWebSockets(webSocketOptions);
 

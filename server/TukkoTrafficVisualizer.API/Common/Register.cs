@@ -27,7 +27,6 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
             services.AddSingleton<IJwtService, JwtService>();
-            services.AddSingleton<IWebSocketManagerService, WebSocketManagerService>();
 
             services.AddScoped<IStationHttpService, StationHttpService>();
             services.AddScoped<ISensorHttpService, SensorHttpService>();

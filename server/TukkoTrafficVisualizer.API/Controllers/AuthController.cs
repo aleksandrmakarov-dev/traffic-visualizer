@@ -127,7 +127,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
                 $"{_applicationOptions.ClientBaseUrl}/auth/verify-email?email={emailVerification.Email}&token={emailVerification.EmailVerificationToken}";
 
             await _mailingService.SendAsync(emailVerification.Email,
-                "SHRT.COM: Verify you account with", $"Verify your account: {verificationUrl}");
+                "Tukko.com: Verify you account with", $"Verify your account: {verificationUrl}");
 
             MessageResponse response = new MessageResponse
             {

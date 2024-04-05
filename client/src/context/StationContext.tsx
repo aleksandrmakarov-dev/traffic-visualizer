@@ -7,7 +7,6 @@ import i18next from "i18next";
 import { useSensors } from "@/entities/sensor";
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { stationKeys } from "@/entities/station";
 
 export interface AppContext {
   zoom: number;

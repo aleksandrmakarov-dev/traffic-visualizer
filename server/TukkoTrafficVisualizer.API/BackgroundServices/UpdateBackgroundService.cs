@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using TukkoTrafficVisualizer.API.Common;
+using Microsoft.AspNetCore.SignalR;
+using TukkoTrafficVisualizer.API.Hubs;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
-using TukkoTrafficVisualizer.Infrastructure.Models;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
 namespace TukkoTrafficVisualizer.API.BackgroundServices
@@ -16,13 +16,11 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
         private readonly ILogger<UpdateBackgroundService> _logger;
         private readonly IServiceScopeFactory _scopeFactory;
-        private readonly IWebSocketManagerService _websocketManagerService;
 
-        public UpdateBackgroundService(ILogger<UpdateBackgroundService> logger, IServiceScopeFactory scopeFactory, IWebSocketManagerService websocketManagerService)
+        public UpdateBackgroundService(ILogger<UpdateBackgroundService> logger, IServiceScopeFactory scopeFactory)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
-            _websocketManagerService = websocketManagerService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -66,6 +64,8 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
             IRoadworkCacheService roadworkService = scope.ServiceProvider.GetRequiredService<IRoadworkCacheService>();
             IRoadworkHttpService roadworkHttpService = scope.ServiceProvider.GetRequiredService<IRoadworkHttpService>();
+            IHubContext<NotificationHub> notification =
+                scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
             
             RoadworkContract roadworkContract = await roadworkHttpService.FetchAsync();
 
@@ -73,7 +73,7 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
             _logger.LogInformation($"Roadworks have been updated. It took {sw.ElapsedMilliseconds} ms");
 
-            await SendUpdateMessageAsync(WebSocketTopics.RoadworksUpdate, DateTime.UtcNow);
+            await notification.Clients.All.SendAsync("RoadworksUpdate", new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds());
         }
 
         private async Task UpdateSensorsAsync(AsyncServiceScope scope, Stopwatch sw)
@@ -83,12 +83,14 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
             ISensorCacheService sensorCacheService = scope.ServiceProvider.GetRequiredService<ISensorCacheService>();
             ISensorHttpService sensorHttpService = scope.ServiceProvider.GetRequiredService<ISensorHttpService>();
             ISensorService sensorService = scope.ServiceProvider.GetRequiredService<ISensorService>();
+            IHubContext<NotificationHub> notification =
+                scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
 
             SensorContract sensorContract = await sensorHttpService.FetchAsync();
 
             await sensorCacheService.SaveSensorsAsync(sensorContract);
 
-            await SendUpdateMessageAsync(WebSocketTopics.SensorsUpdate, DateTime.UtcNow);
+            await notification.Clients.All.SendAsync("SensorsUpdate", new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds());
 
             if (_canUpdateDatabase)
             {
@@ -106,12 +108,14 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
             IStationCacheService stationCacheService = scope.ServiceProvider.GetRequiredService<IStationCacheService>();
             IStationHttpService stationHttpService = scope.ServiceProvider.GetRequiredService<IStationHttpService>();
             IStationService stationService = scope.ServiceProvider.GetRequiredService<IStationService>();
+            IHubContext<NotificationHub> notification =
+                scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
 
             StationContract stationContract = await stationHttpService.FetchAsync();
             
             await stationCacheService.SaveStationsAsync(stationContract);
 
-            await SendUpdateMessageAsync(WebSocketTopics.StationsUpdate, DateTime.UtcNow);
+            await notification.Clients.All.SendAsync("StationsUpdate", new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds());
 
             if (_canUpdateDatabase)
             {
@@ -120,19 +124,6 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
             _logger.LogInformation($"Stations have been updated. It took {sw.ElapsedMilliseconds} ms");
 
-        }
-
-        private async Task SendUpdateMessageAsync(WebSocketTopics topic, DateTime date)
-        {
-            await _websocketManagerService.SendAsync(new WebSocketMessage
-            {
-                MessageType = MessageType.Text,
-                Data = new WebSocketMessageData
-                {
-                    Topic = topic.ToString(),
-                    Payload = new DateTimeOffset(date).ToUnixTimeSeconds().ToString()
-                }
-            });
         }
     }
 }
