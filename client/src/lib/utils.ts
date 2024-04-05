@@ -50,12 +50,10 @@ export function capitalize(value: string) {
 export function getZoom(placeCategory: string) {
   let zoom = 12;
 
-  if (placeCategory === "highway") {
-    zoom = 17;
-  } else if (placeCategory === "boundary") {
+  if (placeCategory === "boundary") {
     zoom = 14;
   } else {
-    zoom = 20;
+    zoom = 17;
   }
 
   return zoom;
