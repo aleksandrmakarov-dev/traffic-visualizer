@@ -10,7 +10,7 @@ import { CartesianGrid, XAxis } from "recharts";
 import { LineChart, ResponsiveContainer } from "recharts";
 import moment from "moment";
 import { StationResponse } from "@/lib/contracts/station/station.response";
-import { useStationContext } from "@/context/StationContext";
+import { useStationContext } from "@/context/StationProvider";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useTranslation } from "react-i18next";

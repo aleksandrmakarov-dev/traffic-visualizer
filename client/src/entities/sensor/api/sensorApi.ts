@@ -53,7 +53,6 @@ type UseSensorsOptions = Omit<UseSensorsQuery, "queryKey" | "queryFn">;
 
 export const useSensors = (
   request: SensorRequest,
-  lastUpdate?: number,
   options?: UseSensorsOptions
 ) => {
   return useQuery<
@@ -62,7 +61,7 @@ export const useSensors = (
     SensorResponse[],
     unknown[]
   >({
-    queryKey: sensorKeys.sensors.query(request, lastUpdate),
+    queryKey: sensorKeys.sensors.query(request),
     queryFn: async () => {
       return await fetchSensors(request);
     },

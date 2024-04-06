@@ -2,7 +2,6 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "@/lib/contracts/common/error.response";
 import axios from "@/lib/axios";
-import { StationRequest } from "@/lib/contracts/station/station.request";
 import { StationResponse } from "@/lib/contracts/station/station.response";
 import { StationHistoryRequest } from "@/lib/contracts/station/station-history.request";
 import { StationHistoryResponse } from "@/lib/contracts/station/station-history.response";
@@ -24,24 +23,32 @@ export const stationKeys = {
   },
 };
 
-async function fetchStations(
-  _request: StationRequest
-): Promise<StationResponse[]> {
+type UseStationsQuery = UseQueryOptions<
+  StationResponse[],
+  AxiosError<ErrorResponse>,
+  StationResponse[],
+  unknown[]
+>;
+
+type UseStationsOptions = Omit<UseStationsQuery, "queryKey" | "queryFn">;
+
+async function fetchStations(): Promise<StationResponse[]> {
   const response = await axios.get<StationResponse[]>(`/stations`);
   return response.data;
 }
 
-export const useStations = (request: StationRequest, lastUpdate?: number) => {
+export const useStations = (options?: UseStationsOptions) => {
   return useQuery<
     StationResponse[],
     AxiosError<ErrorResponse>,
     StationResponse[],
     unknown[]
   >({
-    queryKey: stationKeys.stations.query(request, lastUpdate),
+    queryKey: stationKeys.stations.query(),
     queryFn: async () => {
-      return await fetchStations(request);
+      return await fetchStations();
     },
+    ...options,
   });
 };
 

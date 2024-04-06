@@ -10,4 +10,11 @@
         SensorsUpdate,
         RoadworksUpdate,
     }
+
+    public enum SignalRMethods
+    {
+        ConnectionOpen,
+        ConnectionClose,
+        Message
+    }
 }

@@ -1,51 +1,35 @@
-import { useEffect, useState } from "react";
-import { useRoadworks } from "@/entities/roadwork";
-import { useStationContext } from "@/context/StationContext";
-import { getStationRoadworks } from "../scripts/getStationRoadworks";
-import { useSensors } from "@/entities/sensor";
-import { StationMarker, useStations } from "@/entities/station";
-import { Station } from "@/lib/contracts/station/station";
+import { StationMarker } from "@/entities/station";
+import { useStationContext } from "@/context/StationProvider";
 
-// sensors that contains information about left and right road side
-const sensorIds: string[] = ["5158", "5161"];
+export function MarkerList() {
+  const { stations } = useStationContext();
 
-export function MarkerList(): JSX.Element | null {
-  const {
-    roadworksUpdatedAt,
-    sensorsUpdatedAt,
-    stationsUpdatedAt,
-    selectedStation,
-  } = useStationContext();
+  // useEffect(() => {
+  //   const mappedStations = stations?.map((station): Station => {
+  //     const stationSensors = sensors?.filter((s) => s.stationId == station.id);
 
-  const { data: roadworks } = useRoadworks({}, roadworksUpdatedAt);
-  const { data: sensors } = useSensors({ ids: sensorIds }, sensorsUpdatedAt);
-  const { data: stations } = useStations({}, stationsUpdatedAt);
+  //     const stationRoadworks: RoadworkResponse[] = getStationRoadworks(
+  //       station,
+  //       roadworks ?? []
+  //     );
 
-  const [data, setData] = useState<Station[] | undefined>();
+  //     return {
+  //       ...station,
+  //       sensors: stationSensors,
+  //       roadworks: stationRoadworks,
+  //     };
+  //   });
 
-  useEffect(() => {
-    const mappedStations = stations?.map((station): Station => {
-      const stationSensors = sensors?.filter((s) => s.stationId == station.id);
-
-      const stationRoadworks = getStationRoadworks(station, roadworks);
-
-      return {
-        ...station,
-        sensors: stationSensors,
-        roadworks: stationRoadworks,
-      };
-    });
-
-    setData(mappedStations);
-  }, [stations, roadworks, sensors]);
+  //   setData(mappedStations);
+  // }, [stations, roadworks, sensors]);
 
   return (
     <div>
-      {data?.map((s) => (
+      {stations.map((s) => (
         <StationMarker
           key={`station-marker-${s.id}`}
           station={s}
-          isSelected={selectedStation?.id === s.id}
+          isSelected={false}
         />
       ))}
     </div>

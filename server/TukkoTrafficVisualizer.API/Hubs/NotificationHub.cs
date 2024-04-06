@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using TukkoTrafficVisualizer.API.Common;
 
 namespace TukkoTrafficVisualizer.API.Hubs
 {
@@ -17,17 +18,15 @@ namespace TukkoTrafficVisualizer.API.Hubs
 
             _logger.LogInformation($"New client connected {Context.ConnectionId}");
 
-            await Clients.Caller.SendAsync("ConnectionOpen", $"Connected {Context.ConnectionId} {DateTime.UtcNow}");
+            await Clients.Caller.SendAsync(SignalRMethods.ConnectionOpen.ToString(), $"Connected {Context.ConnectionId} {DateTime.UtcNow}");
 
-            await Clients.Others.SendAsync("ClientJoined",
-                $"New client joined {Context.ConnectionId}, {DateTime.UtcNow}");
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             await base.OnDisconnectedAsync(exception);
 
-            await Clients.Others.SendAsync("ClientDisconnected",
+            await Clients.Caller.SendAsync(SignalRMethods.ConnectionClose.ToString(),
                 $"Disconnected {Context.ConnectionId} {DateTime.UtcNow}");
         }
     }

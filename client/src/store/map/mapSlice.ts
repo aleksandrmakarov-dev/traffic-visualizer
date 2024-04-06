@@ -7,7 +7,7 @@ interface MapState {
 }
 
 const initialState: MapState = {
-  center: [0, 0],
+  center: [60.2, 24.9],
   zoom: 12,
 };
 
@@ -15,15 +15,15 @@ const mapSlice = createSlice({
   name: "map",
   initialState: initialState,
   reducers: {
-    setCenter: (state, action: PayloadAction<LatLngExpression>) => {
+    changeCenter: (state, action: PayloadAction<LatLngExpression>) => {
       state.center = action.payload;
     },
-    setZoom: (state, action: PayloadAction<number>) => {
+    changeZoom: (state, action: PayloadAction<number>) => {
       state.zoom = action.payload;
     },
   },
 });
 
-export const { setCenter, setZoom } = mapSlice.actions;
+export const { changeCenter, changeZoom } = mapSlice.actions;
 
 export default mapSlice.reducer;

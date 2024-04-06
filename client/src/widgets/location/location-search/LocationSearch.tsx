@@ -1,4 +1,3 @@
-import { useStationContext } from "@/context/StationContext";
 import { LocationSearchForm, useSearchLocation } from "@/entities/location";
 import { LocationRequest } from "@/lib/contracts/location/location.request";
 import { LocationResponse } from "@/lib/contracts/location/location.response";
@@ -9,7 +8,7 @@ import { HTMLAttributes, useState } from "react";
 interface LocationSearchProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function LocationSearch({ className, ...other }: LocationSearchProps) {
-  const { setCenter, setZoom } = useStationContext();
+  // const { setCenter, setZoom } = useMap();
   const [query, setQuery] = useState<string>();
   const [selectedId, setSelectedId] = useState<number>(-1);
 
@@ -27,8 +26,8 @@ export function LocationSearch({ className, ...other }: LocationSearchProps) {
 
   const onClick = (values: LocationResponse) => {
     setSelectedId(values.place_id);
-    setZoom(getZoom(values.category));
-    setCenter([values.lat, values.lon]);
+    // setZoom(getZoom(values.category));
+    // setCenter([values.lat, values.lon]);
   };
 
   return (

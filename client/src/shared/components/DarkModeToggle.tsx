@@ -1,6 +1,6 @@
+import { useThemeContext } from "@/context/ThemeProvider";
 import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/shared/hooks/useTheme";
 
 interface DarkModeToggleProps {
   className?: string;
@@ -16,7 +16,7 @@ interface DarkModeToggleProps {
 }
 
 export const DarkModeToggle = ({ variant, className }: DarkModeToggleProps) => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useThemeContext();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");

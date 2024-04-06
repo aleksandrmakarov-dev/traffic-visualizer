@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "@/lib/contracts/common/error.response";
 import axios from "@/lib/axios";
-import { RoadworkRequest } from "@/lib/contracts/roadwork/roadwork.request";
 import { RoadworkResponse } from "@/lib/contracts/roadwork/roadwork.response";
 
 export const roadworkKeys = {
@@ -22,23 +21,31 @@ export const roadworkKeys = {
   },
 };
 
-async function fetchRoadworks(
-  _request: RoadworkRequest
-): Promise<RoadworkResponse[]> {
+type UseRoadworksQuery = UseQueryOptions<
+  RoadworkResponse[],
+  AxiosError<ErrorResponse>,
+  RoadworkResponse[],
+  unknown[]
+>;
+
+type UseRoadworksOptions = Omit<UseRoadworksQuery, "queryKey" | "queryFn">;
+
+async function fetchRoadworks(): Promise<RoadworkResponse[]> {
   const response = await axios.get<RoadworkResponse[]>(`/roadworks`);
   return response.data;
 }
 
-export const useRoadworks = (request: RoadworkRequest, lastUpdate?: number) => {
+export const useRoadworks = (options?: UseRoadworksOptions) => {
   return useQuery<
     RoadworkResponse[],
     AxiosError<ErrorResponse>,
     RoadworkResponse[],
     unknown[]
   >({
-    queryKey: roadworkKeys.roadworks.query(request, lastUpdate),
+    queryKey: roadworkKeys.roadworks.query(),
     queryFn: async () => {
-      return await fetchRoadworks(request);
+      return await fetchRoadworks();
     },
+    ...options,
   });
 };

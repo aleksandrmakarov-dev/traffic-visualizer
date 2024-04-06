@@ -1,4 +1,4 @@
-import { useStationContext } from "@/context/StationContext";
+import { useStationContext } from "@/context/StationProvider";
 import { StationDirection } from "@/entities/station";
 import {
   Station,

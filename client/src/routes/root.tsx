@@ -3,30 +3,28 @@ import { Map } from "leaflet";
 import "./leaflet.css";
 import "./root.css";
 import { Fragment, Suspense, useEffect, useRef } from "react";
-import { useStationContext } from "@/context/StationContext";
-
 import Geoman from "./components/Geoman";
 import { MapLayers } from "./components/MapLayers";
 
 export default function Root(): JSX.Element {
-  const { center, zoom, language } = useStationContext();
+  // const { language } = useStationContext();
   const mapRef = useRef<Map | null>(null);
 
-  useEffect(() => {
-    if (!!center) {
-      mapRef.current?.setView(center, zoom);
-    }
-  }, [center]);
+  // useEffect(() => {
+  //   if (!mapRef.current) return;
 
-  useEffect(() => {
-    const lang = language === "fi" ? "fi" : "en";
-    mapRef.current?.pm.setLang(lang);
-  }, [language]);
+  // //   mapRef.current.setView(center, zoom);
+  // // }, [center]);
+
+  // useEffect(() => {
+  //   const lang = language === "fi" ? "fi" : "en";
+  //   mapRef.current?.pm.setLang(lang);
+  // }, [language]);
 
   return (
     <Fragment>
       <MapContainer
-        center={[60.2, 24.9]}
+        center={[60, 24]}
         maxBoundsViscosity={0.9}
         zoomDelta={1}
         zoom={12}
