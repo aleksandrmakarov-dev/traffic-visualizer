@@ -2,19 +2,20 @@ import ReactDOM from "react-dom/client";
 import QueryProvider from "@/context/QueryProvider";
 import "./index.css";
 import "./i18n.js";
-import Provider from "@/context/StationContext";
+import StationProvider from "@/context/StationContext";
 import SessionProvider from "@/context/SessionProvider";
 import RouterProvider from "@/context/RouterProvider";
-import { TooltipProvider } from "./shared/components/ui/tooltip.js";
+import { Provider } from "react-redux";
+import { store } from "./store/store.ts";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <QueryProvider>
-    <SessionProvider>
-      <TooltipProvider>
-        <Provider>
+  <Provider store={store}>
+    <QueryProvider>
+      <SessionProvider>
+        <StationProvider>
           <RouterProvider />
-        </Provider>
-      </TooltipProvider>
-    </SessionProvider>
-  </QueryProvider>
+        </StationProvider>
+      </SessionProvider>
+    </QueryProvider>
+  </Provider>
 );

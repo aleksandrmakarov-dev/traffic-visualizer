@@ -1,12 +1,10 @@
 import { LatLngExpression } from "leaflet";
-import { Dispatch, SetStateAction, useState } from "react";
-import { updateTopics } from "@/lib/constants";
-import { useNotificationSubWebSocket } from "@/features/notification/sub";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Station } from "@/lib/contracts/station/station";
 import i18next from "i18next";
 import { useSensors } from "@/entities/sensor";
 import React from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 export interface AppContext {
   zoom: number;
@@ -44,14 +42,8 @@ const Provider: React.FC<Props> = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  // application language
-
-  const queryClient = useQueryClient();
-
   const [language, setLanguage] = useState(i18next.language);
 
-  // data updation date time
-  const { lastMessage } = useNotificationSubWebSocket();
   const [stationsUpdatedAt, setStationsUpdateAt] = useState<number>();
   const [roadworksUpdatedAt, setRoadworksUpdateAt] = useState<number>();
   const [sensorsUpdatedAt, setSensorsUpdateAt] = useState<number>();
@@ -68,10 +60,40 @@ const Provider: React.FC<Props> = ({
   );
 
   // map center
-  const [center, setCenter] = React.useState<LatLngExpression | null>(null);
-  const [zoom, setZoom] = React.useState<number>(12);
+  const [center, setCenter] = useState<LatLngExpression | null>(null);
+  const [zoom, setZoom] = useState<number>(12);
 
-  React.useEffect(() => {
+  //connection
+
+  useEffect(() => {
+    const conn = new HubConnectionBuilder()
+      .withUrl(`${import.meta.env.VITE_BACKEND_BASE_URL}/notifications`)
+      .build();
+
+    conn.on("ConnectionOpen", (msg) => {
+      console.log("Connection:", msg);
+    });
+
+    conn.on("ClientJoined", (msg) => {
+      console.log("ClientJoin:", msg);
+    });
+
+    conn.on("ClientDisconnected", (msg) => {
+      console.log("ClientDisconnect", msg);
+    });
+
+    conn.on("Notification", (msg) => {
+      console.log("Notification", msg);
+    });
+
+    conn.start().then(() => console.log("start"));
+
+    return () => {
+      conn.stop();
+    };
+  }, []);
+
+  useEffect(() => {
     if (selectedStation) {
       const stationWithSensors: Station = {
         ...selectedStation,
@@ -82,23 +104,23 @@ const Provider: React.FC<Props> = ({
     }
   }, [selectedStationSensors]);
 
-  React.useEffect(() => {
-    if (!lastMessage) return;
+  // useEffect(() => {
+  //   if (!lastMessage) return;
 
-    const { topic, payload } = lastMessage.data;
+  //   const { topic, payload } = lastMessage.data;
 
-    if (topic === updateTopics.stationsUpdate) {
-      setStationsUpdateAt(Number(payload));
+  //   if (topic === updateTopics.stationsUpdate) {
+  //     setStationsUpdateAt(Number(payload));
 
-      queryClient.invalidateQueries();
-    } else if (topic === updateTopics.sensorsUpdate) {
-      setSensorsUpdateAt(Number(payload));
-    } else if (topic === updateTopics.roadworksUpdate) {
-      setRoadworksUpdateAt(Number(payload));
-    }
+  //     queryClient.invalidateQueries();
+  //   } else if (topic === updateTopics.sensorsUpdate) {
+  //     setSensorsUpdateAt(Number(payload));
+  //   } else if (topic === updateTopics.roadworksUpdate) {
+  //     setRoadworksUpdateAt(Number(payload));
+  //   }
 
-    console.log(lastMessage);
-  }, [lastMessage]);
+  //   console.log(lastMessage);
+  // }, [lastMessage]);
 
   return (
     <StationContext.Provider

@@ -12,7 +12,10 @@ export function CardContainer({
 }: CardContainerProps) {
   return (
     <div
-      className={cn("border border-border bg-white rounded-md p-5", className)}
+      className={cn(
+        "border border-border bg-white rounded-md p-5 dark:bg-gray-900",
+        className
+      )}
       {...other}
     >
       {children}

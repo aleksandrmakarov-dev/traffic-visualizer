@@ -124,7 +124,7 @@ namespace TukkoTrafficVisualizer.API
                 KeepAliveInterval = TimeSpan.FromMinutes(2)
             };
 
-            app.MapHub<NotificationHub>("api/Notifications");
+            app.MapHub<NotificationHub>("api/notifications");
 
             app.UseWebSockets(webSocketOptions);
 

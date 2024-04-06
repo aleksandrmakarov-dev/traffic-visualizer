@@ -13,9 +13,22 @@ namespace TukkoTrafficVisualizer.API.Hubs
 
         public override async Task OnConnectedAsync()
         {
+            await base.OnConnectedAsync();
+
             _logger.LogInformation($"New client connected {Context.ConnectionId}");
 
-            await Clients.Caller.SendAsync("ConnectionOpen", $"Connected {DateTime.UtcNow}");
+            await Clients.Caller.SendAsync("ConnectionOpen", $"Connected {Context.ConnectionId} {DateTime.UtcNow}");
+
+            await Clients.Others.SendAsync("ClientJoined",
+                $"New client joined {Context.ConnectionId}, {DateTime.UtcNow}");
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            await base.OnDisconnectedAsync(exception);
+
+            await Clients.Others.SendAsync("ClientDisconnected",
+                $"Disconnected {Context.ConnectionId} {DateTime.UtcNow}");
         }
     }
 }

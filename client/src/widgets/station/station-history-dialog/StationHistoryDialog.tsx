@@ -12,9 +12,9 @@ import moment from "moment";
 import { StationResponse } from "@/lib/contracts/station/station.response";
 import { useStationContext } from "@/context/StationContext";
 import { Button } from "@/shared/components/ui/button";
-import { TextSearch } from "lucide-react";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
+import { TextSearch } from "lucide-react";
 
 interface StationHistoryDialogProps {
   trigger?: JSX.Element;
@@ -67,7 +67,6 @@ export function StationHistoryDialog({
 
   useEffect(() => {
     if (!data) {
-      setLines([]);
       return;
     }
 
@@ -98,8 +97,6 @@ export function StationHistoryDialog({
 
     setLines(sensors);
   }, [data]);
-
-  console.log(data?.sensors);
 
   return (
     <DialogBase

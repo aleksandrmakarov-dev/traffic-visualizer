@@ -1,32 +1,35 @@
-import { useState, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
 import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/shared/hooks/useTheme";
 
-export const DarkModeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+interface DarkModeToggleProps {
+  className?: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null
+    | undefined;
+}
 
-  // Adds/removes css class "dark" from body element when isDark updates
-  useEffect(() => {
-    if (isDark) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-  }, [isDark]);
+export const DarkModeToggle = ({ variant, className }: DarkModeToggleProps) => {
+  const { theme, setTheme } = useTheme();
 
-  // Checks users system color scheme preference
-  useMediaQuery(
-    {
-      query: "(prefers-color-scheme: dark)",
-    },
-    undefined,
-    (isSystemDark) => setIsDark(isSystemDark)
-  );
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
-    <Button size="icon" variant="secondary" onClick={() => setIsDark(!isDark)}>
-      {isDark ? <Moon /> : <Sun />}
+    <Button
+      className={className}
+      size="icon"
+      variant={variant ?? "secondary"}
+      onClick={toggleTheme}
+    >
+      {theme === "dark" ? <Moon /> : <Sun />}
     </Button>
   );
 };

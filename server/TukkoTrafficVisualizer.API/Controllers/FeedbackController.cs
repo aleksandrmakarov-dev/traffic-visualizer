@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using TukkoTrafficVisualizer.API.Hubs;
 using TukkoTrafficVisualizer.Infrastructure.Models.Requests;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
@@ -9,10 +11,12 @@ namespace TukkoTrafficVisualizer.API.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly ILogger<FeedbackController> _logger;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public FeedbackController(ILogger<FeedbackController> logger)
+        public FeedbackController(ILogger<FeedbackController> logger, IHubContext<NotificationHub> hubContext)
         {
             _logger = logger;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -28,6 +32,13 @@ namespace TukkoTrafficVisualizer.API.Controllers
                 Title = "We received your feedback",
                 Message = "Thank you for your feedback. We will carefully look through it"
             });
+        }
+
+        [HttpPost("send")]
+        public async Task<IActionResult> Post([FromBody] string data)
+        {
+            await _hubContext.Clients.All.SendAsync("Notification", data);
+            return Ok();
         }
     }
 }
