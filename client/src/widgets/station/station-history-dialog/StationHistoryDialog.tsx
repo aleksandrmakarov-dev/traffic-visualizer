@@ -15,6 +15,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
 import { TextSearch } from "lucide-react";
 import { useThemeContext } from "@/context/ThemeProvider";
+import { lineColors } from "@/lib/constants";
 
 interface StationHistoryDialogProps {
   trigger?: JSX.Element;

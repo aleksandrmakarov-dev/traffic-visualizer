@@ -1,4 +1,4 @@
-const lineColors = [
+export const lineColors = [
   "#1f77b4", // Blue
   "#ff7f0e", // Orange
   "#2ca02c", // Green
