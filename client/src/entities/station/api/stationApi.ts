@@ -15,11 +15,14 @@ export const stationKeys = {
       "query",
       ...params,
     ],
+    favorite: () => [...stationKeys.stations.root, "favorite"],
   },
   mutations: {
     create: () => [...stationKeys.stations.root, "create"],
     update: () => [...stationKeys.stations.root, "update"],
     delete: () => [...stationKeys.stations.root, "delete"],
+    favorite: () => [...stationKeys.stations.root, "favorite"],
+    unfavorite: () => [...stationKeys.stations.root, "unfavorite"],
   },
 };
 
@@ -86,6 +89,33 @@ export const useStationsHistoryById = (
     queryKey: stationKeys.stations.query(request),
     queryFn: async () => {
       return await fetchStationHistoryById(request);
+    },
+    ...options,
+  });
+};
+
+type UseFavoriteStationsQuery = UseQueryOptions<
+  string[],
+  AxiosError<ErrorResponse>,
+  string[],
+  unknown[]
+>;
+
+type UseFavoriteStationsOptions = Omit<
+  UseFavoriteStationsQuery,
+  "queryKey" | "queryFn"
+>;
+
+async function fetchFavoriteStations(): Promise<string[]> {
+  const response = await axios.get<string[]>(`/stations/favorite`);
+  return response.data;
+}
+
+export const useFavoriteStations = (options?: UseFavoriteStationsOptions) => {
+  return useQuery<string[], AxiosError<ErrorResponse>, string[], unknown[]>({
+    queryKey: stationKeys.stations.favorite(),
+    queryFn: async () => {
+      return await fetchFavoriteStations();
     },
     ...options,
   });

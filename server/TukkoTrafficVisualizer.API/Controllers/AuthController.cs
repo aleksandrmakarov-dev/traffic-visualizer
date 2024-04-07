@@ -35,7 +35,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
                 $"{_applicationOptions.ClientBaseUrl}/auth/verify-email?email={emailVerification.Email}&token={emailVerification.EmailVerificationToken}";
 
             await _mailingService.SendAsync(emailVerification.Email,
-                "SHRT.COM: Verify you account", $"Verify your account: {verificationUrl}");
+                "Tukko.con: Verify you account", $"Verify your account: {verificationUrl}");
 
             // message that user is created and needs to be verified
             MessageResponse response =  new MessageResponse

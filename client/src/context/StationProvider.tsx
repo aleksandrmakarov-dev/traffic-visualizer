@@ -1,6 +1,8 @@
 import { Station } from "@/lib/contracts/station/station";
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useCallback,
   useContext,
@@ -8,18 +10,25 @@ import {
   useState,
 } from "react";
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { useStations } from "@/entities/station";
+import { useFavoriteStations, useStations } from "@/entities/station";
 import { useRoadworks } from "@/entities/roadwork";
 import { useSensors } from "@/entities/sensor";
 import _ from "lodash";
+import { useSession } from "./SessionProvider";
 
 interface StationContextState {
   stations: Station[];
+  favoriteStations: string[] | null;
+  selected: Station | null;
+  setSelected: Dispatch<SetStateAction<Station | null>>;
   lastUpdate: Date | null;
 }
 
 const initialState: StationContextState = {
   stations: [],
+  favoriteStations: null,
+  selected: null,
+  setSelected: () => {},
   lastUpdate: null,
 };
 
@@ -32,6 +41,7 @@ const methods = {
 const StationContext = createContext<StationContextState>(initialState);
 
 export default function StationProvider({ children }: { children: ReactNode }) {
+  const { session } = useSession();
   const {
     data: roadworkData,
     isLoading: isRoadworksLoading,
@@ -59,7 +69,14 @@ export default function StationProvider({ children }: { children: ReactNode }) {
     enabled: false,
   });
 
+  const { data: favoriteStations } = useFavoriteStations({
+    enabled: !!session,
+  });
+
   const [stations, setStations] = useState<Station[]>([]);
+
+  const [selected, setSelected] = useState<Station | null>(null);
+
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
   const refetchData = useCallback(() => {
@@ -121,6 +138,9 @@ export default function StationProvider({ children }: { children: ReactNode }) {
     <StationContext.Provider
       value={{
         stations: stations,
+        favoriteStations: favoriteStations || null,
+        selected: selected,
+        setSelected: setSelected,
         lastUpdate: lastUpdate,
       }}
     >

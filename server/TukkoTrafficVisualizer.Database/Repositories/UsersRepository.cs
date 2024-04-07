@@ -15,5 +15,4 @@ public class UsersRepository:GenericRepository<User>,IUsersRepository
     {
         return await Collection.AsQueryable().FirstOrDefaultAsync(e => e.Email == email);
     }
-
 }

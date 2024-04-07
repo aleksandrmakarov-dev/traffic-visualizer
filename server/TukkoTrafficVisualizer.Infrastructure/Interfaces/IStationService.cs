@@ -6,5 +6,5 @@ namespace TukkoTrafficVisualizer.Infrastructure.Interfaces;
 public interface IStationService
 {
     Task SaveAsync(StationContract stationContract);
-    Task<Station?> GetByIdAsync(string id);
+    Task<Station?> GetHistoryByIdAsync(string id);
 }

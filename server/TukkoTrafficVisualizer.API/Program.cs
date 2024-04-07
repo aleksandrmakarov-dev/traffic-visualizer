@@ -1,8 +1,10 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Redis.OM;
+using Server.API.Middlewares;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
 using TukkoTrafficVisualizer.API.Hubs;
@@ -31,7 +33,33 @@ namespace TukkoTrafficVisualizer.API
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(opt =>
+            {
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
 
             // Add Logger
             builder.Logging.ClearProviders();
@@ -133,6 +161,9 @@ namespace TukkoTrafficVisualizer.API
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+            // user extractor middleware
+            app.UseMiddleware<UserExtractorMiddleware>();
 
             app.MapControllers();
 

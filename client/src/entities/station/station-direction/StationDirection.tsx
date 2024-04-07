@@ -23,19 +23,23 @@ export function StationDirection({
         <h5 className="text-lg font-medium">{direction.name}</h5>
         {direction.side == 1 ? <MoveLeft /> : <MoveRight />}
       </div>
-      <SensorList
-        items={direction.sensors}
-        render={(sensor) => (
-          <SensorItem
-            key={`station-direction-sensor-${sensor.id}`}
-            label={t(sensor.name, { ns: "sensors" })}
-            value={sensor.value}
-            units={t(sensor.unit === "***" ? "%" : sensor.unit, {
-              ns: "units",
-            })}
-          />
-        )}
-      />
+      {direction.sensors && direction.sensors.length > 0 ? (
+        <SensorList
+          items={direction.sensors}
+          render={(sensor) => (
+            <SensorItem
+              key={`station-direction-sensor-${sensor.id}`}
+              label={t(sensor.name, { ns: "sensors" })}
+              value={sensor.value}
+              units={t(sensor.unit === "***" ? "%" : sensor.unit, {
+                ns: "units",
+              })}
+            />
+          )}
+        />
+      ) : (
+        <p>No measurements found</p>
+      )}
       {slotBottom}
     </div>
   );

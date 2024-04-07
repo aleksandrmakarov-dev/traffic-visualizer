@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using TukkoTrafficVisualizer.Database.Entities;
 using TukkoTrafficVisualizer.Database.Interfaces;
 
@@ -10,13 +11,17 @@ namespace TukkoTrafficVisualizer.Database.Repositories
         {
         }
 
-        public async Task UpdateByIdAsync(Station station, ReplaceOptions options)
+        public async Task ReplaceByIdAsync(Station station, ReplaceOptions options)
         {
-
             await Collection.ReplaceOneAsync(s=>s.StationId == station.StationId, station,options);
         }
 
-        public override async Task<Station?> GetByIdAsync(string id)
+        public async Task<Station?> GetByStationIdAsync(string stationId)
+        {
+            return await Collection.AsQueryable().FirstOrDefaultAsync(e=>e.StationId == stationId);
+        }
+
+        public async Task<Station?> GetByStationIdWithSensorsAsync(string id)
         {
             var aggr = Collection.Aggregate()
                 .Match(e=>e.StationId == id)

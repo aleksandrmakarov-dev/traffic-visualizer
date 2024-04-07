@@ -165,7 +165,7 @@ public class AuthService : IAuthService
         foundUser.EmailVerifiedAt = DateTime.UtcNow;
 
         // update user
-        await _usersRepository.UpdateAsync(foundUser);
+        await _usersRepository.ReplaceAsync(foundUser);
     }
 
     public async Task<SessionResponse> RefreshTokenAsync(RefreshTokenRequest request)
@@ -237,7 +237,7 @@ public class AuthService : IAuthService
         foundUser.EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(12);
 
         // update user
-        User updatedUser = await _usersRepository.UpdateAsync(foundUser);
+        User updatedUser = await _usersRepository.ReplaceAsync(foundUser);
 
         //map User to SignUpResponse and return it
         return _mapper.Map<User, EmailVerificationResponse>(updatedUser);
@@ -264,6 +264,6 @@ public class AuthService : IAuthService
         foundSession.ExpiresAt = DateTime.UtcNow;
 
         // update date in database
-        await _sessionsRepository.UpdateAsync(foundSession);
+        await _sessionsRepository.ReplaceAsync(foundSession);
     }
 }

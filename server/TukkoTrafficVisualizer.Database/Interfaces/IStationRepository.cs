@@ -5,6 +5,8 @@ namespace TukkoTrafficVisualizer.Database.Interfaces
 {
     public interface IStationRepository:IGenericRepository<Station>
     {
-        Task UpdateByIdAsync(Station station, ReplaceOptions options);
+        Task ReplaceByIdAsync(Station station, ReplaceOptions options);
+        Task<Station?> GetByStationIdAsync(string stationId);
+        Task<Station?> GetByStationIdWithSensorsAsync(string id);
     }
 }

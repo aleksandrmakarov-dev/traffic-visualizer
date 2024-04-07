@@ -1,6 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Amazon.Runtime.Internal;
+using Microsoft.AspNetCore.Mvc;
+using TukkoTrafficVisualizer.API.Attributes;
+using TukkoTrafficVisualizer.Core.Constants;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
+using TukkoTrafficVisualizer.Infrastructure.Models;
+using TukkoTrafficVisualizer.Infrastructure.Models.Requests;
+using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
+using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API.Controllers
 {
@@ -9,12 +16,14 @@ namespace TukkoTrafficVisualizer.API.Controllers
     public class StationsController : ControllerBase
     {
         private readonly IStationCacheService _stationCacheService;
+        private readonly IUsersService _usersService;
         private readonly IStationService _stationService;
 
-        public StationsController(IStationCacheService stationService, IStationService stationService1)
+        public StationsController(IStationCacheService stationService, IStationService stationService1, IUsersService usersService)
         {
             _stationCacheService = stationService;
             _stationService = stationService1;
+            _usersService = usersService;
         }
 
         [HttpGet]
@@ -41,7 +50,7 @@ namespace TukkoTrafficVisualizer.API.Controllers
         [HttpGet("{id}/history")]
         public async Task<IActionResult> GetHistoryById([FromRoute] string id)
         {
-            Database.Entities.Station? foundStation = await _stationService.GetByIdAsync(id);
+            Database.Entities.Station? foundStation = await _stationService.GetHistoryByIdAsync(id);
 
             if (foundStation == null)
             {
@@ -49,6 +58,39 @@ namespace TukkoTrafficVisualizer.API.Controllers
             }
 
             return Ok(foundStation);
+        }
+
+        [Authorize]
+        [HttpGet("favorite")]
+        public async Task<IActionResult> GetFavoriteStations()
+        {
+            JwtPayload user = (JwtPayload)HttpContext.Items[Constants.UserContextName]!;
+
+            IEnumerable<string> foundFavoriteStations = await _usersService.GetFavoriteStationsAsync(user.Id);
+
+            return Ok(foundFavoriteStations);
+        }
+
+        [Authorize]
+        [HttpPost("favorite")]
+        public async Task<IActionResult> AddFavoriteStation([FromBody] AddFavoriteStationRequest request)
+        {
+            JwtPayload user = (JwtPayload)HttpContext.Items[Constants.UserContextName]!;
+
+            await _usersService.AddFavoriteStationsAsync(user.Id, request.stationId);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete("favorite/{stationId}")]
+        public async Task<IActionResult> RemoveFavoriteStationAsync([FromRoute] string stationId)
+        {
+            JwtPayload user = (JwtPayload)HttpContext.Items[Constants.UserContextName]!;
+
+            await _usersService.RemoveFavoriteStationAsync(user.Id, stationId);
+
+            return NoContent();
         }
     }
 }

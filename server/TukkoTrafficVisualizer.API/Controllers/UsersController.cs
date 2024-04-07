@@ -2,6 +2,7 @@
 using TukkoTrafficVisualizer.API.Attributes;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models;
+using TukkoTrafficVisualizer.Infrastructure.Models.Requests;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
 namespace TukkoTrafficVisualizer.API.Controllers
@@ -16,14 +17,6 @@ namespace TukkoTrafficVisualizer.API.Controllers
         public UsersController(IUsersService usersService)
         {
             _usersService = usersService;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            IEnumerable<UserResponse> foundUsers = await _usersService.GetAllAsync();
-
-            return Ok(foundUsers);
         }
     }
 }

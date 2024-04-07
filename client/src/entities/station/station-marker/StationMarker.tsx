@@ -1,3 +1,4 @@
+import { useStationContext } from "@/context/StationProvider";
 import { Station } from "@/lib/contracts/station/station";
 import { StationResponse } from "@/lib/contracts/station/station.response";
 import { CreateIconParams, createIcon } from "@/lib/iconMaker";
@@ -6,15 +7,20 @@ import { Marker, Popup } from "react-leaflet";
 
 interface StationMarkerProps {
   station: Station;
-  isSelected?: boolean;
 }
 
-export function StationMarker({ station, isSelected }: StationMarkerProps) {
-  // const { language, selectedStation, setSelectedStation } = useStationContext();
+export function StationMarker({ station }: StationMarkerProps) {
+  const { selected, setSelected } = useStationContext();
+
+  if (station.sensors?.length === 0) {
+    return null;
+  }
 
   const selectionColor = "#3867d6";
 
   const getColorParams = (): CreateIconParams => {
+    const isSelected = selected?.id === station.id;
+
     return {
       leftColor: isSelected
         ? selectionColor
@@ -27,8 +33,9 @@ export function StationMarker({ station, isSelected }: StationMarkerProps) {
   };
 
   const onStationSelect = () => {
-    // if (selectedStation?.id === station.id) return;
-    // setSelectedStation(station);
+    if (selected?.id === station.id) return;
+
+    setSelected(station);
   };
 
   return (

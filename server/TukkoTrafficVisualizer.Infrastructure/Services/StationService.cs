@@ -27,13 +27,13 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 
                     Database.Entities.Station station = MapStationFeatureToStation(stationDetailsContract);
 
-                    await _stationRepository.UpdateByIdAsync(station, new ReplaceOptions { IsUpsert = true });
+                    await _stationRepository.ReplaceByIdAsync(station, new ReplaceOptions { IsUpsert = true });
                 });
         }
 
-        public async Task<Database.Entities.Station?> GetByIdAsync(string id)
+        public async Task<Database.Entities.Station?> GetHistoryByIdAsync(string id)
         {
-            return await _stationRepository.GetByIdAsync(id);
+            return await _stationRepository.GetByStationIdWithSensorsAsync(id);
         }
 
         private Database.Entities.Station MapStationFeatureToStation(StationDetailsContract sdc)

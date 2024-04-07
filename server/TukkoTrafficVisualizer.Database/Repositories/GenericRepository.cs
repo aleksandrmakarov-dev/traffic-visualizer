@@ -25,20 +25,23 @@ public class GenericRepository<T>:IGenericRepository<T> where T : Entity
         return entity;
     }
 
-    public virtual async Task<T> UpdateAsync(T entity)
+    public virtual async Task<T> ReplaceAsync(T entity)
     {
-        FilterDefinition<T> filter = Builders<T>.Filter.Eq(e => e.Id, entity.Id);
-        
-        await Collection.ReplaceOneAsync(filter,entity);
+       await Collection.ReplaceOneAsync(e=>e.Id == entity.Id,entity);
 
-        return entity;
+       return entity;
     }
 
-    public virtual async Task DeleteAsync(T entity)
+    public async Task<bool> UpdateAsync(string id, UpdateDefinition<T> update)
     {
-        FilterDefinition<T> filter = Builders<T>.Filter.Eq(e => e.Id, entity.Id);
+        var updateResult = await Collection.UpdateOneAsync(e => e.Id == id, update);
+        return updateResult.IsAcknowledged;
+    }
 
-        await Collection.DeleteOneAsync(filter);
+    public virtual async Task<bool> DeleteAsync(T entity)
+    {
+        var result = await Collection.DeleteOneAsync(e => e.Id == entity.Id);
+        return result.IsAcknowledged;
     }
 
     public virtual async Task<T?> GetByIdAsync(string id)

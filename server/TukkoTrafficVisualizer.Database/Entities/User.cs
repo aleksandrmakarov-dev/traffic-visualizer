@@ -13,5 +13,6 @@ namespace TukkoTrafficVisualizer.Database.Entities
         public DateTime? EmailVerifiedAt { get; set; }
         [MaxLength(64)]
         public required string Role { get; set; }
+        public IEnumerable<string> FavoriteStations { get; set; } = new List<string>();
     }
 }
