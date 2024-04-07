@@ -63,6 +63,8 @@ export default function SessionProvider({
         }
       );
     } else {
+      setAuthorizationToken(session.accessToken);
+
       if (isLoading) setIsLoading(false);
     }
   }, [session]);

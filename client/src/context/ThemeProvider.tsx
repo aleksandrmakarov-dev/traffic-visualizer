@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import {
   Dispatch,
   ReactNode,
@@ -10,13 +11,12 @@ import {
 } from "react";
 
 export type Theme = "dark" | "light";
-export type Language = "en" | "fi";
 
 interface ThemeContextState {
   theme: Theme;
   setTheme: (newTheme: Theme) => void;
-  language: Language;
-  setLanguage: Dispatch<SetStateAction<Language>>;
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
 }
 
 const initialState: ThemeContextState = {
@@ -32,7 +32,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   const key = "theme";
 
   const [theme, changeTheme] = useState<Theme>("light");
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<string>(i18next.language);
 
   const setTheme = useCallback(
     (newTheme: Theme) => {
@@ -65,6 +65,10 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       systemTheme.removeEventListener("change", handleThemeChange);
     };
   }, []);
+
+  useEffect(() => {
+    i18next.changeLanguage(language);
+  }, [language]);
 
   return (
     <ThemeContext.Provider

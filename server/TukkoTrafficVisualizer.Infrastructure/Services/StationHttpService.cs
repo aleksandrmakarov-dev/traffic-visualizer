@@ -1,5 +1,6 @@
-﻿using System.Net;
+﻿
 using System.Net.Http.Json;
+using Microsoft.VisualBasic;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
@@ -8,19 +9,18 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services;
 
 public class StationHttpService : IStationHttpService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public StationHttpService()
+    public StationHttpService(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = new HttpClient(new HttpClientHandler
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-        });
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<StationContract> FetchAsync()
     {
-        HttpResponseMessage responseMessage = await _httpClient.GetAsync($"https://tie.digitraffic.fi/api/tms/v1/stations");
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+
+        HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations");
 
         if (!responseMessage.IsSuccessStatusCode)
         {
@@ -39,7 +39,9 @@ public class StationHttpService : IStationHttpService
 
     public async Task<StationDetailsContract> FetchDetailsAsync(int stationId)
     {
-        HttpResponseMessage responseMessage = await _httpClient.GetAsync($"https://tie.digitraffic.fi/api/tms/v1/stations/{stationId}");
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+
+        HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations/{stationId}");
 
         if (!responseMessage.IsSuccessStatusCode)
         {

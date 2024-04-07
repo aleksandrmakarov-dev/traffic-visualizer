@@ -16,6 +16,7 @@ export function SignInCard() {
     mutate(data, {
       onSuccess: (response) => {
         setSession(response);
+
         navigate("/", { replace: true });
       },
     });

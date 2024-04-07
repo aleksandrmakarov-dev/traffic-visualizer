@@ -1,3 +1,4 @@
+using System.Net;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -66,13 +67,19 @@ namespace TukkoTrafficVisualizer.API
             builder.Logging.AddConsole();
 
             // Add HttpClient
-            builder.Services.AddHttpClient<ILocationService,HttpLocationService>()
-                .ConfigureHttpClient(client =>
-                {
-                    client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-                }
-                    );
+            builder.Services.AddHttpClient(Core.Constants.Constants.NominatimHttpClientName, client =>
+            {
+                client.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+            });
+
+            builder.Services.AddHttpClient(Core.Constants.Constants.DigitrafficHttpClientName, client =>
+            {
+                client.BaseAddress = new Uri("https://tie.digitraffic.fi/api/");
+            }).ConfigurePrimaryHttpMessageHandler(handler=>new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            });
 
             string? redisConnectionString;
             string? mongodbConnectionString;

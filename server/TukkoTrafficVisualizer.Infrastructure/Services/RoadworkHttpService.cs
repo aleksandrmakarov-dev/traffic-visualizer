@@ -8,19 +8,18 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services;
 
 public class RoadworkHttpService : IRoadworkHttpService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public RoadworkHttpService()
+    public RoadworkHttpService(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = new HttpClient(new HttpClientHandler
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-        });
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<RoadworkContract> FetchAsync()
     {
-        HttpResponseMessage responseMessage = await _httpClient.GetAsync($"https://tie.digitraffic.fi/api/traffic-message/v1/messages?situationType=ROAD_WORK&includeAreaGeometry=false");
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+
+        HttpResponseMessage responseMessage = await httpClient.GetAsync($"traffic-message/v1/messages?situationType=ROAD_WORK&includeAreaGeometry=false");
 
         if (!responseMessage.IsSuccessStatusCode)
         {

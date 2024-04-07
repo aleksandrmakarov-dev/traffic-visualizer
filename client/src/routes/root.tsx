@@ -1,33 +1,36 @@
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import { Map } from "leaflet";
+import { Map, PM } from "leaflet";
 import "./leaflet.css";
 import "./root.css";
 import { Fragment, Suspense, useEffect, useRef } from "react";
 import Geoman from "./components/Geoman";
 import { MapLayers } from "./components/MapLayers";
+import { useMapContext } from "@/context/MapProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 
 export default function Root(): JSX.Element {
-  // const { language } = useStationContext();
+  const { center, zoom } = useMapContext();
+  const { language } = useThemeContext();
+
   const mapRef = useRef<Map | null>(null);
 
-  // useEffect(() => {
-  //   if (!mapRef.current) return;
+  useEffect(() => {
+    if (!mapRef.current) return;
 
-  // //   mapRef.current.setView(center, zoom);
-  // // }, [center]);
+    mapRef.current.setView(center, zoom);
+  }, [center]);
 
-  // useEffect(() => {
-  //   const lang = language === "fi" ? "fi" : "en";
-  //   mapRef.current?.pm.setLang(lang);
-  // }, [language]);
+  useEffect(() => {
+    mapRef.current?.pm.setLang(language as PM.SupportLocales);
+  }, [language]);
 
   return (
     <Fragment>
       <MapContainer
-        center={[60, 24]}
+        center={center}
         maxBoundsViscosity={0.9}
         zoomDelta={1}
-        zoom={12}
+        zoom={zoom}
         minZoom={7}
         maxZoom={20}
         ref={mapRef}

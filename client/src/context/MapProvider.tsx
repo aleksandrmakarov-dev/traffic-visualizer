@@ -1,3 +1,4 @@
+import { LatLngExpression } from "leaflet";
 import {
   Dispatch,
   ReactNode,
@@ -7,42 +8,33 @@ import {
   useState,
 } from "react";
 
-export type MapMode = "default" | "compare";
-
 interface MapContextState {
-  mode: MapMode;
-  setMode: Dispatch<SetStateAction<MapMode>>;
-  selectedId?: string | null;
-  setSelectedId: Dispatch<SetStateAction<string | null>>;
-  compareWithId?: string | null;
-  setCompareWithId: Dispatch<SetStateAction<string | null>>;
+  center: LatLngExpression;
+  setCenter: Dispatch<SetStateAction<LatLngExpression>>;
+  zoom: number;
+  setZoom: Dispatch<SetStateAction<number>>;
 }
 
 const initialState: MapContextState = {
-  mode: "default",
-  setMode: () => {},
-  selectedId: null,
-  setSelectedId: () => {},
-  compareWithId: null,
-  setCompareWithId: () => {},
+  center: [60.16, 24.93],
+  setCenter: () => {},
+  zoom: 12,
+  setZoom: () => {},
 };
 
 const MapContext = createContext<MapContextState>(initialState);
 
 export default function MapProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<MapMode>("default");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [compareWithId, setCompareWithId] = useState<string | null>(null);
+  const [center, setCenter] = useState<LatLngExpression>([60.16, 24.93]);
+  const [zoom, setZoom] = useState<number>(12);
 
   return (
     <MapContext.Provider
       value={{
-        mode: mode,
-        setMode: setMode,
-        selectedId: selectedId,
-        setSelectedId: setSelectedId,
-        compareWithId: compareWithId,
-        setCompareWithId: setCompareWithId,
+        center: center,
+        setCenter: setCenter,
+        zoom: zoom,
+        setZoom: setZoom,
       }}
     >
       {children}

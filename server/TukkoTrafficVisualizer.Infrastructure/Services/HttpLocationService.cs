@@ -7,19 +7,18 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
     public class HttpLocationService : ILocationService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HttpLocationService(HttpClient httpClient)
+        public HttpLocationService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://nominatim.openstreetmap.org");
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<IEnumerable<LocationResponse>> FindByQueryAsync(string query)
         {
-            // https://nominatim.openstreetmap.org/search.php?q=tes&format=jsonv2
-            HttpResponseMessage responseMessage = await _httpClient.GetAsync($"search.php?q={query}&format=jsonv2");
+            HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.NominatimHttpClientName);
+
+            HttpResponseMessage responseMessage = await httpClient.GetAsync($"/search.php?q={query}&format=jsonv2");
 
             if (!responseMessage.IsSuccessStatusCode)
             {

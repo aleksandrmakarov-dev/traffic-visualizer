@@ -8,19 +8,18 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services;
 
 public class SensorHttpService : ISensorHttpService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public SensorHttpService()
+    public SensorHttpService(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = new HttpClient(new HttpClientHandler
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-        });
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<SensorContract> FetchAsync()
     {
-        HttpResponseMessage responseMessage = await _httpClient.GetAsync($"https://tie.digitraffic.fi/api/tms/v1/stations/data");
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+
+        HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations/data");
 
         if (!responseMessage.IsSuccessStatusCode)
         {

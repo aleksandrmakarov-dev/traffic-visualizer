@@ -60,6 +60,7 @@ namespace TukkoTrafficVisualizer.API.Common
             builder.Services.Configure<JsonWebTokenOptions>(builder.Configuration.GetSection(JsonWebTokenOptions.Name));
             builder.Services.Configure<MailingOptions>(builder.Configuration.GetSection(MailingOptions.Name));
             builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.Name));
+            builder.Services.Configure<GitlabOptions>(builder.Configuration.GetSection(GitlabOptions.Name));
 
             return builder;
 
