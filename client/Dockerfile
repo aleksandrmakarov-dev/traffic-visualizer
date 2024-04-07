@@ -10,4 +10,11 @@ RUN npm run build
 # OR
 # npm run prod
 FROM nginx:latest
+
+# Copy custom NGINX configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
+
 COPY --from=build /app/dist /usr/share/nginx/html
+
+# Start NGINX when the container starts
+CMD ["nginx", "-g", "daemon off;"]

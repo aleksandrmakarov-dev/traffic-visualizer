@@ -1,4 +1,4 @@
-import { useStationContext } from "@/context/StationProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 import { RoadworkResponse } from "@/lib/contracts/roadwork/roadwork.response";
 import { capitalize, cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
@@ -13,7 +13,7 @@ export function RoadworkItem({
   className,
   ...other
 }: RoadworkItemProps) {
-  const { language } = useStationContext();
+  const { language } = useThemeContext();
   const { t } = useTranslation(["tooltip", "roadworks", "sensors", "units"]);
 
   return (

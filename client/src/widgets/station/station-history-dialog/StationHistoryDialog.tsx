@@ -10,11 +10,11 @@ import { CartesianGrid, XAxis } from "recharts";
 import { LineChart, ResponsiveContainer } from "recharts";
 import moment from "moment";
 import { StationResponse } from "@/lib/contracts/station/station.response";
-import { useStationContext } from "@/context/StationProvider";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
 import { TextSearch } from "lucide-react";
+import { useThemeContext } from "@/context/ThemeProvider";
 
 interface StationHistoryDialogProps {
   trigger?: JSX.Element;
@@ -26,32 +26,11 @@ interface LineData {
   [key: string]: number | string; // Each line data can have multiple values
 }
 
-const lineColors = [
-  "#1f77b4", // Blue
-  "#ff7f0e", // Orange
-  "#2ca02c", // Green
-  "#d62728", // Red
-  "#9467bd", // Purple
-  "#8c564b", // Brown
-  "#e377c2", // Pink
-  "#7f7f7f", // Gray
-  "#bcbd22", // Yellow-green
-  "#17becf", // Cyan
-  "#aec7e8", // Light blue
-  "#ffbb78", // Light orange
-  "#98df8a", // Light green
-  "#ff9896", // Light red
-  "#c5b0d5", // Light purple
-  "#c49c94", // Light brown
-  "#f7b6d2", // Light pink
-  "#c7c7c7", // Light gray
-];
-
 export function StationHistoryDialog({
   trigger,
   station,
 }: StationHistoryDialogProps) {
-  const { language } = useStationContext();
+  const { language } = useThemeContext();
   const { t } = useTranslation(["modal"]);
 
   const { data, isError, error, refetch } = useStationsHistoryById(

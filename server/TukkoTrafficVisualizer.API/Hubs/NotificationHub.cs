@@ -26,6 +26,8 @@ namespace TukkoTrafficVisualizer.API.Hubs
         {
             await base.OnDisconnectedAsync(exception);
 
+            _logger.LogInformation($"Client disconnected {Context.ConnectionId}");
+
             await Clients.Caller.SendAsync(SignalRMethods.ConnectionClose.ToString(),
                 $"Disconnected {Context.ConnectionId} {DateTime.UtcNow}");
         }
