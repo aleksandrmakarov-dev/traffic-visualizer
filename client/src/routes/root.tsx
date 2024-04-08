@@ -2,11 +2,12 @@ import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { Map, PM } from "leaflet";
 import "./leaflet.css";
 import "./root.css";
-import { Fragment, Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import Geoman from "./components/Geoman";
 import { MapLayers } from "./components/MapLayers";
 import { useMapContext } from "@/context/MapProvider";
 import { useThemeContext } from "@/context/ThemeProvider";
+import { StationCompareDialog } from "@/widgets/station";
 
 export default function Root(): JSX.Element {
   const { center, zoom } = useMapContext();
@@ -25,7 +26,7 @@ export default function Root(): JSX.Element {
   }, [language]);
 
   return (
-    <Fragment>
+    <>
       <MapContainer
         center={center}
         maxBoundsViscosity={0.9}
@@ -46,6 +47,7 @@ export default function Root(): JSX.Element {
         </Suspense>
         <ZoomControl position="bottomright" />
       </MapContainer>
-    </Fragment>
+      <StationCompareDialog />
+    </>
   );
 }

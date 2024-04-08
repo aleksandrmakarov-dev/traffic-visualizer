@@ -2,6 +2,8 @@ using System.Net;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Http;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Redis.OM;
@@ -80,6 +82,8 @@ namespace TukkoTrafficVisualizer.API
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             });
+
+            builder.Services.RemoveAll<IHttpMessageHandlerBuilderFilter>();
 
             string? redisConnectionString;
             string? mongodbConnectionString;

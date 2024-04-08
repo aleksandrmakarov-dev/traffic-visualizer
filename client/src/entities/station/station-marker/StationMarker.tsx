@@ -1,4 +1,5 @@
 import { useStationContext } from "@/context/StationProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 import { Station } from "@/lib/contracts/station/station";
 import { StationResponse } from "@/lib/contracts/station/station.response";
 import { CreateIconParams, createIcon } from "@/lib/iconMaker";
@@ -11,6 +12,7 @@ interface StationMarkerProps {
 
 export function StationMarker({ station }: StationMarkerProps) {
   const { selected, setSelected } = useStationContext();
+  const { language } = useThemeContext();
 
   if (station.sensors?.length === 0) {
     return null;
@@ -38,6 +40,16 @@ export function StationMarker({ station }: StationMarkerProps) {
     setSelected(station);
   };
 
+  // const onStationSelect = () => {
+  //   if (selected?.id === station.id) return;
+
+  //   if (!selected) {
+  //     setSelected(station);
+  //   } else {
+  //     setComparator(station);
+  //   }
+  // };
+
   return (
     <Marker
       eventHandlers={{
@@ -47,7 +59,7 @@ export function StationMarker({ station }: StationMarkerProps) {
       icon={createIcon(getColorParams())}
     >
       <Popup>
-        <p>{station.names["en" as keyof StationResponse["names"]]}</p>
+        <p>{station.names[language as keyof StationResponse["names"]]}</p>
       </Popup>
     </Marker>
   );

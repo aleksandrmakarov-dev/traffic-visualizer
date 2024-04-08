@@ -21,6 +21,8 @@ interface StationContextState {
   favoriteStations: string[] | null;
   selected: Station | null;
   setSelected: Dispatch<SetStateAction<Station | null>>;
+  comparator: Station | null;
+  setComparator: Dispatch<SetStateAction<Station | null>>;
   lastUpdate: Date | null;
 }
 
@@ -29,6 +31,8 @@ const initialState: StationContextState = {
   favoriteStations: null,
   selected: null,
   setSelected: () => {},
+  comparator: null,
+  setComparator: () => {},
   lastUpdate: null,
 };
 
@@ -42,6 +46,7 @@ const StationContext = createContext<StationContextState>(initialState);
 
 export default function StationProvider({ children }: { children: ReactNode }) {
   const { session } = useSession();
+
   const {
     data: roadworkData,
     isLoading: isRoadworksLoading,
@@ -74,9 +79,8 @@ export default function StationProvider({ children }: { children: ReactNode }) {
   });
 
   const [stations, setStations] = useState<Station[]>([]);
-
   const [selected, setSelected] = useState<Station | null>(null);
-
+  const [comparator, setComparator] = useState<Station | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
   const refetchData = useCallback(() => {
@@ -141,6 +145,8 @@ export default function StationProvider({ children }: { children: ReactNode }) {
         favoriteStations: favoriteStations || null,
         selected: selected,
         setSelected: setSelected,
+        comparator: comparator,
+        setComparator: setComparator,
         lastUpdate: lastUpdate,
       }}
     >
