@@ -9,11 +9,10 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 {
     public class UpdateBackgroundService:BackgroundService
     {
-        private DateTime? _lastUpdate;
-        private bool _canUpdateDatabase;
-
-        private readonly int _shortPeriodMinutes = 5;
-        private readonly int _longPeriodMinutes = 60;
+        private readonly int _shortPeriodMinutes = 2;
+        private readonly int _longPeriodMinutes = 6;
+        private int _minutesLeft;
+        private bool _saveHistoryTime;
 
         private readonly ILogger<UpdateBackgroundService> _logger;
         private readonly IServiceScopeFactory _scopeFactory;
@@ -26,15 +25,12 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-
             using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromMinutes(_shortPeriodMinutes));
             do
             {
                 try
                 {
-                    _canUpdateDatabase = _lastUpdate == null ||
-                                         (_lastUpdate != null && (DateTime.UtcNow - _lastUpdate.Value).Minutes >= _longPeriodMinutes);
+                    _saveHistoryTime = _minutesLeft <= 0;
 
                     Stopwatch sw = Stopwatch.StartNew();
 
@@ -46,10 +42,16 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
                     await UpdateSensorsAsync(scope, sw);
                     await UpdateStationsAsync(scope, sw);
 
-                    sw.Stop();
+                    if (_saveHistoryTime)
+                    {
+                        _minutesLeft = _longPeriodMinutes;
+                    }
+                    else
+                    {
+                        _minutesLeft -= _shortPeriodMinutes;
+                    }
 
-                    _lastUpdate = DateTime.UtcNow;
-                    _canUpdateDatabase = false;
+                    sw.Stop();
 
                     IHubContext<NotificationHub> hubContext =
                         scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
@@ -70,8 +72,7 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
             IRoadworkCacheService roadworkService = scope.ServiceProvider.GetRequiredService<IRoadworkCacheService>();
             IRoadworkHttpService roadworkHttpService = scope.ServiceProvider.GetRequiredService<IRoadworkHttpService>();
-            IHubContext<NotificationHub> notification =
-                scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
+            scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
             
             RoadworkContract roadworkContract = await roadworkHttpService.FetchAsync();
 
@@ -87,19 +88,22 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
             ISensorCacheService sensorCacheService = scope.ServiceProvider.GetRequiredService<ISensorCacheService>();
             ISensorHttpService sensorHttpService = scope.ServiceProvider.GetRequiredService<ISensorHttpService>();
             ISensorService sensorService = scope.ServiceProvider.GetRequiredService<ISensorService>();
-            IHubContext<NotificationHub> notification =
-                scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
+            scope.ServiceProvider.GetRequiredService<IHubContext<NotificationHub>>();
 
             SensorContract sensorContract = await sensorHttpService.FetchAsync();
 
             await sensorCacheService.SaveSensorsAsync(sensorContract);
 
-            if (_canUpdateDatabase)
-            {
-                await sensorService.SaveAsync(sensorContract);
-            }
-
             _logger.LogInformation($"Sensors have been updated. It took {sw.ElapsedMilliseconds} ms");
+
+            if (_saveHistoryTime)
+            {
+                sw.Restart();
+
+                await sensorService.SaveAsync(sensorContract);
+
+                _logger.LogInformation($"Sensors have been stored to database. It took {sw.ElapsedMilliseconds} ms");
+            }
 
         }
 
@@ -115,13 +119,15 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
             
             await stationCacheService.SaveStationsAsync(stationContract);
 
-            if (_canUpdateDatabase)
-            {
-                await stationService.SaveAsync(stationContract);
-            }
-
             _logger.LogInformation($"Stations have been updated. It took {sw.ElapsedMilliseconds} ms");
 
+            if (_saveHistoryTime)
+            {
+                sw.Restart();
+                await stationService.SaveAsync(stationContract);
+
+                _logger.LogInformation($"Stations have been stored to database. It took {sw.ElapsedMilliseconds} ms");
+            }
         }
     }
 }
