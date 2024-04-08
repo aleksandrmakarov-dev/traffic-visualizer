@@ -4,6 +4,8 @@ import { useThemeContext } from "@/context/ThemeProvider";
 export const LanguageToggle = () => {
   const { language, setLanguage } = useThemeContext();
 
+  console.log(language);
+
   const handleLanguageChange = () => {
     const newLanguage = language === "en" ? "fi" : "en";
     setLanguage(newLanguage);

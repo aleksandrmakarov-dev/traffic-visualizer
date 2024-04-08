@@ -152,18 +152,18 @@ namespace TukkoTrafficVisualizer.API
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseCors(x => x
-                .SetIsOriginAllowed(origin => true)
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-
             WebSocketOptions webSocketOptions = new WebSocketOptions
             {
                 KeepAliveInterval = TimeSpan.FromMinutes(2)
             };
 
             app.MapHub<NotificationHub>("api/notifications");
+
+            app.UseCors(x => x
+                .SetIsOriginAllowed(origin => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseWebSockets(webSocketOptions);
 

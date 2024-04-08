@@ -32,7 +32,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   const key = "theme";
 
   const [theme, changeTheme] = useState<Theme>("light");
-  const [language, setLanguage] = useState<string>(i18next.language);
+  const [language, setLanguage] = useState<string>(i18next.language ?? "en");
 
   const setTheme = useCallback(
     (newTheme: Theme) => {

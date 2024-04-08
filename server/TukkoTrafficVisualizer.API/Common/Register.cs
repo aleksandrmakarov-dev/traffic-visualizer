@@ -23,7 +23,7 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddScoped<ISensorService, SensorService>();
 
             services.AddScoped<ILocationService, HttpLocationService>();
-            services.AddScoped<IMailingService, MockMailingService>();
+            services.AddScoped<IMailingService, GmailMailingService>();
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
             services.AddSingleton<IJwtService, JwtService>();
