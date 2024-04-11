@@ -16,7 +16,11 @@ import { useSensors } from "@/entities/sensor";
 import _ from "lodash";
 import { useSession } from "./SessionProvider";
 
+type StationContextMode = "select" | "compare";
+
 interface StationContextState {
+  mode: StationContextMode;
+  setMode: Dispatch<SetStateAction<StationContextMode>>;
   stations: Station[];
   favoriteStations: string[] | null;
   selected: Station | null;
@@ -27,6 +31,8 @@ interface StationContextState {
 }
 
 const initialState: StationContextState = {
+  mode: "select",
+  setMode: () => {},
   stations: [],
   favoriteStations: null,
   selected: null,
@@ -78,6 +84,7 @@ export default function StationProvider({ children }: { children: ReactNode }) {
     enabled: !!session,
   });
 
+  const [mode, setMode] = useState<StationContextMode>("select");
   const [stations, setStations] = useState<Station[]>([]);
   const [selected, setSelected] = useState<Station | null>(null);
   const [comparator, setComparator] = useState<Station | null>(null);
@@ -141,6 +148,8 @@ export default function StationProvider({ children }: { children: ReactNode }) {
   return (
     <StationContext.Provider
       value={{
+        mode: mode,
+        setMode: setMode,
         stations: stations,
         favoriteStations: favoriteStations || null,
         selected: selected,

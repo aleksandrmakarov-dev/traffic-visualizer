@@ -36,6 +36,12 @@ interface LineData {
   [key: string]: number | string; // Each line data can have multiple values
 }
 
+interface SensorCheckbox {
+  id: string;
+  name: string;
+  checked: boolean;
+}
+
 export function StationHistoryDialog({
   trigger,
   station,
@@ -55,7 +61,7 @@ export function StationHistoryDialog({
 
   const [lines, setLines] = useState<LineData[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const [uniqueSensors, setUniqueSensors] = useState<SensorResponse[]>([]);
+  const [uniqueSensors, setUniqueSensors] = useState<SensorCheckbox[]>([]);
 
   useEffect(() => {
     if (!data) {
@@ -83,12 +89,27 @@ export function StationHistoryDialog({
       )
       .value();
 
-    const unique = _.uniqBy(data?.sensors, (item) => item.sensorId);
+    const unique: SensorCheckbox[] = _.uniqBy(
+      data?.sensors,
+      (item) => item.sensorId
+    ).map((item) => ({
+      id: item.sensorId,
+      name: item.name,
+      checked: true,
+    }));
 
     setUniqueSensors(unique);
 
     setLines(sensors);
   }, [data]);
+
+  const onCheckboxChange = (id: string) => {
+    setUniqueSensors((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, checked: !item.checked } : item
+      )
+    );
+  };
 
   return (
     <DialogBase
@@ -125,7 +146,11 @@ export function StationHistoryDialog({
             {_.filter(uniqueSensors, (item) => item.name.endsWith("1")).map(
               (item) => (
                 <li key={`checkbox-${item.id}`}>
-                  <Checkbox className="mr-1.5" />
+                  <Checkbox
+                    className="mr-1.5"
+                    checked={item.checked}
+                    onCheckedChange={() => onCheckboxChange(item.id)}
+                  />
                   <label>{t(item.name, { ns: "modal" })}</label>
                 </li>
               )
@@ -140,8 +165,15 @@ export function StationHistoryDialog({
             {_.filter(uniqueSensors, (item) => item.name.endsWith("2")).map(
               (item) => (
                 <li key={`checkbox-${item.id}`}>
-                  <Checkbox className="mr-1.5" />
-                  <label>{t(item.name, { ns: "modal" })}</label>
+                  <Checkbox
+                    id={item.id}
+                    className="mr-1.5"
+                    checked={item.checked}
+                    onCheckedChange={() => onCheckboxChange(item.id)}
+                  />
+                  <label htmlFor={item.id}>
+                    {t(item.name, { ns: "modal" })}
+                  </label>
                 </li>
               )
             )}
@@ -161,16 +193,18 @@ export function StationHistoryDialog({
             <YAxis />
             <Tooltip />
             <Legend />
-            {uniqueSensors.map((item, index) => (
-              <Line
-                key={item.sensorId}
-                type="monotone"
-                name={t(item.name, { ns: "modal" })}
-                dataKey={item.sensorId}
-                stroke={lineColors[index % lineColors.length]}
-                strokeWidth={2}
-              />
-            ))}
+            {uniqueSensors
+              .filter((item) => item.checked)
+              .map((item, index) => (
+                <Line
+                  key={item.id}
+                  type="monotone"
+                  name={t(item.name, { ns: "modal" })}
+                  dataKey={item.id}
+                  stroke={lineColors[index % lineColors.length]}
+                  strokeWidth={2}
+                />
+              ))}
           </LineChart>
         </ResponsiveContainer>
       ) : (

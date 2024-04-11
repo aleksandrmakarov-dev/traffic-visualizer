@@ -10,7 +10,12 @@ export const LanguageToggle = () => {
   };
 
   return (
-    <Button variant="secondary" size="icon" onClick={handleLanguageChange}>
+    <Button
+      className="font-medium"
+      variant="secondary"
+      size="icon"
+      onClick={handleLanguageChange}
+    >
       {language?.toUpperCase()}
     </Button>
   );

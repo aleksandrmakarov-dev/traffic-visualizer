@@ -9,15 +9,9 @@ interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function Sidebar({ children, className, ...other }: SidebarProps) {
-  const { key } = useSidebarContext();
-
   return (
     <div
-      className={cn(
-        "max-w-md grid grid-cols-[auto_1fr]",
-        { "w-full": key },
-        className
-      )}
+      className={cn("flex pointer-events-none h-screen", className)}
       {...other}
     >
       {children}
@@ -37,7 +31,7 @@ export function SidebarNavigation({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-y-2.5 py-2.5 bg-white h-screen w-16 shadow-md border-r border-border dark:bg-gray-950",
+        "flex flex-col pointer-events-auto items-center gap-y-2.5 py-2.5 bg-white w-16 shadow-md border-r border-border dark:bg-gray-950",
         className
       )}
       {...other}
@@ -71,27 +65,33 @@ export function SidebarNavigationItem({
   );
 }
 
-interface SidebarContentProps extends HTMLAttributes<HTMLDivElement> {
-  value: string;
-  children?: React.ReactNode;
-}
-
-export function SidebarContent({
-  value,
-  children,
-  className,
-  ...other
-}: SidebarContentProps) {
+export function SidebarContainer({ children }: { children?: React.ReactNode }) {
   const { key } = useSidebarContext();
-
-  if (key !== value) return null;
 
   return (
     <div
-      className={cn("bg-white h-screen flex shadow-md", className)}
-      {...other}
+      className={cn("w-96 flex flex-col h-screen", {
+        "bg-white shadow-md pointer-events-auto dark:bg-gray-900": key,
+      })}
     >
       {children}
     </div>
   );
+}
+
+interface SidebarContentProps {
+  value: string;
+  children?: React.ReactNode;
+}
+
+export function SidebarContent({ value, children }: SidebarContentProps) {
+  const { key } = useSidebarContext();
+
+  if (key !== value) return null;
+
+  return children;
+}
+
+export function SidebarHeader({ children }: { children: React.ReactNode }) {
+  return <div className="pointer-events-auto px-5 py-2.5">{children}</div>;
 }

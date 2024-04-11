@@ -12,7 +12,8 @@ interface StationMarkerProps {
 }
 
 export function StationMarker({ station }: StationMarkerProps) {
-  const { selected, setSelected } = useStationContext();
+  const { selected, setSelected, mode, setMode, setComparator } =
+    useStationContext();
   const { setKey } = useSidebarContext();
   const { language } = useThemeContext();
 
@@ -39,20 +40,14 @@ export function StationMarker({ station }: StationMarkerProps) {
   const onStationSelect = () => {
     if (selected?.id === station.id) return;
 
-    setSelected(station);
-
-    setKey("select");
+    if (mode === "select") {
+      setSelected(station);
+      setKey("select");
+    } else {
+      setComparator(station);
+      setMode("select");
+    }
   };
-
-  // const onStationSelect = () => {
-  //   if (selected?.id === station.id) return;
-
-  //   if (!selected) {
-  //     setSelected(station);
-  //   } else {
-  //     setComparator(station);
-  //   }
-  // };
 
   return (
     <Marker

@@ -147,10 +147,11 @@ body.dark .leaflet-control-attribution {
   filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.6) brightness(0.5);
 }
 
+
 /* Logos */
 body.dark .iotitudeLogo,
 body.dark .wimmaLabLogo {
-  filter: brightness(1) invert(0.7) contrast(2) hue-rotate(200deg) saturate(3) brightness(01);
+  filter: brightness(1) invert(0.7) contrast(2) hue-rotate(200deg) saturate(3) brightness(0.1);
 }
 
 /* Changes the color of the marker's popup box and text in dark mode */

@@ -7,13 +7,16 @@ import { LanguageToggle } from "@/shared/components/LanguageToggle";
 import { LogoContainer } from "@/shared/components/LogoContainer";
 import {
   Sidebar,
+  SidebarContainer,
   SidebarContent,
+  SidebarHeader,
   SidebarNavigation,
   SidebarNavigationItem,
 } from "@/shared/components/Sidebar";
 import { ThemeToggle } from "@/shared/components/ThemeToggle";
 import { Button } from "@/shared/components/ui/button";
 import { FeedbackDialog } from "@/widgets/feedback";
+import { LocationSearch, LocationSearchList } from "@/widgets/location";
 import { FavoriteStationList, StationDetails } from "@/widgets/station";
 import { UserProfileMenu } from "@/widgets/user";
 import { MessageSquareText, Star } from "lucide-react";
@@ -68,16 +71,26 @@ export default function MainLayout() {
                   }
                 />
                 <LanguageToggle />
-                <SidebarNavigationItem value="favorite">
-                  <Star />
-                </SidebarNavigationItem>
+                {session && (
+                  <SidebarNavigationItem value="favorite">
+                    <Star />
+                  </SidebarNavigationItem>
+                )}
               </SidebarNavigation>
-              <SidebarContent value="favorite">
-                <FavoriteStationList />
-              </SidebarContent>
-              <SidebarContent value="select">
-                <StationDetails />
-              </SidebarContent>
+              <SidebarContainer>
+                <SidebarHeader>
+                  <LocationSearch />
+                </SidebarHeader>
+                <SidebarContent value="favorite">
+                  <FavoriteStationList />
+                </SidebarContent>
+                <SidebarContent value="select">
+                  <StationDetails />
+                </SidebarContent>
+                <SidebarContent value="search">
+                  <LocationSearchList />
+                </SidebarContent>
+              </SidebarContainer>
             </Sidebar>
             <LogoContainer className="absolute z-10 bottom-8 right-14" />
             <Outlet />

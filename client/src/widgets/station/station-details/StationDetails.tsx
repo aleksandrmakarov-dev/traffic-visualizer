@@ -19,7 +19,8 @@ import _ from "lodash";
 import { useSidebarContext } from "@/context/SidebarProvider";
 
 export function StationDetails() {
-  const { selected, setSelected, favoriteStations } = useStationContext();
+  const { selected, setSelected, favoriteStations, setMode, mode } =
+    useStationContext();
   const { setKey } = useSidebarContext();
   useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
 
@@ -38,6 +39,7 @@ export function StationDetails() {
   const onCancel = () => {
     setKey(null);
     setSelected(null);
+    setMode("select");
   };
 
   const onBack = () => {
@@ -45,9 +47,9 @@ export function StationDetails() {
   };
 
   return (
-    <div className="bg-white w-full flex flex-col dark:bg-gray-900">
+    <>
       {selectedDirection ? (
-        <div className="h-full overflow-auto p-5">
+        <div className="overflow-auto p-5">
           <StationDirection
             direction={selectedDirection}
             slotTop={
@@ -59,7 +61,7 @@ export function StationDetails() {
         </div>
       ) : (
         <>
-          <div className="h-full overflow-auto">
+          <div className="grow overflow-auto">
             <div className="p-5">
               <h4 className="font-medium text-xl flex items-center">
                 <span className="mr-1.5">
@@ -88,7 +90,7 @@ export function StationDetails() {
                       setSelectedDirection({
                         side: 1,
                         name: selected.direction1Municipality,
-                        sensors: sensors,
+                        sensors: sensors?.filter((s) => s.name.endsWith("1")),
                       })
                     }
                   >
@@ -113,7 +115,7 @@ export function StationDetails() {
                       setSelectedDirection({
                         side: 2,
                         name: selected.direction2Municipality,
-                        sensors: sensors,
+                        sensors: sensors?.filter((s) => s.name.endsWith("2")),
                       })
                     }
                   >
@@ -133,6 +135,18 @@ export function StationDetails() {
                 }
               />
             </div>
+            <div className="p-5 border-t border-border">
+              <h5 className="text-lg font-medium mb-1.5">Compare</h5>
+              <Button
+                className="w-full"
+                variant="secondary"
+                onClick={() =>
+                  setMode((prev) => (prev === "select" ? "compare" : "select"))
+                }
+              >
+                {mode === "select" ? "Compare with" : "Waiting for selection"}
+              </Button>
+            </div>
             {selected.roadworks && selected.roadworks.length > 0 && (
               <div className="p-5 border-t border-border">
                 <h5 className="text-lg font-medium mb-1.5 flex items-center">
@@ -150,6 +164,6 @@ export function StationDetails() {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
