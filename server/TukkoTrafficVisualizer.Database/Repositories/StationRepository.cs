@@ -21,17 +21,21 @@ namespace TukkoTrafficVisualizer.Database.Repositories
             return await Collection.AsQueryable().FirstOrDefaultAsync(e=>e.StationId == stationId);
         }
 
-        public async Task<Station?> GetByStationIdWithSensorsAsync(string id)
+        public async Task<Station?> GetByStationIdWithSensorsAsync(string id,DateTime start,DateTime end)
         {
-            var aggr = Collection.Aggregate()
-                .Match(e=>e.StationId == id)
-                .Lookup<Station, Station>(
-                    foreignCollectionName:nameof(Sensor),
-                    localField:nameof(Station.StationId),
-                    foreignField:nameof(Sensor.StationId),
-                    @as:nameof(Station.Sensors)
-                );
-            return await aggr.FirstOrDefaultAsync();
+            Station? station = await Collection.AsQueryable().FirstOrDefaultAsync(s => s.StationId == id);
+
+            if (station != null)
+            {
+                station.Sensors = await Database
+                    .GetCollection<Sensor>(nameof(Sensor))
+                    .AsQueryable()
+                    .Where(s=>s.StationId == id)
+                    .Where(s=>s.MeasuredTime>=start && s.MeasuredTime <= end)
+                    .ToListAsync();
+            }
+
+            return station;
         }
     }
 }

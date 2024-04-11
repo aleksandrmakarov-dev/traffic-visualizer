@@ -7,6 +7,6 @@ namespace TukkoTrafficVisualizer.Database.Interfaces
     {
         Task ReplaceByIdAsync(Station station, ReplaceOptions options);
         Task<Station?> GetByStationIdAsync(string stationId);
-        Task<Station?> GetByStationIdWithSensorsAsync(string id);
+        Task<Station?> GetByStationIdWithSensorsAsync(string id, DateTime start, DateTime end);
     }
 }

@@ -17,7 +17,7 @@ public class SensorHttpService : ISensorHttpService
 
     public async Task<SensorContract> FetchAsync()
     {
-        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigiTrafficHttpClientName);
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations/data");
 

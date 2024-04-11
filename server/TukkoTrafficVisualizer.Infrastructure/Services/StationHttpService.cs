@@ -18,7 +18,7 @@ public class StationHttpService : IStationHttpService
 
     public async Task<StationContract> FetchAsync()
     {
-        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigiTrafficHttpClientName);
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations");
 
@@ -39,7 +39,7 @@ public class StationHttpService : IStationHttpService
 
     public async Task<StationDetailsContract> FetchDetailsAsync(int stationId)
     {
-        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigiTrafficHttpClientName);
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync($"tms/v1/stations/{stationId}");
 

@@ -59,8 +59,9 @@ async function fetchStationHistoryById(
   request: StationHistoryRequest
 ): Promise<StationHistoryResponse> {
   const response = await axios.get<StationHistoryResponse>(
-    `/stations/${request.id}/history`
+    `/stations/${request.id}/history?timeRange=${request.timeRange}`
   );
+
   return response.data;
 }
 
@@ -86,7 +87,7 @@ export const useStationsHistoryById = (
     StationHistoryResponse,
     unknown[]
   >({
-    queryKey: stationKeys.stations.query(request),
+    queryKey: stationKeys.stations.query(request.id),
     queryFn: async () => {
       return await fetchStationHistoryById(request);
     },

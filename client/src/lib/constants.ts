@@ -18,3 +18,10 @@ export const lineColors = [
   "#f7b6d2", // Light pink
   "#c7c7c7", // Light gray
 ];
+
+export const timeRanges = {
+  Today:"today",
+  Yesterday:"yesterday",
+  Week:"week",
+  Month:"month"
+}

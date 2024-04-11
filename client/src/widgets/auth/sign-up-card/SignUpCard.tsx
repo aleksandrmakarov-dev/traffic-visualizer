@@ -32,7 +32,7 @@ export function SignUpCard() {
           title: "User created",
           message: (
             <>
-              You have been send verification link to your email. You can enter
+              You have been sent verification link to your email. You can enter
               token manually at{" "}
               <a
                 className="underline font-semibold underline-offset-2"

@@ -10,11 +10,13 @@ namespace TukkoTrafficVisualizer.Database.Repositories;
 public class GenericRepository<T>:IGenericRepository<T> where T : Entity 
 {
     protected readonly IMongoCollection<T> Collection;
+    protected readonly IMongoDatabase Database;
     protected readonly IClientSessionHandle Session;
 
     public GenericRepository(IMongoClient client, IClientSessionHandle session)
     {
-        Collection = client.GetDatabase("tukko").GetCollection<T>(typeof(T).Name);
+        Database = client.GetDatabase("tukko");
+        Collection = Database.GetCollection<T>(typeof(T).Name);
         Session = session;
     }
 

@@ -12,8 +12,6 @@ using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
 using TukkoTrafficVisualizer.API.Hubs;
 using TukkoTrafficVisualizer.API.Middlewares;
-using TukkoTrafficVisualizer.Infrastructure.Interfaces;
-using TukkoTrafficVisualizer.Infrastructure.Services;
 
 namespace TukkoTrafficVisualizer.API
 {
@@ -75,7 +73,7 @@ namespace TukkoTrafficVisualizer.API
                 client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
             });
 
-            builder.Services.AddHttpClient(Core.Constants.Constants.DigitrafficHttpClientName, client =>
+            builder.Services.AddHttpClient(Core.Constants.Constants.DigiTrafficHttpClientName, client =>
             {
                 client.BaseAddress = new Uri("https://tie.digitraffic.fi/api/");
             }).ConfigurePrimaryHttpMessageHandler(handler=>new HttpClientHandler
@@ -152,11 +150,6 @@ namespace TukkoTrafficVisualizer.API
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            WebSocketOptions webSocketOptions = new WebSocketOptions
-            {
-                KeepAliveInterval = TimeSpan.FromMinutes(2)
-            };
-
             app.MapHub<NotificationHub>("api/notifications");
 
             app.UseCors(x => x
@@ -164,8 +157,6 @@ namespace TukkoTrafficVisualizer.API
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
-
-            app.UseWebSockets(webSocketOptions);
 
             app.UseResponseCompression();
 

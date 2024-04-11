@@ -2,7 +2,7 @@ import { useThemeContext } from "@/context/ThemeProvider";
 import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
 
-interface DarkModeToggleProps {
+interface ThemeToggleProps {
   className?: string;
   variant?:
     | "default"
@@ -15,7 +15,7 @@ interface DarkModeToggleProps {
     | undefined;
 }
 
-export const DarkModeToggle = ({ variant, className }: DarkModeToggleProps) => {
+export const ThemeToggle = ({ variant, className }: ThemeToggleProps) => {
   const { theme, setTheme } = useThemeContext();
 
   const toggleTheme = () => {

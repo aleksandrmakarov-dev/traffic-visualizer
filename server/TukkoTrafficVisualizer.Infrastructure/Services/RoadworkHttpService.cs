@@ -17,7 +17,7 @@ public class RoadworkHttpService : IRoadworkHttpService
 
     public async Task<RoadworkContract> FetchAsync()
     {
-        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigitrafficHttpClientName);
+        HttpClient httpClient = _httpClientFactory.CreateClient(Core.Constants.Constants.DigiTrafficHttpClientName);
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync($"traffic-message/v1/messages?situationType=ROAD_WORK&includeAreaGeometry=false");
 

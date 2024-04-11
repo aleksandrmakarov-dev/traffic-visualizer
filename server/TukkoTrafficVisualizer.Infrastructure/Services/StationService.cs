@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
+using TukkoTrafficVisualizer.Core.Constants;
 using TukkoTrafficVisualizer.Database.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
+using Station = TukkoTrafficVisualizer.Database.Entities.Station;
 
 namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
@@ -31,9 +33,11 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
                 });
         }
 
-        public async Task<Database.Entities.Station?> GetHistoryByIdAsync(string id)
+        public async Task<Database.Entities.Station?> GetHistoryByIdAsync(string id, TimeRange timeRange)
         {
-            return await _stationRepository.GetByStationIdWithSensorsAsync(id);
+            Tuple<DateTime, DateTime> range = Helpers.ConvertTimeRangeToDateTime(timeRange);
+
+            return await _stationRepository.GetByStationIdWithSensorsAsync(id,range.Item1,range.Item2);
         }
 
         private Database.Entities.Station MapStationFeatureToStation(StationDetailsContract sdc)
@@ -52,5 +56,7 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
                 DataUpdatedTime = sdc.Properties.DataUpdatedTime
             };
         }
+
+
     }
 }

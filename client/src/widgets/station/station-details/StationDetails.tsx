@@ -16,9 +16,11 @@ import {
 } from "..";
 import { useSensors } from "@/entities/sensor";
 import _ from "lodash";
+import { useSidebarContext } from "@/context/SidebarProvider";
 
 export function StationDetails() {
   const { selected, setSelected, favoriteStations } = useStationContext();
+  const { setKey } = useSidebarContext();
   useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
 
   const { data: sensors } = useSensors(
@@ -34,6 +36,7 @@ export function StationDetails() {
   }
 
   const onCancel = () => {
+    setKey(null);
     setSelected(null);
   };
 
@@ -42,7 +45,7 @@ export function StationDetails() {
   };
 
   return (
-    <div className="bg-white pt-14 h-screen flex flex-col dark:bg-gray-900">
+    <div className="bg-white w-full flex flex-col dark:bg-gray-900">
       {selectedDirection ? (
         <div className="h-full overflow-auto p-5">
           <StationDirection

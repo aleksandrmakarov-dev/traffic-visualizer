@@ -8,14 +8,23 @@ import { Legend, Line, YAxis } from "recharts";
 import { Tooltip } from "recharts";
 import { CartesianGrid, XAxis } from "recharts";
 import { LineChart, ResponsiveContainer } from "recharts";
-import moment from "moment";
 import { StationResponse } from "@/lib/contracts/station/station.response";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
 import { TextSearch } from "lucide-react";
 import { useThemeContext } from "@/context/ThemeProvider";
-import { lineColors } from "@/lib/constants";
+import { lineColors, timeRanges } from "@/lib/constants";
+import moment from "moment";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { Label } from "@/shared/components/ui/label";
 
 interface StationHistoryDialogProps {
   trigger?: JSX.Element;
@@ -31,12 +40,15 @@ export function StationHistoryDialog({
   trigger,
   station,
 }: StationHistoryDialogProps) {
+  const [timeRange, setTimeRange] = useState<string>(timeRanges.Today);
+
   const { language } = useThemeContext();
   const { t } = useTranslation(["modal"]);
 
   const { data, isError, error, refetch } = useStationsHistoryById(
     {
       id: station.id,
+      timeRange: timeRange,
     },
     { enabled: false }
   );
@@ -86,10 +98,24 @@ export function StationHistoryDialog({
       open={open}
       setOpen={setOpen}
     >
-      <div className="grid grid-cols-3">
-        <div>
-          <p>{t("range")}</p>
-          <Button onClick={() => refetch()}>Load</Button>
+      <div className="grid grid-cols-[1fr_2fr_2fr] gap-x-5">
+        <div className="flex flex-col gap-y-3">
+          <Label>{t("range")}</Label>
+          <Select defaultValue={timeRange} onValueChange={setTimeRange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Choose" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {Object.entries(timeRanges).map((item) => (
+                  <SelectItem key={item[1]} value={item[1]}>
+                    {item[0]}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Button onClick={() => refetch()}>Get History</Button>
         </div>
         <div>
           <h5 className="text-xl font-medium mb-1.5">
@@ -127,7 +153,7 @@ export function StationHistoryDialog({
         isError={isError}
         error={error?.response?.data}
       />
-      {data ? (
+      {data && data.sensors.length > 0 ? (
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={lines}>
             <CartesianGrid strokeDasharray="3 3" />

@@ -1,3 +1,4 @@
+import { useSidebarContext } from "@/context/SidebarProvider";
 import { useStationContext } from "@/context/StationProvider";
 import { useThemeContext } from "@/context/ThemeProvider";
 import { Station } from "@/lib/contracts/station/station";
@@ -12,6 +13,7 @@ interface StationMarkerProps {
 
 export function StationMarker({ station }: StationMarkerProps) {
   const { selected, setSelected } = useStationContext();
+  const { setKey } = useSidebarContext();
   const { language } = useThemeContext();
 
   if (station.sensors?.length === 0) {
@@ -38,6 +40,8 @@ export function StationMarker({ station }: StationMarkerProps) {
     if (selected?.id === station.id) return;
 
     setSelected(station);
+
+    setKey("select");
   };
 
   // const onStationSelect = () => {

@@ -10,7 +10,7 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
     public class UpdateBackgroundService:BackgroundService
     {
         private readonly int _shortPeriodMinutes = 2;
-        private readonly int _longPeriodMinutes = 6;
+        private readonly int _longPeriodMinutes = 10;
         private int _minutesLeft;
         private bool _saveHistoryTime;
 
@@ -44,7 +44,7 @@ namespace TukkoTrafficVisualizer.API.BackgroundServices
 
                     if (_saveHistoryTime)
                     {
-                        _minutesLeft = _longPeriodMinutes;
+                        _minutesLeft = _longPeriodMinutes - _shortPeriodMinutes;
                     }
                     else
                     {

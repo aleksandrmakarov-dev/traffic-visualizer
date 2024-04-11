@@ -1,5 +1,6 @@
 ﻿using Amazon.Runtime.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using TukkoTrafficVisualizer.API.Attributes;
 using TukkoTrafficVisualizer.Core.Constants;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
@@ -15,15 +16,17 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
+        private readonly ILogger<StationsController> _logger;
         private readonly IStationCacheService _stationCacheService;
         private readonly IUsersService _usersService;
         private readonly IStationService _stationService;
 
-        public StationsController(IStationCacheService stationService, IStationService stationService1, IUsersService usersService)
+        public StationsController(IStationCacheService stationService, IStationService stationService1, IUsersService usersService, ILogger<StationsController> logger)
         {
             _stationCacheService = stationService;
             _stationService = stationService1;
             _usersService = usersService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -48,9 +51,16 @@ namespace TukkoTrafficVisualizer.API.Controllers
         }
 
         [HttpGet("{id}/history")]
-        public async Task<IActionResult> GetHistoryById([FromRoute] string id)
+        public async Task<IActionResult> GetHistoryById([FromRoute] string id, [FromQuery] TimeRange? timeRange)
         {
-            Database.Entities.Station? foundStation = await _stationService.GetHistoryByIdAsync(id);
+            if (timeRange == null)
+            {
+                throw new BadRequestException("TimeRange is not specified");
+            }
+
+            _logger.LogInformation(timeRange.ToString());
+
+            Database.Entities.Station? foundStation = await _stationService.GetHistoryByIdAsync(id,timeRange.Value);
 
             if (foundStation == null)
             {

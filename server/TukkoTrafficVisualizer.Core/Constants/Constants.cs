@@ -4,7 +4,15 @@
     {
         public const string UserContextName = "user";
         public const bool CookieHttpOnly = true;
-        public const string DigitrafficHttpClientName = "digitraffic";
+        public const string DigiTrafficHttpClientName = "digitraffic";
         public const string NominatimHttpClientName = "nominatim";
+    }
+
+    public enum TimeRange
+    {
+        Today,
+        Yesterday,
+        Week,
+        Month
     }
 }
