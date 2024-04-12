@@ -15,6 +15,7 @@ import { useRoadworks } from "@/entities/roadwork";
 import { useSensors } from "@/entities/sensor";
 import _ from "lodash";
 import { useSession } from "./SessionProvider";
+import { useSidebarContext } from "./SidebarProvider";
 
 type StationContextMode = "select" | "compare";
 
@@ -51,6 +52,7 @@ const methods = {
 const StationContext = createContext<StationContextState>(initialState);
 
 export default function StationProvider({ children }: { children: ReactNode }) {
+  const { key } = useSidebarContext();
   const { session } = useSession();
 
   const {
@@ -144,6 +146,12 @@ export default function StationProvider({ children }: { children: ReactNode }) {
       setStations(mappedStations);
     }
   }, [roadworkData, sensorData, stationData]);
+
+  useEffect(() => {
+    if (key !== "select") {
+      setSelected(null);
+    }
+  }, [key]);
 
   return (
     <StationContext.Provider

@@ -28,9 +28,9 @@ export default function MainLayout() {
   useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
 
   return (
-    <StationProvider>
-      <MapProvider>
-        <SidebarProvider>
+    <SidebarProvider>
+      <StationProvider>
+        <MapProvider>
           <FullPageWrapper>
             {/* <div className="absolute z-10 h-screen bg-white shadow-md dark:bg-gray-950 w-16 border-r border-border flex items-center flex-col py-2.5 gap-y-2.5">
               <DarkModeToggle />
@@ -95,8 +95,8 @@ export default function MainLayout() {
             <LogoContainer className="absolute z-10 bottom-8 right-14" />
             <Outlet />
           </FullPageWrapper>
-        </SidebarProvider>
-      </MapProvider>
-    </StationProvider>
+        </MapProvider>
+      </StationProvider>
+    </SidebarProvider>
   );
 }

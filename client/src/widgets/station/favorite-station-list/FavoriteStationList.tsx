@@ -28,7 +28,7 @@ export function FavoriteStationList() {
   return (
     <>
       <h4 className="text-xl font-medium p-5">Favorite Stations</h4>
-      <ul className="overflow-auto">
+      <ul className="overflow-auto h-full">
         {favorites.map((favorite) => (
           <li
             key={favorite.id}
