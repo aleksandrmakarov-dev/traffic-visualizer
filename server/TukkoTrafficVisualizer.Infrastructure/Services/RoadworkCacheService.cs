@@ -1,4 +1,5 @@
-﻿using TukkoTrafficVisualizer.Cache.Interfaces;
+﻿using TukkoTrafficVisualizer.Cache.Entities;
+using TukkoTrafficVisualizer.Cache.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Contracts;
 
@@ -35,21 +36,14 @@ public class RoadworkCacheService : IRoadworkCacheService
         }
     }
 
-    public async Task<IEnumerable<Cache.Entities.Roadwork>> GetAsync(
-        int primaryPointRoadNumber,
-        int primaryPointRoadSection,
-        int secondaryPointRoadNumber,
-        int secondaryPointRoadSection,
-        string severity
-        )
+    public async Task<IEnumerable<Cache.Entities.Roadwork>> GetAsync()
     {
         // IEnumerable<Data.Redis.Entities.Roadwork> roadworkList = await _roadworkCacheRepository.FilterAsync(
         //    primaryPointRoadNumber, primaryPointRoadSection, secondaryPointRoadNumber, secondaryPointRoadSection,
         //    startTimeOnAfter, startTimeOnBefore, severity);
 
 
-        return await _roadworkCacheRepository.GetAsync(severity
-            );
+        return await _roadworkCacheRepository.GetAllAsync();
     }
 
     private Cache.Entities.Roadwork MapRoadworkPhaseToRoadwork(RoadWorkPhase phase)

@@ -16,23 +16,9 @@ namespace TukkoTrafficVisualizer.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] DateTime startTimeOnAfter = default, 
-            [FromQuery] DateTime startTimeOnBefore = default, 
-            [FromQuery] int primaryPointRoadNumber = 8102, 
-            [FromQuery] int primaryPointRoadSection = 1, 
-            [FromQuery] int secondaryPointRoadNumber = 8102, 
-            [FromQuery] int secondaryPointRoadSection = 5, 
-            [FromQuery] string severity = "HIGH"
-            )
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Cache.Entities.Roadwork> roadworkList = await _roadworkService.GetAsync(
-                primaryPointRoadNumber,
-                primaryPointRoadSection,
-                secondaryPointRoadNumber,
-                secondaryPointRoadSection,
-                severity
-                );
+            IEnumerable<Cache.Entities.Roadwork> roadworkList = await _roadworkService.GetAsync();
 
             return Ok(roadworkList);
         }

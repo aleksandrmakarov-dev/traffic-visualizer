@@ -10,11 +10,4 @@ public class RoadworkCacheRepository : GenericCacheRepository<Roadwork>, IRoadwo
     public RoadworkCacheRepository(RedisConnectionProvider provider) : base(provider)
     {
     }
-
-    public async Task<IEnumerable<Roadwork>> GetAsync(string severity)
-    {
-        return await Collection
-            .Where(r => r.Severity == severity)
-            .ToListAsync();
-    }
 }
