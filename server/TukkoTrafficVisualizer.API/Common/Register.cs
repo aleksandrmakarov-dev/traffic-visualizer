@@ -61,6 +61,8 @@ namespace TukkoTrafficVisualizer.API.Common
             builder.Services.Configure<MailingOptions>(builder.Configuration.GetSection(MailingOptions.Name));
             builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.Name));
             builder.Services.Configure<GitlabOptions>(builder.Configuration.GetSection(GitlabOptions.Name));
+            builder.Services.Configure<MongoDbOptions>(builder.Configuration.GetSection(MongoDbOptions.Name));
+            builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection(RedisOptions.Name));
 
             return builder;
 

@@ -4,14 +4,17 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Redis.OM;
 using Server.API.Middlewares;
+using StackExchange.Redis;
 using TukkoTrafficVisualizer.API.BackgroundServices;
 using TukkoTrafficVisualizer.API.Common;
 using TukkoTrafficVisualizer.API.Hubs;
 using TukkoTrafficVisualizer.API.Middlewares;
+using TukkoTrafficVisualizer.Core.Options;
 
 namespace TukkoTrafficVisualizer.API
 {
@@ -83,36 +86,35 @@ namespace TukkoTrafficVisualizer.API
 
             builder.Services.RemoveAll<IHttpMessageHandlerBuilderFilter>();
 
-            string? redisConnectionString;
-            string? mongodbConnectionString;
-
-            if (builder.Environment.IsDevelopment())
-            {
-                redisConnectionString = builder.Configuration.GetConnectionString("RedisDev");
-                mongodbConnectionString = builder.Configuration.GetConnectionString("MongodbDev");
-            }
-            else
-            {
-                redisConnectionString = builder.Configuration.GetConnectionString("RedisProd");
-                mongodbConnectionString = builder.Configuration.GetConnectionString("MongodbProd");
-            }
-
-            if (string.IsNullOrEmpty(redisConnectionString))
-            {
-                throw new ArgumentException(nameof(redisConnectionString));
-            }
 
             // Add Redis
-            builder.Services.AddSingleton(
-                new RedisConnectionProvider(redisConnectionString));
-
-            if (string.IsNullOrEmpty(mongodbConnectionString))
+            builder.Services.AddSingleton(sp =>
             {
-                throw new ArgumentException(nameof(mongodbConnectionString));
-            }
+                RedisOptions options = sp.GetRequiredService<IOptions<RedisOptions>>().Value;
+
+                return new RedisConnectionProvider(new RedisConnectionConfiguration
+                {
+                    Host = builder.Environment.IsDevelopment() ? options.Development : options.Production,
+                    Port = options.Port,
+                    Password = options.Password
+                });
+            });
 
             // Add Mongodb
-            builder.Services.AddSingleton<IMongoClient>(c => new MongoClient(mongodbConnectionString));
+            builder.Services.AddSingleton<IMongoClient>(sp =>
+            {
+                MongoDbOptions options = sp.GetRequiredService<IOptions<MongoDbOptions>>().Value;
+
+                var mongoUrl = new MongoUrlBuilder
+                {
+                    Server = new MongoServerAddress(builder.Environment.IsDevelopment() ? options.Development : options.Production),
+                    Username = options.Username,
+                    Password = options.Password,
+                    AuthenticationSource = "admin"
+                }.ToMongoUrl();
+
+                return new MongoClient(MongoClientSettings.FromUrl(mongoUrl));
+            });
 
             builder.Services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
 
