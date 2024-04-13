@@ -1,7 +1,7 @@
 ﻿namespace TukkoTrafficVisualizer.Core.Options;
 
-public class JsonWebTokenOptions
+public class JsonWebTokenOptions:IOptionsBase
 {
-    public const string Name = "JsonWebToken";
     public required string SecretKey { get; set; }
+    public static string Name => "JsonWebToken";
 }

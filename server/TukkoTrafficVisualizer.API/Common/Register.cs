@@ -57,12 +57,12 @@ namespace TukkoTrafficVisualizer.API.Common
 
         public static WebApplicationBuilder AddAppOptions(this WebApplicationBuilder builder)
         {
-            builder.Services.Configure<JsonWebTokenOptions>(builder.Configuration.GetSection(JsonWebTokenOptions.Name));
-            builder.Services.Configure<MailingOptions>(builder.Configuration.GetSection(MailingOptions.Name));
-            builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.Name));
-            builder.Services.Configure<GitlabOptions>(builder.Configuration.GetSection(GitlabOptions.Name));
-            builder.Services.Configure<MongoDbOptions>(builder.Configuration.GetSection(MongoDbOptions.Name));
-            builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection(RedisOptions.Name));
+            builder.Services.AddOptions<RedisOptions>().BindConfiguration(RedisOptions.Name);
+            builder.Services.AddOptions<JsonWebTokenOptions>().BindConfiguration(JsonWebTokenOptions.Name);
+            builder.Services.AddOptions<MailingOptions>().BindConfiguration(MailingOptions.Name);
+            builder.Services.AddOptions<ApplicationOptions>().BindConfiguration(ApplicationOptions.Name);
+            builder.Services.AddOptions<GitlabOptions>().BindConfiguration(GitlabOptions.Name);
+            builder.Services.AddOptions<MongoDbOptions>().BindConfiguration(MongoDbOptions.Name);
 
             return builder;
 

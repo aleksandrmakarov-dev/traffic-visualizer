@@ -1,8 +1,8 @@
 ﻿namespace TukkoTrafficVisualizer.Core.Options
 {
-    public class ApplicationOptions
+    public class ApplicationOptions:IOptionsBase
     {
-        public const string Name = "Application";
         public required string ClientBaseUrl { get; set; }
+        public static string Name => "Application";
     }
 }
