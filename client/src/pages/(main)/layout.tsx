@@ -47,7 +47,7 @@ export default function MainLayout() {
             <div className="absolute z-10 top-0 left-16 w-full max-w-sm shadow-md">
               <StationDetails />
             </div> */}
-            <div className="absolute z-10 top-0 right-0 p-2.5">
+            <div className="hidden md:block absolute z-10 top-0 right-0 p-2.5">
               {isLoading ? (
                 <p>Loading...</p>
               ) : session ? (
@@ -92,7 +92,7 @@ export default function MainLayout() {
                 </SidebarContent>
               </SidebarContainer>
             </Sidebar>
-            <LogoContainer className="absolute z-10 bottom-8 right-14" />
+            <LogoContainer className="hidden md:block absolute z-10 bottom-8 right-14" />
             <Outlet />
           </FullPageWrapper>
         </MapProvider>

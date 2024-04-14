@@ -11,7 +11,10 @@ interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ children, className, ...other }: SidebarProps) {
   return (
     <div
-      className={cn("flex pointer-events-none h-screen", className)}
+      className={cn(
+        "flex w-full md:w-auto flex-col-reverse md:flex-row pointer-events-none h-screen",
+        className
+      )}
       {...other}
     >
       {children}
@@ -31,7 +34,7 @@ export function SidebarNavigation({
   return (
     <div
       className={cn(
-        "flex flex-col pointer-events-auto items-center gap-y-2.5 py-2.5 bg-white w-16 shadow-md border-r border-border dark:bg-gray-950",
+        "w-full flex flex-row md:flex-col justify-center md:justify-normal pointer-events-auto items-center gap-2.5 py-2.5 bg-white md:w-16 shadow-md border-r border-border dark:bg-gray-950",
         className
       )}
       {...other}
@@ -70,7 +73,7 @@ export function SidebarContainer({ children }: { children?: React.ReactNode }) {
 
   return (
     <div
-      className={cn("w-96 flex flex-col h-screen", {
+      className={cn("w-full md:w-96 flex flex-col h-full", {
         "bg-white shadow-md pointer-events-auto dark:bg-gray-900": key,
       })}
     >
@@ -93,5 +96,7 @@ export function SidebarContent({ value, children }: SidebarContentProps) {
 }
 
 export function SidebarHeader({ children }: { children: React.ReactNode }) {
-  return <div className="pointer-events-auto px-5 py-2.5">{children}</div>;
+  return (
+    <div className="pointer-events-auto px-5 py-2.5 shrink-0">{children}</div>
+  );
 }
