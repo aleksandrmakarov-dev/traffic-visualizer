@@ -5,6 +5,8 @@ An application visualizes traffic conditions in Finland.
   - .NET 8.0, ASP.NET Core Web API
   - Redis
   - MongoDb
+  - SignalR
+
 ## Frontent
 ### Technologies
   - React
