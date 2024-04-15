@@ -3,7 +3,7 @@ An application visualizes traffic conditions in Finland.
 
 [Demo](http://128.214.255.43:5175)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/l5toTQrJ1rY?si=QyEiZF1jvbvwR8fG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF/0.jpg)]([https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF](https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF-7pGf-Z1&index=1))
 
 ## Backend
 ### Technologies
