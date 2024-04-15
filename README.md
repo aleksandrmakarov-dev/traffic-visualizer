@@ -3,7 +3,7 @@ An application visualizes traffic conditions in Finland.
 
 [Demo](http://128.214.255.43:5175)
 
-[![demo]([https://i.stack.imgur.com/XCRlR.png](https://i3.ytimg.com/vi/l5toTQrJ1rY/maxresdefault.jpg))](https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF-7pGf-Z1&index=1 "Little red riding hood - Click to Watch!")
+[![demo]([[https://i.stack.imgur.com/XCRlR.png](https://i3.ytimg.com/vi/l5toTQrJ1rY/maxresdefault.jpg)](https://i3.ytimg.com/vi/l5toTQrJ1rY/maxresdefault.jpg))](https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF-7pGf-Z1&index=1 "Little red riding hood - Click to Watch!")
 
 ## Backend
 ### Technologies
