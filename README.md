@@ -1,5 +1,10 @@
 # Traffic Visualizer
 An application visualizes traffic conditions in Finland.
+
+[Demo](http://128.214.255.43:5175)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l5toTQrJ1rY?si=QyEiZF1jvbvwR8fG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Backend
 ### Technologies
   - .NET 8.0, ASP.NET Core Web API
@@ -43,3 +48,9 @@ How to run docker container
 
   1. Rename `example.env` to `.env`
   2. Open command line and run command `npm run prod:windows`
+
+## Features
+[x] - FEA101 - Compare different LAM stations side by side
+[x] - FEA102 - Securely authenticate user accounts
+[x] - FEA103 - Save favorite LAM stations to user account
+[x] - FEA109 - Search location by name
