@@ -129,10 +129,11 @@ namespace TukkoTrafficVisualizer.API
 
             // Add Services
 
-            // Remove builder.Environment.IsDevelopment() to don't use mock mailing and feedback services in debug
-            builder.Services.AddServices(builder.Environment.IsDevelopment());
+            // appsettings.json Application->Mock
+            builder.Services.AddServices(builder.Configuration.GetSection("Application").Get<ApplicationOptions>().IsMock);
 
             //Add Automapper
+
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly(),
                 Assembly.Load("TukkoTrafficVisualizer.Infrastructure"));
 
