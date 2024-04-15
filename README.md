@@ -2,7 +2,7 @@
 An application visualizes traffic conditions in Finland.
 
 **test user**:  
-email:test@example.com  
+email: test@example.com  
 password: test123  
 [Demo](http://128.214.255.43:5175)
 
