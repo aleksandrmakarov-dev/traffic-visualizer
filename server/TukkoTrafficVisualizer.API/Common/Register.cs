@@ -10,8 +10,20 @@ namespace TukkoTrafficVisualizer.API.Common
 {
     public static class Register
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services,bool isDev = false)
         {
+            if (isDev)
+            {
+                services.AddScoped<IMailingService, MockMailingService>();
+                services.AddScoped<IFeedbackService, MockFeedbackService>();
+            }
+            else
+            {
+                services.AddScoped<IMailingService, GmailMailingService>();
+                services.AddScoped<IFeedbackService, GitlabFeedbackService>();
+            }
+
+
             services.AddScoped<IRoadworkCacheService, RoadworkCacheService>();
             services.AddScoped<ISensorCacheService, SensorCacheService>();
             services.AddScoped<IStationCacheService, StationCacheService>();
@@ -23,7 +35,6 @@ namespace TukkoTrafficVisualizer.API.Common
             services.AddScoped<ISensorService, SensorService>();
 
             services.AddScoped<ILocationService, HttpLocationService>();
-            services.AddScoped<IMailingService, GmailMailingService>();
             services.AddSingleton<IPasswordsService, BcryptPasswordsService>();
             services.AddSingleton<ITokensService, TokensService>();
             services.AddSingleton<IJwtService, JwtService>();

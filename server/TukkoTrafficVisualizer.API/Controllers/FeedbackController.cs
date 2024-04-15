@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using TukkoTrafficVisualizer.Core.Options;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
+using TukkoTrafficVisualizer.Infrastructure.Interfaces;
 using TukkoTrafficVisualizer.Infrastructure.Models.Requests;
 using TukkoTrafficVisualizer.Infrastructure.Models.Responses;
 
@@ -11,40 +12,16 @@ namespace TukkoTrafficVisualizer.API.Controllers
     [ApiController]
     public class FeedbackController : ControllerBase
     {
-        private readonly ILogger<FeedbackController> _logger;
-        private readonly HttpClient _httpClient;
-        private readonly GitlabOptions _gitlabOptions;
-
-        public FeedbackController(ILogger<FeedbackController> logger, IOptions<GitlabOptions> gitlabOptions)
+        private readonly IFeedbackService _feedbackService;
+        public FeedbackController(ILogger<FeedbackController> logger, IOptions<GitlabOptions> gitlabOptions, IFeedbackService feedbackService)
         {
-            _logger = logger;
-            _gitlabOptions = gitlabOptions.Value;
-
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(_gitlabOptions.BaseUrl)
-            };
+            _feedbackService = feedbackService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateFeedbackRequest request)
         {
-            _logger.LogInformation($"Title: {request.Title}");
-            _logger.LogInformation($"Description: {request.Description}");
-
-            HttpRequestMessage requestMessage =
-                new HttpRequestMessage(HttpMethod.Post, $"projects/{_gitlabOptions.ProjectId}/issues?title={request.Title}&description={request.Description}&labels=Customer Feedback");
-
-            requestMessage.Headers.Add("Private-Token",_gitlabOptions.AccessToken);
-
-
-            HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
-
-            if (!responseMessage.IsSuccessStatusCode)
-            {
-                string errorMessage = await responseMessage.Content.ReadAsStringAsync();
-                throw new BadRequestException(errorMessage);
-            }
+            await _feedbackService.SendAsync(request.Title, request.Description);
 
             return Ok(new MessageResponse
             {

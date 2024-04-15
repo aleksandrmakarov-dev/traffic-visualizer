@@ -5,6 +5,6 @@
         public required string BaseUrl { get; set; }
         public required string AccessToken { get; set; }
         public required string ProjectId { get; set; }
-        public static string Name => "Redis";
+        public static string Name => "Gitlab";
     }
 }

@@ -12,11 +12,9 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
     public class GmailMailingService : IMailingService
     {
         private readonly MailingOptions _options;
-        private readonly ILogger<GmailMailingService> _logger;
 
-        public GmailMailingService(IOptions<MailingOptions> options, ILogger<GmailMailingService> logger)
+        public GmailMailingService(IOptions<MailingOptions> options)
         {
-            _logger = logger;
             _options = options.Value;
         }
 

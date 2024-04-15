@@ -17,10 +17,13 @@ namespace TukkoTrafficVisualizer.API.Controllers
         private readonly IAuthService _authService;
         private readonly IMailingService _mailingService;
         private readonly ApplicationOptions _applicationOptions;
-        public AuthController(IAuthService authService, IMailingService mailingService, IOptions<ApplicationOptions> applicationOptions)
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IAuthService authService, IMailingService mailingService, IOptions<ApplicationOptions> applicationOptions, ILogger<AuthController> logger)
         {
             _authService = authService;
             _mailingService = mailingService;
+            _logger = logger;
             _applicationOptions = applicationOptions.Value;
         }
 
@@ -34,8 +37,10 @@ namespace TukkoTrafficVisualizer.API.Controllers
             string verificationUrl =
                 $"{_applicationOptions.ClientBaseUrl}/auth/verify-email?email={emailVerification.Email}&token={emailVerification.EmailVerificationToken}";
 
+            string html = $"<p>Verify your account: <a href=\"{verificationUrl}\">{verificationUrl}</a></p>";
+
             await _mailingService.SendAsync(emailVerification.Email,
-                "Tukko.con: Verify you account", $"<p>Verify your account: <a href=\"{verificationUrl}\">{verificationUrl}</a></p>");
+                "Tukko.con: Verify you account", html);
 
             // message that user is created and needs to be verified
             MessageResponse response =  new MessageResponse

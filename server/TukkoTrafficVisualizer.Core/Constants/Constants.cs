@@ -6,6 +6,7 @@
         public const bool CookieHttpOnly = true;
         public const string DigiTrafficHttpClientName = "digitraffic";
         public const string NominatimHttpClientName = "nominatim";
+        public const string GitlabHttpClientName = "gitlab";
     }
 
     public enum TimeRange
