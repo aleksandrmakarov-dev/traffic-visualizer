@@ -1,6 +1,8 @@
 import { useStationContext } from "@/context/StationProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 import { useSensors } from "@/entities/sensor";
 import { SensorResponse } from "@/lib/contracts/sensor/sensor.response";
+import { Station } from "@/lib/contracts/station/station";
 import { DialogBase } from "@/shared/components/DialogBase";
 import {
   Table,
@@ -20,7 +22,8 @@ type Row = {
 };
 
 export function StationCompareDialog() {
-  const { t } = useTranslation(["sensors", "units"]);
+  const { language } = useThemeContext();
+  const { t } = useTranslation(["station", "sensors", "units"]);
   const { selected, comparator, setComparator } = useStationContext();
   const [rows, setRows] = useState<Row[]>([]);
   const [open, setOpen] = useState<boolean>(true);
@@ -66,7 +69,7 @@ export function StationCompareDialog() {
   return (
     <DialogBase
       className="w-full max-w-6xl"
-      title="Compare"
+      title={t("compareTitle")}
       open={open}
       setOpen={setOpen}
     >
@@ -78,13 +81,13 @@ export function StationCompareDialog() {
               className="text-lg text-center text-foreground"
               colSpan={2}
             >
-              {selected.names.en}
+              {selected.names[language as keyof Station["names"]]}
             </TableHead>
             <TableHead
               className="text-lg text-center text-foreground"
               colSpan={2}
             >
-              {comparator.names.en}
+              {comparator.names[language as keyof Station["names"]]}
             </TableHead>
           </TableRow>
         </TableHeader>

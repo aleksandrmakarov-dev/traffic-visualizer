@@ -8,8 +8,10 @@ import { MapLayers } from "./components/MapLayers";
 import { useMapContext } from "@/context/MapProvider";
 import { useThemeContext } from "@/context/ThemeProvider";
 import { StationCompareDialog } from "@/widgets/station";
+import { useTranslation } from "react-i18next";
 
 export default function Root(): JSX.Element {
+  useTranslation();
   const { center, zoom } = useMapContext();
   const { language } = useThemeContext();
 
@@ -42,10 +44,10 @@ export default function Root(): JSX.Element {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Geoman />
+        <ZoomControl position="bottomright" />
         <Suspense>
           <MapLayers />
         </Suspense>
-        <ZoomControl position="bottomright" />
       </MapContainer>
       <StationCompareDialog />
     </>

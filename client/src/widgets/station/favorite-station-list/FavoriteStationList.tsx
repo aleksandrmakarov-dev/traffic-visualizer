@@ -1,12 +1,16 @@
 import { useMapContext } from "@/context/MapProvider";
 import { useSidebarContext } from "@/context/SidebarProvider";
 import { useStationContext } from "@/context/StationProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 import { Station } from "@/lib/contracts/station/station";
 import { cn } from "@/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function FavoriteStationList() {
+  const { t } = useTranslation(["station"]);
+  const { language } = useThemeContext();
   const { setKey } = useSidebarContext();
   const { favoriteStations, stations } = useStationContext();
   const { setCenter, setZoom } = useMapContext();
@@ -27,7 +31,7 @@ export function FavoriteStationList() {
 
   return (
     <>
-      <h4 className="text-xl font-medium p-5">Favorite Stations</h4>
+      <h4 className="text-xl font-medium p-5">{t("favoriteTitle")}</h4>
       <ul className="overflow-auto h-full">
         {favorites.map((favorite) => (
           <li
@@ -38,13 +42,13 @@ export function FavoriteStationList() {
             )}
             onClick={() => onNavigate(favorite)}
           >
-            {favorite.names.en}
+            {favorite.names[language as keyof Station["names"]]}
           </li>
         ))}
       </ul>
       <div className="p-2.5">
         <Button className="w-full" onClick={() => setKey(null)}>
-          Close
+          {t("closeBtn")}
         </Button>
       </div>
     </>

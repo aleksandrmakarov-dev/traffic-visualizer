@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TukkoTrafficVisualizer.Core.Options;
 using TukkoTrafficVisualizer.Infrastructure.Exceptions;
@@ -12,12 +13,14 @@ namespace TukkoTrafficVisualizer.Infrastructure.Services
 {
     public class GitlabFeedbackService:IFeedbackService
     {
+        private readonly ILogger<GitlabFeedbackService> _logger;
         private readonly GitlabOptions _gitlabOptions;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public GitlabFeedbackService(IOptions<GitlabOptions> gitlabOptions, IHttpClientFactory httpClientFactory)
+        public GitlabFeedbackService(IOptions<GitlabOptions> gitlabOptions, IHttpClientFactory httpClientFactory, ILogger<GitlabFeedbackService> logger)
         {
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
             _gitlabOptions = gitlabOptions.Value;
         }
 

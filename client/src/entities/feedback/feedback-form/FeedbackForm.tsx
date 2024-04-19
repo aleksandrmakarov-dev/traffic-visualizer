@@ -15,6 +15,7 @@ import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface FeedbackFormProps {
   isLoading?: boolean;
@@ -22,6 +23,7 @@ interface FeedbackFormProps {
 }
 
 export function FeedbackForm({ isLoading, onSubmit }: FeedbackFormProps) {
+  const { t } = useTranslation(["feedback"]);
   const form = useForm<FeedbackRequest>({
     resolver: zodResolver(feedbackRequest),
     defaultValues: {
@@ -39,7 +41,7 @@ export function FeedbackForm({ isLoading, onSubmit }: FeedbackFormProps) {
           disabled={isLoading}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>{t("titleLbl")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -53,7 +55,7 @@ export function FeedbackForm({ isLoading, onSubmit }: FeedbackFormProps) {
           disabled={isLoading}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t("descriptionLbl")}</FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>
@@ -62,7 +64,7 @@ export function FeedbackForm({ isLoading, onSubmit }: FeedbackFormProps) {
           )}
         />
         <Button loading={isLoading} className="w-full sm">
-          Submit
+          {t("submitBtn")}
         </Button>
       </form>
     </Form>

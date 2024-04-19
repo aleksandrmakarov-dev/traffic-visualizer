@@ -118,7 +118,7 @@ export default function StationProvider({ children }: { children: ReactNode }) {
       console.log(msg);
     });
 
-    conn.start().then(() => console.log("start"));
+    conn.start();
 
     return () => {
       conn.stop();

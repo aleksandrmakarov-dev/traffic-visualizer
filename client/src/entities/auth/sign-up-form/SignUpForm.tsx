@@ -15,6 +15,7 @@ import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface SignUpFormProps {
   isLoading?: boolean;
@@ -22,6 +23,7 @@ interface SignUpFormProps {
 }
 
 export function SignUpForm({ isLoading, onSubmit }: SignUpFormProps) {
+  const { t } = useTranslation(["auth"]);
   const [show, setShow] = useState<boolean>(false);
 
   const form = useForm<SignUpRequest>({
@@ -40,7 +42,7 @@ export function SignUpForm({ isLoading, onSubmit }: SignUpFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t("emailLbl")}</FormLabel>
               <FormControl>
                 <Input type="email" {...field} />
               </FormControl>
@@ -54,12 +56,12 @@ export function SignUpForm({ isLoading, onSubmit }: SignUpFormProps) {
           render={({ field }) => (
             <FormItem>
               <div className="flex justify-between">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("passwordLbl")}</FormLabel>
                 <span
                   className="text-sm font-medium hover:underline hover:cursor-pointer underline-offset-2"
                   onClick={() => setShow((prev) => !prev)}
                 >
-                  {show ? "Hide" : "Show"}
+                  {show ? t("hideBtn") : t("showBtn")}
                 </span>
               </div>
               <FormControl>
@@ -70,7 +72,7 @@ export function SignUpForm({ isLoading, onSubmit }: SignUpFormProps) {
           )}
         />
         <Button loading={isLoading} type="submit" className="w-full">
-          Create my account
+          {t("signUpBtn")}
         </Button>
       </form>
     </Form>

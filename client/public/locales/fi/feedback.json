@@ -1,9 +1,8 @@
 {
-    "giveFeedback": "Anna palautetta",
-    "title": "Syötä otsikko:",
-    "enterDescription": "Syötä kuvaus:",
-    "fillRequiredFields": "Täytä kaikki pakolliset kentät.",
-    "submit": "Lähetä",
-    "issueCreatedSuccessfully": "Palaute lähetetty onnistuneesti!"
-  }
-  
+  "title": "Anna palautetta",
+  "titleLbl": "Otsikko",
+  "descriptionLbl": "Kuvaus",
+  "submitBtn": "Lähetä",
+  "successTitle": "Saimme palautteesi",
+  "successSubtitle": "Kiitos palautteestasi! Käymme sen huolellisesti läpi"
+}

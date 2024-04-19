@@ -1,0 +1,19 @@
+{
+  "moreBtn":"Lisää",
+  "historyBtn":"Avaa historia",
+  "compareBtn":"Vertaa",
+  "waitingBtn":"Odottaa valintaa",
+  "compareTitle":"Vertaa",
+  "historyTitle":"Historia",
+  "fetchHistoryBtn":"Hae historia",
+  "directionLbl":"Suunta",
+  "historyEmptyViewTitle":"Ei dataa. Yritä vaihtaa aikaväliä",
+  "timeRangeLbl":"Aikajakso",
+  "road":"Tie",
+  "favoriteTitle":"Suosikki asemat",
+  "closeBtn":"Sulje",
+  "today": "Tänään",
+  "yesterday": "Eilen",
+  "week": "Viikko",
+  "month": "Kuukausi"
+}

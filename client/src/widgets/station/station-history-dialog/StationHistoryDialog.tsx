@@ -47,9 +47,8 @@ export function StationHistoryDialog({
   station,
 }: StationHistoryDialogProps) {
   const [timeRange, setTimeRange] = useState<string>(timeRanges.Today);
-
   const { language } = useThemeContext();
-  const { t } = useTranslation(["modal"]);
+  const { t } = useTranslation(["station", "modal"]);
 
   const { data, isError, error, refetch } = useStationsHistoryById(
     {
@@ -121,7 +120,7 @@ export function StationHistoryDialog({
     >
       <div className="grid grid-cols-[1fr_2fr_2fr] gap-x-5">
         <div className="flex flex-col gap-y-3">
-          <Label>{t("range")}</Label>
+          <Label>{t("timeRangeLbl")}</Label>
           <Select defaultValue={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger>
               <SelectValue placeholder="Choose" />
@@ -130,17 +129,17 @@ export function StationHistoryDialog({
               <SelectGroup>
                 {Object.entries(timeRanges).map((item) => (
                   <SelectItem key={item[1]} value={item[1]}>
-                    {item[0]}
+                    {t(item[1])}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button onClick={() => refetch()}>Get History</Button>
+          <Button onClick={() => refetch()}>{t("fetchHistoryBtn")}</Button>
         </div>
         <div>
           <h5 className="text-xl font-medium mb-1.5">
-            Direction: {station.direction1Municipality}
+            {t("directionLbl")}: {station.direction1Municipality}
           </h5>
           <ul>
             {_.filter(uniqueSensors, (item) => item.name.endsWith("1")).map(
@@ -159,7 +158,7 @@ export function StationHistoryDialog({
         </div>
         <div>
           <h5 className="text-xl font-medium mb-1.5">
-            Direction: {station.direction2Municipality}
+            {t("directionLbl")}: {station.direction2Municipality}
           </h5>
           <ul>
             {_.filter(uniqueSensors, (item) => item.name.endsWith("2")).map(
@@ -210,7 +209,7 @@ export function StationHistoryDialog({
       ) : (
         <div className="h-72 flex flex-col justify-center items-center">
           <TextSearch />
-          <p>No data</p>
+          <p>{t("historyEmptyViewTitle")}</p>
         </div>
       )}
     </DialogBase>

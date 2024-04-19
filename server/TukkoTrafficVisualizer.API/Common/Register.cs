@@ -10,19 +10,10 @@ namespace TukkoTrafficVisualizer.API.Common
 {
     public static class Register
     {
-        public static IServiceCollection AddServices(this IServiceCollection services,bool isDev = false)
+        public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            if (isDev)
-            {
-                services.AddScoped<IMailingService, MockMailingService>();
-                services.AddScoped<IFeedbackService, MockFeedbackService>();
-            }
-            else
-            {
-                services.AddScoped<IMailingService, GmailMailingService>();
-                services.AddScoped<IFeedbackService, GitlabFeedbackService>();
-            }
-
+            services.AddScoped<IMailingService, GmailMailingService>();
+            services.AddScoped<IFeedbackService, GitlabFeedbackService>();
 
             services.AddScoped<IRoadworkCacheService, RoadworkCacheService>();
             services.AddScoped<ISensorCacheService, SensorCacheService>();

@@ -7,9 +7,11 @@ import { FormAlert } from "@/shared/components/FormAlert";
 import { Button } from "@/shared/components/ui/button";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 export function LocationSearchList() {
+  const { t } = useTranslation(["search"]);
   const [searchParams, setSearchParams] = useSearchParams();
   const { setZoom, setCenter } = useMapContext();
   const { setKey } = useSidebarContext();
@@ -40,7 +42,7 @@ export function LocationSearchList() {
         {isLoading && (
           <div className="p-5 flex flex-col items-center animate-pulse text-center">
             <Search className="mb-1.5" />
-            <p>Searching....</p>
+            <p>{t("loadingViewTitle")}</p>
           </div>
         )}
         {isError && <FormAlert isError={isError} error={error} />}
@@ -65,18 +67,17 @@ export function LocationSearchList() {
         {isSuccess && data.length === 0 && (
           <div className="p-5">
             <p className="font-medium">
-              Maps can't find {searchParams.get("q")}
+              {t("emptyViewTitle")} {searchParams.get("q")}
             </p>
             <p className="text-sm text-muted-foreground">
-              Make sure your search is spelled correctly. Try adding a city,
-              state, or zip code
+              {t("emptyViewSubtitle")}
             </p>
           </div>
         )}
       </div>
       <div className="p-2.5">
         <Button type="button" className="w-full" onClick={onCancel}>
-          Close
+          {t("closeBtn")}
         </Button>
       </div>
     </>

@@ -3,8 +3,10 @@ import { useSignUpLocal } from "@/features/auth/sign-up";
 import { SignUpRequest } from "@/lib/contracts/auth/sign-up.request";
 import { CardContainer } from "@/shared/components/CardContainer";
 import { FormAlert } from "@/shared/components/FormAlert";
+import { useTranslation } from "react-i18next";
 
 export function SignUpCard() {
+  const { t } = useTranslation(["auth"]);
   const { mutate, isError, error, isSuccess, isPending } = useSignUpLocal();
 
   const onSubmit = (data: SignUpRequest) => {
@@ -14,17 +16,8 @@ export function SignUpCard() {
   return (
     <CardContainer className="w-full max-w-md mx-auto p-8">
       <h1 className="text-center mb-10 text-3xl font-semibold">
-        Create your account
+        {t("signUpTitle")}
       </h1>
-      {/* <div>
-        <Button className="w-full" variant="outline">
-          Continue with Google
-        </Button>
-        <div className="relative text-center my-5">
-          <div className="absolute h-[1px] w-full bg-border top-1/2" />
-          <span className="relative bg-white px-4">OR</span>
-        </div>
-      </div> */}
       <FormAlert
         className="mb-3"
         isSuccess={isSuccess}
@@ -53,12 +46,12 @@ export function SignUpCard() {
       <SignUpForm isLoading={isPending} onSubmit={onSubmit} />
       <div className="text-center mt-5">
         <p>
-          Already have an account?{" "}
+          {t("signUpSuggestion")}{" "}
           <a
             href="/auth/sign-in"
             className="font-semibold underline underline-offset-2"
           >
-            Sign in
+            {t("signInBtn")}
           </a>
         </p>
       </div>

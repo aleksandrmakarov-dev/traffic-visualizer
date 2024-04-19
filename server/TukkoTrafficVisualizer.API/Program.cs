@@ -130,7 +130,7 @@ namespace TukkoTrafficVisualizer.API
             // Add Services
 
             // appsettings.json Application->Mock
-            builder.Services.AddServices(builder.Configuration.GetSection("Application").Get<ApplicationOptions>().IsMock);
+            builder.Services.AddServices();
 
             //Add Automapper
 

@@ -17,12 +17,14 @@ import {
 import { useSensors } from "@/entities/sensor";
 import _ from "lodash";
 import { useSidebarContext } from "@/context/SidebarProvider";
+import { useThemeContext } from "@/context/ThemeProvider";
 
 export function StationDetails() {
+  const { language } = useThemeContext();
+  const { t } = useTranslation(["station"]);
   const { selected, setSelected, favoriteStations, setMode, mode } =
     useStationContext();
   const { setKey } = useSidebarContext();
-  useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
 
   const { data: sensors } = useSensors(
     { stationId: selected?.id },
@@ -65,7 +67,7 @@ export function StationDetails() {
             <div className="p-5">
               <h4 className="font-medium text-xl flex items-center">
                 <span className="mr-1.5">
-                  {selected.names["en" as keyof Station["names"]]}
+                  {selected.names[language as keyof Station["names"]]}
                 </span>
                 {_.includes(favoriteStations, selected.id) ? (
                   <StationUnfavoriteButton stationId={selected.id} />
@@ -94,7 +96,7 @@ export function StationDetails() {
                       })
                     }
                   >
-                    More
+                    {t("moreBtn")}
                   </Button>
                 }
               />
@@ -119,24 +121,28 @@ export function StationDetails() {
                       })
                     }
                   >
-                    More
+                    {t("moreBtn")}
                   </Button>
                 }
               />
             </div>
             <div className="p-5 border-t border-border">
-              <h5 className="text-lg font-medium mb-1.5">History</h5>
+              <h5 className="text-lg font-medium mb-1.5">
+                {t("historyTitle")}
+              </h5>
               <StationHistoryDialog
                 station={selected}
                 trigger={
                   <Button className="w-full" variant="secondary">
-                    Open History Data
+                    {t("historyBtn")}
                   </Button>
                 }
               />
             </div>
             <div className="p-5 border-t border-border">
-              <h5 className="text-lg font-medium mb-1.5">Compare</h5>
+              <h5 className="text-lg font-medium mb-1.5">
+                {t("compareTitle")}
+              </h5>
               <Button
                 className="w-full"
                 variant="secondary"
@@ -144,13 +150,13 @@ export function StationDetails() {
                   setMode((prev) => (prev === "select" ? "compare" : "select"))
                 }
               >
-                {mode === "select" ? "Compare with" : "Waiting for selection"}
+                {mode === "select" ? t("compareBtn") : t("waitingBtn")}
               </Button>
             </div>
             {selected.roadworks && selected.roadworks.length > 0 && (
               <div className="p-5 border-t border-border">
                 <h5 className="text-lg font-medium mb-1.5 flex items-center">
-                  <span className="mr-1.5">Roadworks</span>
+                  <span className="mr-1.5">{t("roadworksTitle")}</span>
                   <TriangleAlert className="w-5 h-5 text-yellow-500" />
                 </h5>
                 <RoadworkDetails roadworks={selected.roadworks} />
@@ -159,7 +165,7 @@ export function StationDetails() {
           </div>
           <div className="p-2.5">
             <Button type="button" className="w-full" onClick={onCancel}>
-              Close
+              {t("closeBtn")}
             </Button>
           </div>
         </>

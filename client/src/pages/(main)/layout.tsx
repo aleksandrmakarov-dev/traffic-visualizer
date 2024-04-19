@@ -19,43 +19,38 @@ import { FeedbackDialog } from "@/widgets/feedback";
 import { LocationSearch, LocationSearchList } from "@/widgets/location";
 import { FavoriteStationList, StationDetails } from "@/widgets/station";
 import { UserProfileMenu } from "@/widgets/user";
-import { MessageSquareText, Star } from "lucide-react";
+import { Loader2, MessageSquareText, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   const { session, isLoading } = useSession();
-  useTranslation(["tooltip", "roadworks", "sensors", "units", "modal"]);
+  const { t } = useTranslation([
+    "auth",
+    "search",
+    "common",
+    "station",
+    "tooltip",
+    "roadworks",
+    "sensors",
+    "units",
+    "modal",
+  ]);
 
   return (
     <SidebarProvider>
       <StationProvider>
         <MapProvider>
           <FullPageWrapper>
-            {/* <div className="absolute z-10 h-screen bg-white shadow-md dark:bg-gray-950 w-16 border-r border-border flex items-center flex-col py-2.5 gap-y-2.5">
-              <DarkModeToggle />
-              <FeedbackDialog
-                trigger={
-                  <Button size="icon" variant="secondary">
-                    <MessageSquareText />
-                  </Button>
-                }
-              />
-              <LanguageToggle />
-            </div>
-            <LocationSearch className="absolute z-20 top-0 left-16 w-full flex max-w-sm" />
-            <div className="absolute z-10 top-0 left-16 w-full max-w-sm shadow-md">
-              <StationDetails />
-            </div> */}
             <div className="hidden md:block absolute z-10 top-0 right-0 p-2.5">
               {isLoading ? (
-                <p>Loading...</p>
+                <Loader2 className="w-6 h-6 animate-spin" />
               ) : session ? (
                 <UserProfileMenu />
               ) : (
                 <div className="space-x-2">
                   <Button size="sm" asChild>
-                    <a href="/auth/sign-in">Sign in</a>
+                    <a href="/auth/sign-in">{t("signInBtn")}</a>
                   </Button>
                 </div>
               )}

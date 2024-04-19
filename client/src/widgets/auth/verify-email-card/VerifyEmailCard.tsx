@@ -3,12 +3,14 @@ import { useVerifyEmail } from "@/features/auth/verify-email";
 import { VerifyEmailRequest } from "@/lib/contracts/auth/verify-email.request";
 import { CardContainer } from "@/shared/components/CardContainer";
 import { FormAlert } from "@/shared/components/FormAlert";
+import { useTranslation } from "react-i18next";
 
 interface VerifyEmailCardProps {
   data?: VerifyEmailRequest;
 }
 
 export function VerifyEmailCard({ data }: VerifyEmailCardProps) {
+  const { t } = useTranslation(["auth"]);
   const { mutate, isError, error, isSuccess, isPending } = useVerifyEmail();
 
   const onSubmit = (data: VerifyEmailRequest) => {
@@ -18,21 +20,21 @@ export function VerifyEmailCard({ data }: VerifyEmailCardProps) {
   return (
     <CardContainer className="w-full max-w-md p-8">
       <h1 className="text-center mb-10 text-3xl font-semibold">
-        Verify your account
+        {t("verifyEmailTitle")}
       </h1>
       <FormAlert
         className="mb-3"
         isSuccess={isSuccess}
         success={{
-          title: "Verification sucessful",
+          title: t("verifyEmailSuccessTitle"),
           message: (
             <>
-              Your account has been verified. You can sing in to your account{" "}
+              {t("verifyEmailSuccessSubtitle")}{" "}
               <a
                 className="underline font-semibold underline-offset-2"
                 href="/auth/sign-in"
               >
-                Sign in
+                {t("signInBtn")}
               </a>
               .
             </>

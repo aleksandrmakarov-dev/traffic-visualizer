@@ -14,6 +14,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface VerifyEmailFormProps {
   data?: VerifyEmailRequest;
@@ -26,6 +27,7 @@ export function VerifyEmailForm({
   isLoading,
   onSubmit,
 }: VerifyEmailFormProps) {
+  const { t } = useTranslation(["auth"]);
   const form = useForm<VerifyEmailRequest>({
     resolver: zodResolver(verifyEmailRequest),
     defaultValues: {
@@ -43,7 +45,7 @@ export function VerifyEmailForm({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t("emailLbl")}</FormLabel>
               <FormControl>
                 <Input type="email" {...field} />
               </FormControl>
@@ -56,7 +58,7 @@ export function VerifyEmailForm({
           name="token"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Token</FormLabel>
+              <FormLabel>{t("tokenLbl")}</FormLabel>
               <FormControl>
                 <Input type="text" {...field} />
               </FormControl>
@@ -65,7 +67,7 @@ export function VerifyEmailForm({
           )}
         />
         <Button loading={isLoading} type="submit" className="w-full">
-          Verify my account
+          {t("verifyEmailBtn")}
         </Button>
       </form>
     </Form>

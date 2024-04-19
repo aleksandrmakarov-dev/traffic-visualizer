@@ -1,0 +1,20 @@
+{
+  "moreBtn":"More",
+  "historyBtn":"Open history",
+  "compareBtn":"Compare with",
+  "waitingBtn":"Waiting for selection",
+  "compareTitle":"Compare",
+  "historyTitle":"History",
+  "fetchHistoryBtn":"Get history",
+  "directionLbl":"Direction",
+  "historyEmptyViewTitle":"No data. Try to change time range",
+  "timeRangeLbl":"Time range",
+  "roadworksTitle":"Road works",
+  "road":"Road",
+  "favoriteTitle":"Favorite stations",
+  "closeBtn":"Close",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "week": "Week",
+  "month": "Month"
+}
