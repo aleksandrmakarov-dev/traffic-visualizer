@@ -54,7 +54,9 @@ How to run docker container
   2. Open command line and run command `npm run prod:windows`
 
 ## Features
-- [x] FEA101 - Compare different LAM stations side by side
-- [x] FEA102 - Securely authenticate user accounts
-- [x] FEA103 - Save favorite LAM stations to user account
-- [x] FEA109 - Search location by name
+- [x] Display real-time data on the map
+- [x] Station details 
+- [x] Compare different LAM stations side by side
+- [x] Securely authenticate user accounts
+- [x] Save favorite LAM stations to user account
+- [x] Search location by name
