@@ -2,8 +2,9 @@
 An application visualizes traffic conditions in Finland.
 
 Video:  
-[![Example](https://img.youtube.com/vi/VR0w8zUlHQQ/0.jpg)](https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF-7pGf-Z1)
+[![Example](https://img.youtube.com/vi/VR0w8zUlHQQ/0.jpg)](https://www.youtube.com/watch?v=l5toTQrJ1rY&list=PLwfyMEDWsaKNkNC93vcW9WIPF-7pGf-Z1)  
 
+[Docs](https://core-it-ff-2024-t03-b1ad05b9c7830bfeafccb9e427f246fee9ef7cef83d.pages.labranet.jamk.fi/)
 ## Backend
 ### Technologies
   - .NET 8.0, ASP.NET Core Web API
